@@ -7986,8 +7986,10 @@ function showWordPop(word,rect){
   const w=_mergedDictCache.find(x=>x.word.toLowerCase()===String(word).toLowerCase());
   const he=w?.hebrewTranslation?escapeHtml(w.hebrewTranslation):'—';
   const def=w?.englishDefinition?escapeHtml(w.englishDefinition):'';
+  const ex=w?.exampleSentence?escapeHtml(w.exampleSentence):'';
+  const mn=(w?.mnemonicHe||'').trim();
   const syn=(w?.synonyms||[]).slice(0,2).join(', '),ant=(w?.antonyms||[]).slice(0,2).join(', ');
-  pop.innerHTML=`<div class="wT" dir="ltr">${escapeHtml(word)}</div><div class="wH">🇮🇱 ${he}</div>${def?`<div class="wS" dir="ltr"><b>Def:</b> ${def}</div>`:''}${(syn||ant)?`<div class="wS" dir="ltr">${syn?`<b>Syn:</b> ${escapeHtml(syn)}`:''}${syn&&ant?' • ':''}${ant?`<b>Ant:</b> ${escapeHtml(ant)}`:''}</div>`:''}<div class="wA"><button class="btn" onclick="speak('${escapeJs(word)}')">🔊</button><button class="btn" onclick="E.quickAddWord('${escapeJs(word)}')">➕ SRS</button></div>`;
+  pop.innerHTML=`<div class="wT" dir="ltr">${escapeHtml(word)}</div><div class="wH">🇮🇱 ${he}</div>${def?`<div class="wS" dir="ltr"><b>Def:</b> ${def}</div>`:''}${ex?`<div class="wS" dir="ltr" style="opacity:.85"><b>Ex:</b> ${ex}</div>`:''}${(syn||ant)?`<div class="wS" dir="ltr">${syn?`<b>Syn:</b> ${escapeHtml(syn)}`:''}${syn&&ant?' • ':''}${ant?`<b>Ant:</b> ${escapeHtml(ant)}`:''}</div>`:''}${mn?`<div class="wS" style="color:#C4B5FD">💡 ${escapeHtml(mn)}</div>`:''}<div class="wA"><button class="btn" onclick="speak('${escapeJs(word)}')">🔊</button><button class="btn" onclick="E.quickAddWord('${escapeJs(word)}')">➕ SRS</button></div>`;
   pop.style.left=Math.min(window.innerWidth-340,Math.max(12,rect.left))+'px';
   pop.style.top=Math.min(window.innerHeight-220,Math.max(12,rect.bottom+8))+'px';
   pop.style.display='block';

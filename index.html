@@ -171,6 +171,23 @@ body.sbCollapsed #sidebar{transform:translateX(100%)}
   background:var(--paper2);border:1px solid var(--line);margin:8px 0}
 .placementBadge.exempt{background:var(--good-bg);border-color:var(--good-border)}
 
+/* Placement Ladder (signature) */
+.ladderWrap{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.ladderHead{font-size:.74rem;color:var(--muted);font-weight:600;margin-bottom:2px}
+.ladderSpine{position:relative;display:flex;flex-direction:column}
+.ladderSpine::before{content:'';position:absolute;right:5px;top:16px;bottom:16px;width:2px;background:var(--line)}
+.ladderSpine .rung{display:flex;align-items:center;gap:11px;padding:7px 0;color:var(--faint);font-size:.84rem;position:relative;z-index:1}
+.ladderSpine .rdot{width:12px;height:12px;border-radius:50%;background:var(--muted2);flex-shrink:0}
+.ladderSpine .rlab{flex:1;font-weight:500}
+.ladderSpine .rrange{font-family:var(--font-mono);font-size:.72rem;color:var(--faint)}
+.ladderSpine .rhere{font-family:var(--font-mono);font-size:.72rem;color:var(--accent-ink);background:var(--accent);padding:2px 9px;border-radius:99px;font-weight:500}
+.ladderSpine .rung.on{color:var(--text)}
+.ladderSpine .rung.on .rlab{font-weight:700}
+.ladderSpine .rung.on .rdot{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.ladderSpine .rung.goal{color:var(--accent)}
+.ladderSpine .rung.goal .rlab{font-weight:600}
+.ladderSpine .rung.goal .rdot{background:transparent;border:2px solid var(--accent)}
+
 /* Mock Progress */
 .mockProgress{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:8px 16px}
 .mockProgress .seg{padding:6px 14px;border:1px solid var(--glass-border);border-radius:var(--radius-xs);font-size:.76rem;font-weight:900;background:var(--glass);transition:var(--transition)}
@@ -611,6 +628,10 @@ body.stageActive #floatingDict{display:flex}
           <div id="homePredScore" class="bigScore">—</div>
           <div id="homePlacement" class="placementBadge" style="margin:0;margin-top:8px">—</div>
         </div>
+      </div>
+      <div class="ladderWrap">
+        <div class="ladderHead">מסלול הסיווג</div>
+        <div id="homeLadder" class="ladderSpine"></div>
       </div>
       <div class="ringRow" id="homeRings"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
@@ -8527,6 +8548,19 @@ function computePredictedAmirnetScore(){
   }catch(e){console.warn('computePredictedAmirnetScore',e);return 80;}
 }
 
+function renderLadder(pred,cur){
+  const el=$('homeLadder');if(!el)return;
+  cur=cur||getPlacement(pred);
+  el.innerHTML=PLACEMENT_LEVELS.map(p=>{
+    const on=(p===cur)||(p.label===cur.label);
+    const goal=(p.cls==='exempt');
+    return `<div class="rung${on?' on':''}${goal?' goal':''}">`
+      +`<span class="rdot"></span>`
+      +`<span class="rlab">${p.label}</span>`
+      +(on?`<span class="rhere">אתה כאן · ${pred}</span>`:`<span class="rrange">${p.min}–${p.max}</span>`)
+      +`</div>`;
+  }).join('');
+}
 function renderHomePro(){
   try{
     const pred=computePredictedScore();
@@ -8534,6 +8568,7 @@ function renderHomePro(){
     const hp=$('homePredScore');if(hp)hp.textContent=pred;
     const hpl=$('homePlacement');
     if(hpl){hpl.className='placementBadge '+(placement.cls||'');hpl.innerHTML=`<span style="color:${placement.color}">${placement.label}</span> (${placement.labelEn})`;}
+    renderLadder(pred,placement);
     // Streak fire
     const sf=document.querySelector('.streakFire');
     if(sf)sf.classList.toggle('heat',S.streak>=3);

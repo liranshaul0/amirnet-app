@@ -581,7 +581,7 @@ body.stageActive #floatingDict{display:flex}
     <div class="stat"><span id="xpText">0</span>/<span id="xpNext">120</span> XP</div>
     <div class="stat streakFire">🔥 <b id="streakText">0</b></div>
     <div class="stat">🎯 <b id="accText">—</b></div>
-    <div class="stat">📅 <b id="daysText">— ימים</b></div>
+    <div class="stat" onclick="E.openExamDate()" style="cursor:pointer" title="תאריך המבחן — לחץ לעריכה">📅 <b id="daysText">— ימים</b></div>
     <div class="stat" id="dailyWord" style="font-size:.72rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
     <button class="btn" style="padding:6px 10px;font-size:.76rem" onclick="E.toggleSidebar()">☰</button>
   </div>
@@ -677,6 +677,11 @@ body.stageActive #floatingDict{display:flex}
 
     <!-- Goals -->
     <div class="item">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--glass-border)">
+        <div style="font-weight:1000">📅 תאריך המבחן</div>
+        <input type="date" id="examDateInput" onchange="E.saveExamDate(this.value)" style="background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-xs);color:var(--text);font:inherit;font-weight:700;font-size:.82rem;padding:7px 10px;color-scheme:dark"/>
+        <div id="examDateDays" style="font-weight:800;font-size:.8rem;color:var(--muted)"></div>
+      </div>
       <div style="font-weight:1000;margin-bottom:4px">🎯 יעדים יומיים</div>
       <div class="goalGrid">
         <label>חדשות <input type="number" inputmode="numeric" id="goalNew" value="15" min="0" max="80"/></label>
@@ -6154,7 +6159,7 @@ for(const q of CHALLENGE_BANK){
 const STORAGE_KEY='AMIRNET_ELITE_V6';
 const STORAGE_BAK_KEY='AMIRNET_ELITE_V6_BAK';
 const LEGACY_KEYS=['AMIRNET_ELITE_V5','AMIRNET_ELITE_PRO_V3','AMIRNET_ELITE_PRO_V2','AMIRNET_ELITE_PRO_V1','AMIRNET_ULTRA_TUTOR_STATE_V13'];
-const EXAM_DATE=new Date(2026,2,19);
+const DEFAULT_EXAM_DATE='2026-09-01';
 const TIME_PER_TYPE={sentence:60,restatement:120,reading:180};
 // Authentic Amirnet Quick Mock structure: SC 4/4min, RS 3/6min, RC 5/15min
 // ===== V6.2: AUTHENTIC AMIRNET MOCK (Official structure) =====
@@ -6210,7 +6215,8 @@ const DEFAULT_STATE={
   practiceByType:{sentence:{correct:0,total:0},restatement:{correct:0,total:0},reading:{correct:0,total:0}},
   wordOfDay:null,
   dailyChallenge:null,
-  gamesPlayed:0,gamesHighScore:0
+  gamesPlayed:0,gamesHighScore:0,
+  examDate:DEFAULT_EXAM_DATE
 };
 
 // ===== UTILITIES =====
@@ -6221,7 +6227,14 @@ const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 const escapeJs=s=>String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
 const dayKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const todayISO=()=>new Date().toISOString().slice(0,10);
-const daysUntilExam=()=>{const ms=EXAM_DATE.getTime()-new Date().setHours(0,0,0,0);return Math.max(0,Math.ceil(ms/86400000));};
+const daysUntilExam=()=>{
+  const ds=(typeof S!=='undefined'&&S&&S.examDate)?S.examDate:null;
+  if(!ds)return null;
+  const d=new Date(ds+'T00:00:00');
+  if(isNaN(d.getTime()))return null;
+  const ms=d.getTime()-new Date().setHours(0,0,0,0);
+  return Math.max(0,Math.ceil(ms/86400000));
+};
 const fmtTime=sec=>{sec=Math.max(0,Math.floor(sec||0));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');};
 function debounce(fn,ms){let t;return function(...a){clearTimeout(t);t=setTimeout(()=>fn.apply(this,a),ms);};}
 function randInt(max){
@@ -6498,7 +6511,7 @@ function renderCockpit(){
     if(xpF)xpF.style.width=Math.round((S.xpInLevel/S.xpToNext)*100)+'%';
     if(st)st.textContent=S.streak;
     if(ac)ac.textContent=S.totalAnswered?Math.round((S.totalCorrect/S.totalAnswered)*100)+'%':'—';
-    if(ds)ds.textContent=daysUntilExam()+' ימים';
+    if(ds){const du=daysUntilExam();ds.textContent=(du===null)?'הגדר תאריך':du+' ימים';}
     if(sp)sp.textContent=S.speedMode?'ON':'OFF';
     const dw=$('dailyWord');
     if(dw){
@@ -6609,6 +6622,10 @@ function renderDashboard(){
     const gn=$('goalNew'),gr=$('goalReview'),gs=$('goalSC'),grs=$('goalRS'),grc=$('goalRC');
     if(gn)gn.value=S.goals.vocabNew;if(gr)gr.value=S.goals.vocabReview;
     if(gs)gs.value=S.goals.sc;if(grs)grs.value=S.goals.rs;if(grc)grc.value=S.goals.rc;
+    // Hydrate exam date
+    const edi=$('examDateInput'),edd=$('examDateDays');
+    if(edi)edi.value=S.examDate||'';
+    if(edd){const du=daysUntilExam();edd.textContent=(du===null)?'לא הוגדר תאריך':'נותרו '+du+' ימים';}
     if(pct>=100&&!S.daily.missionDone){S.daily.missionDone=true;saveState();toast('🏆 סגרת משימה יומית!');startConfetti(2400);}
     renderHomePro();
   }catch(e){console.warn('renderDashboard',e);}
@@ -8091,6 +8108,18 @@ const E=window.E={
   handleAnswer,handleMockAnswer,advanceAfterFeedback,
   speakCurrent,toggleHighlight,useHint,analyzeQuestion,
   exitStage,toggleSidebar,toggleSpeed:()=>{S.speedMode=!S.speedMode;renderCockpit();saveStateDebounced();},
+  saveExamDate:(v)=>{
+    const val=String(v||'').trim();
+    if(val&&isNaN(new Date(val+'T00:00:00').getTime())){toast('⚠️ תאריך לא תקין');return;}
+    S.examDate=val;saveState();renderCockpit();
+    const edd=$('examDateDays');
+    if(edd){const du=daysUntilExam();edd.textContent=(du===null)?'לא הוגדר תאריך':'נותרו '+du+' ימים';}
+    toast(val?'✅ תאריך המבחן נשמר':'תאריך המבחן נוקה');
+  },
+  openExamDate:()=>{
+    nav('home');
+    setTimeout(()=>{const edi=$('examDateInput');if(edi){edi.scrollIntoView({behavior:'smooth',block:'center'});try{edi.focus();edi.showPicker&&edi.showPicker();}catch(_){}}},350);
+  },
   toggleDebug,saveGoalsFromUI:()=>{ensureDaily();const g=S.goals;g.vocabNew=clampInt($('goalNew').value,0,80,g.vocabNew);g.vocabReview=clampInt($('goalReview').value,0,120,g.vocabReview);g.sc=clampInt($('goalSC').value,0,50,g.sc);g.rs=clampInt($('goalRS').value,0,50,g.rs);g.rc=clampInt($('goalRC').value,0,50,g.rc);saveState();renderDashboard();toast('✅ יעדים נשמרו');},
   openImportExport,exportData,importData,exportQuestionBank,exportDictionary,importDictPack,importQPack,resetAll,
   setVTab,startSrsQueue,revealSrs,skipSrs,gradeSrs,toggleKnown,openWordNote,addToSrsNow,quickAddWord,

@@ -435,11 +435,24 @@ body.stageActive .split{max-height:100%;overflow:visible}
 
 /* V6.3 Theme Toggle */
 .themeToggle{position:fixed;bottom:16px;left:16px;z-index:100;width:40px;height:40px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease}
-html.light-mode{--bg:#f5f5f0;--text:#1a1a2e;--card:rgba(255,255,255,0.85);--glass:rgba(255,255,255,0.7);--glass-border:rgba(0,0,0,0.1);--muted:#555;--muted2:#888;--accent:#7c3aed}
-html.light-mode body{background:linear-gradient(145deg,#f5f5f0,#e8e0d8);color:#1a1a2e}
-html.light-mode .opt{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.12)}
-html.light-mode .chip{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.1)}
-html.light-mode #sidebar{background:rgba(240,235,228,0.97)}
+html.light-mode{
+  --ink:#F4F5F7;--paper:#FFFFFF;--paper2:#EEF0F3;--line:rgba(0,0,0,0.10);
+  --bg1:#F4F5F7;--bg2:#FFFFFF;--bg3:#EEF0F3;
+  --text:#1B1E26;--muted:#5B6170;--muted2:#8A90A0;--faint:#8A90A0;
+  --glass:rgba(0,0,0,0.025);--glass-border:rgba(0,0,0,0.08);--glass-hover:rgba(0,0,0,0.05);
+  --accent:#B7791F;--accent2:#9C6516;--accent-soft:rgba(183,121,31,0.12);--accent-ink:#FFFFFF;--accent-glow:rgba(183,121,31,0.25);
+  --good:#1E9E73;--good-bg:rgba(30,158,115,0.12);--good-border:rgba(30,158,115,0.42);
+  --bad:#D64238;--bad-bg:rgba(214,66,56,0.10);--bad-border:rgba(214,66,56,0.42);
+  --shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+html.light-mode body{background:var(--bg1);
+  background-image:radial-gradient(ellipse 1000px 640px at 50% -8%,rgba(183,121,31,0.06),transparent 60%);color:var(--text)}
+html.light-mode .opt .letter{border-color:var(--muted2);color:var(--muted)}
+html.light-mode #bottomBar{background:rgba(255,255,255,0.92)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
 
 /* V6.2 Practice Progress Bar */
 .practiceProgress{display:flex;align-items:center;gap:8px;padding:6px 0;margin-bottom:6px}

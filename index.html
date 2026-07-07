@@ -13,10 +13,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Marksheet — cool charcoal ink + gold accent */
-  --bg1:#0F1117;--bg2:#191C24;--bg3:#232631;
-  --ink:#0F1117;--paper:#191C24;--paper2:#232631;--line:rgba(255,255,255,0.07);
-  --glass:rgba(255,255,255,0.032);--glass-border:rgba(255,255,255,0.07);--glass-hover:rgba(255,255,255,0.06);
+  /* Midnight Amber — deep ink + elite gold */
+  --bg1:#08090f;--bg2:#11131f;--bg3:#1a1d2e;
+  --ink:#08090f;--paper:#11131f;--paper2:#1a1d2e;--line:rgba(255,255,255,0.08);
+  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);--glass-hover:rgba(255,255,255,0.07);
   --text:#EAEDF4;--muted:#98A0B3;--muted2:#6A7186;--faint:#6A7186;
   --accent:#F6B53D;--accent2:#E0A02E;--accent-glow:rgba(246,181,61,0.20);
   --accent-soft:rgba(246,181,61,0.14);--accent-ink:#0F1117;
@@ -25,8 +25,8 @@
   --bad:#F2584E;--bad-bg:rgba(242,88,78,0.11);--bad-border:rgba(242,88,78,0.46);
   --blue:#36B5FF;--pink:#FF4F81;--cyan:#34D6C5;
   --radius:16px;--radius-sm:12px;--radius-xs:10px;
-  --blur:blur(12px);
-  --shadow:0 10px 30px rgba(0,0,0,0.42);
+  --blur:blur(16px);
+  --shadow:0 18px 44px rgba(0,0,0,0.55);
   --font:'Inter','Heebo',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
   --font-he:'Heebo','Assistant','Segoe UI',Arial,sans-serif;
   --font-mono:'Space Grotesk',ui-monospace,'SFMono-Regular',Menlo,monospace;
@@ -45,7 +45,7 @@ button,.btn,.tile,.opt,.sbBtn,.bbBtn,.tileBtn,.switch,.vTab,.gameCard,.swipeCard
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:10px}
 
 /* Glass Card */
-.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(14px,3vw,28px);margin-bottom:16px;transform:translateZ(0)}
+.card{backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);background:linear-gradient(160deg,rgba(255,255,255,0.055),rgba(255,255,255,0.015)),rgba(17,19,31,0.66);border:1px solid var(--glass-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(14px,3vw,28px);margin-bottom:16px;transform:translateZ(0)}
 .item{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;transition:var(--transition)}
 .item:hover{background:var(--glass-hover)}
 
@@ -54,33 +54,39 @@ button,.btn,.tile,.opt,.sbBtn,.bbBtn,.tileBtn,.switch,.vTab,.gameCard,.swipeCard
 .main{flex:1;padding:16px;padding-bottom:calc(70px + var(--safe-bottom));max-width:960px;margin:0 auto;width:100%}
 
 /* Sidebar (Desktop) */
-#sidebar{position:fixed;top:0;right:0;width:260px;height:100%;height:100dvh;padding:16px;
-  background:var(--paper);
-  border-left:1px solid var(--line);z-index:800;overflow-y:auto;transition:transform .35s ease}
-#sidebar .sbTitle{font-size:1rem;font-weight:700;letter-spacing:1.5px;margin-bottom:16px;color:var(--accent);font-family:var(--font-mono)}
-.sbBtn{display:block;width:100%;padding:11px 14px;border:1px solid transparent;border-radius:var(--radius-xs);
-  background:transparent;color:var(--text);font:inherit;font-weight:700;font-size:.86rem;text-align:right;
-  transition:var(--transition);margin-bottom:4px}
-.sbBtn:hover,.sbBtn.active{background:var(--glass);border-color:var(--glass-border)}
+#sidebar{position:fixed;top:0;right:0;width:104px;height:100%;height:100dvh;padding:14px 8px;
+  background:rgba(17,19,31,0.72);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border-left:1px solid var(--glass-border);z-index:800;overflow-y:auto;transition:transform .35s ease;
+  display:flex;flex-direction:column}
+#sidebar .sbTitle{font-size:.72rem;font-weight:700;letter-spacing:2px;margin-bottom:14px;color:var(--accent);font-family:var(--font-mono);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbBtn{display:flex;flex-direction:column;align-items:center;gap:5px;width:100%;padding:10px 4px;border:1px solid transparent;border-radius:var(--radius-xs);
+  background:transparent;color:var(--muted);font:inherit;font-weight:600;font-size:.6rem;text-align:center;
+  transition:var(--transition);margin-bottom:2px}
+.sbBtn .sbIco{font-size:1.3rem;line-height:1}
+.sbBtn .sbLab{font-size:.6rem;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sbBtn:hover{background:var(--glass);border-color:var(--glass-border);color:var(--text)}
+.sbBtn.active{background:var(--accent-soft);border-color:rgba(246,181,61,0.35);color:var(--accent)}
 body.sbCollapsed #sidebar{transform:translateX(100%)}
 
 /* Mobile Bottom Bar */
 @media(max-width:899px){
   #sidebar{display:none}
-  #bottomBar{display:flex!important;position:fixed;bottom:0;left:0;right:0;z-index:700;
-    background:rgba(15,17,23,0.92);
-    border-top:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    padding:6px 6px calc(6px + var(--safe-bottom));gap:2px;justify-content:space-around}
+  #bottomBar{display:flex!important;position:fixed;bottom:calc(10px + var(--safe-bottom));left:10px;right:10px;z-index:700;
+    background:rgba(17,19,31,0.78);border-radius:18px;box-shadow:var(--shadow);
+    border:1px solid var(--glass-border);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+    padding:7px 6px;gap:2px;justify-content:space-around}
+  .main{padding-bottom:calc(88px + var(--safe-bottom))}
   .bbBtn{flex:1;text-align:center;padding:8px 4px;border:none;background:transparent;color:var(--muted);
     font:inherit;font-size:.68rem;font-weight:700;border-radius:var(--radius-xs);transition:var(--transition);display:flex;flex-direction:column;align-items:center;gap:2px}
   .bbBtn .ico{font-size:1.2rem}.bbBtn.active{color:var(--accent);background:var(--accent-glow)}
 }
-@media(min-width:900px){#bottomBar{display:none!important}.main{margin-right:260px}}
+@media(min-width:900px){#bottomBar{display:none!important}.main{margin-right:104px}}
 #sbBackdrop{display:none;position:fixed;inset:0;z-index:799;background:rgba(0,0,0,0.5)}
 
 /* Cockpit Header */
 .cockpit{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;padding:11px 15px;
-  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+  background:rgba(17,19,31,0.66);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--glass-border);border-radius:var(--radius)}
 .cockpit .xpBar{flex:1;min-width:80px;height:6px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden}
 .cockpit .xpFill{height:100%;background:var(--accent);border-radius:99px;transition:width .6s ease}
 .cockpit .stat{font-size:.76rem;font-weight:600;color:var(--muted);white-space:nowrap}
@@ -187,6 +193,36 @@ body.sbCollapsed #sidebar{transform:translateX(100%)}
 .ladderSpine .rung.goal{color:var(--accent)}
 .ladderSpine .rung.goal .rlab{font-weight:600}
 .ladderSpine .rung.goal .rdot{background:transparent;border:2px solid var(--accent)}
+
+/* Bento Dashboard */
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.bItem{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px;min-width:0;transition:var(--transition)}
+.bItem:hover{border-color:rgba(255,255,255,0.14)}
+.bScore{grid-column:span 2;grid-row:span 2}
+.bMission{grid-column:span 2}
+.bStreak,.bWotd{grid-column:span 1;display:flex;flex-direction:column;justify-content:center}
+.bDC{grid-column:span 2}
+.bRings{grid-column:span 2}
+.bWotd{cursor:pointer}
+@media(max-width:760px){
+  .bento{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bScore,.bMission,.bDC,.bRings{grid-column:span 2}
+  .bStreak,.bWotd{grid-column:span 1}
+}
+
+/* Micro-interactions */
+.successGlow{animation:glowPulse .9s ease}
+@keyframes glowPulse{0%{box-shadow:var(--shadow)}30%{box-shadow:0 0 0 2px var(--good-border),0 0 36px rgba(47,191,143,0.35)}100%{box-shadow:var(--shadow)}}
+.springIn{animation:springPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes springPop{0%{transform:scale(1)}45%{transform:scale(1.045)}70%{transform:scale(.985)}100%{transform:scale(1)}}
+.viewIn{animation:viewSlide .32s cubic-bezier(.22,.9,.35,1)}
+@keyframes viewSlide{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Focus Mode — "Dojo" (distraction-free sessions) */
+body.stageActive #sidebar,body.focus-mode-active #sidebar,
+body.stageActive #bottomBar,body.focus-mode-active #bottomBar,
+body.stageActive .cockpit,body.focus-mode-active .cockpit{display:none!important}
+body.stageActive .main,body.focus-mode-active .main{margin-right:0!important;max-width:860px;padding-bottom:20px}
 
 /* Mock Progress */
 .mockProgress{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:8px 16px}
@@ -629,44 +665,39 @@ body.stageActive #floatingDict{display:flex}
     </div>
 
 
-    <!-- Performance Snapshot (Pro) -->
-    <div class="item" id="perfSnap" style="margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
-        <div>
-          <div style="font-weight:1000">📈 Performance Snapshot</div>
-          <div style="color:var(--muted);font-weight:800;font-size:.82rem;margin-top:4px">חזוי לפי מבחנים מדומים + דיוק בתרגול</div>
+    <!-- ===== BENTO DASHBOARD ===== -->
+    <div class="bento">
+      <div class="bItem bScore" id="perfSnap">
+        <div style="font-size:.72rem;color:var(--muted);font-weight:700;letter-spacing:.5px">PREDICTED AMIRNET</div>
+        <div id="homePredScore" class="bigScore">—</div>
+        <div id="homePlacement" class="placementBadge" style="margin:4px 0 0">—</div>
+        <div class="ladderWrap">
+          <div class="ladderHead">מסלול הסיווג</div>
+          <div id="homeLadder" class="ladderSpine"></div>
         </div>
-        <div style="text-align:center;min-width:170px">
-          <div style="font-size:.74rem;color:var(--muted);font-weight:900">Predicted AMIRNET</div>
-          <div id="homePredScore" class="bigScore">—</div>
-          <div id="homePlacement" class="placementBadge" style="margin:0;margin-top:8px">—</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn primary" onclick="E.startMockExam('amirnet')">🎓 AMIRNET Mock</button>
+          <button class="btn" onclick="E.nav('exam')">🏛️ Exam Center</button>
+          <button class="btn" onclick="E.startMockExam(25)">⏱️ Quick</button>
         </div>
       </div>
-      <div class="ladderWrap">
-        <div class="ladderHead">מסלול הסיווג</div>
-        <div id="homeLadder" class="ladderSpine"></div>
+      <div class="bItem bStreak">
+        <div style="font-size:.72rem;color:var(--muted);font-weight:700">🔥 רצף ימים</div>
+        <div class="bigScore" id="bentoStreak" style="font-size:2.3rem;margin-top:4px">0</div>
+        <div style="font-size:.74rem;color:var(--muted);margin-top:6px">דיוק <b id="bentoAcc" style="font-family:var(--font-mono);color:var(--text)">—</b></div>
       </div>
-      <div class="ringRow" id="homeRings"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-        <button class="btn primary" onclick="E.nav('exam')">🏛️ Exam Center</button>
-        <button class="btn primary" onclick="E.startMockExam('amirnet')">🎓 AMIRNET Mock</button>
-        <button class="btn" onclick="E.startMockExam(25)">⏱️ Quick</button>
+      <div class="bItem bWotd wotdBanner" id="wotdBanner" onclick="E.openWordOfDay()">
+        <div class="wotdLeft">💎 Word of the Day</div>
+        <div class="wotdWord">
+          <div class="wotdEn" id="wotdEn">—</div>
+          <div class="wotdHe" id="wotdHe">—</div>
+          <div class="wotdHint" id="wotdHint">לחץ לפרטים</div>
+        </div>
+        <div class="pill" style="white-space:nowrap">+XP</div>
       </div>
-    </div>
-
-    <!-- Word of the Day (Surprise Pro Feature) -->
-    <div class="wotdBanner" id="wotdBanner" onclick="E.openWordOfDay()">
-      <div class="wotdLeft">💎 Word of the Day</div>
-      <div class="wotdWord">
-        <div class="wotdEn" id="wotdEn">—</div>
-        <div class="wotdHe" id="wotdHe">—</div>
-        <div class="wotdHint" id="wotdHint">לחץ לפרטים</div>
-      </div>
-      <div class="pill" style="white-space:nowrap">+XP</div>
-    </div>
 
     <!-- Daily Challenge (Surprise Pro Feature) -->
-    <div class="item dcCardGlow" id="dailyChallengeCard" style="margin-bottom:14px">
+    <div class="bItem bDC dcCardGlow" id="dailyChallengeCard">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <div>
           <div style="font-weight:1000">🎁 Daily Challenge</div>
@@ -682,7 +713,7 @@ body.stageActive #floatingDict{display:flex}
     </div>
 
     <!-- Daily Mission -->
-    <div class="item" style="margin-bottom:14px">
+    <div class="bItem bMission">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
         <div style="font-weight:1000">🚀 משימה יומית</div>
         <div style="font-weight:1000;font-size:1.4rem;color:var(--accent)" id="missionPct">0</div>
@@ -693,6 +724,12 @@ body.stageActive #floatingDict{display:flex}
         <button class="btn primary" onclick="E.startDailyMission()">🚀 התחל משימה</button>
       </div>
     </div>
+
+      <div class="bItem bRings">
+        <div style="font-size:.72rem;color:var(--muted);font-weight:700;margin-bottom:4px">שליטה לפי סוג</div>
+        <div class="ringRow" id="homeRings"></div>
+      </div>
+    </div><!-- /bento -->
 
     <!-- Quick Actions -->
     <div class="grid grid3" style="margin-bottom:14px">
@@ -6832,7 +6869,15 @@ function recomputeLevel(){
   while(xpLeft>=th&&lvl<50){xpLeft-=th;lvl++;th=Math.round(base*(1+(lvl-1)*0.12));}
   S.level=lvl;S.xpToNext=th;S.xpInLevel=xpLeft;
 }
-let S=loadState();
+// ===== MODULE: STATE — reactive core =====
+// Central S object: writes to cockpit-relevant keys auto-refresh the header.
+const COCKPIT_KEYS=new Set(['xp','level','streak','xpInLevel','xpToNext','totalCorrect','totalAnswered','correctStreak','speedMode']);
+let _cockpitScheduled=false;
+function scheduleCockpitRefresh(){if(_cockpitScheduled)return;_cockpitScheduled=true;setTimeout(()=>{_cockpitScheduled=false;try{renderCockpit();}catch(_){}},40);}
+function makeReactive(state){
+  return new Proxy(state,{set(t,k,v){t[k]=v;if(COCKPIT_KEYS.has(k))scheduleCockpitRefresh();return true;}});
+}
+let S=makeReactive(loadState());
 
 // ===== QUESTION NORMALIZATION =====
 function getCorrectKey(q){return q?.correctAnswer??q?.correct??q?.correctOption??q?.correctKey??q?.answer??null;}
@@ -6901,6 +6946,8 @@ function renderCockpit(){
     if(xpF)xpF.style.width=Math.round((S.xpInLevel/S.xpToNext)*100)+'%';
     if(st)st.textContent=S.streak;
     if(ac)ac.textContent=S.totalAnswered?Math.round((S.totalCorrect/S.totalAnswered)*100)+'%':'—';
+    const bs=$('bentoStreak');if(bs)bs.textContent=S.streak;
+    const ba=$('bentoAcc');if(ba)ba.textContent=S.totalAnswered?Math.round((S.totalCorrect/S.totalAnswered)*100)+'%':'—';
     if(ds){const du=daysUntilExam();ds.textContent=(du===null)?'הגדר תאריך':du+' ימים';}
     if(sp)sp.textContent=S.speedMode?'ON':'OFF';
     const dw=$('dailyWord');
@@ -6921,6 +6968,9 @@ function nav(which){
       const pc=$('practiceCard'),phc=$('practiceHubCard');
       if(pc)pc.style.display='none';if(phc)phc.style.display='none';
       Object.entries(cards).forEach(([key,id])=>{const el=$(id);if(el)el.style.display=(which===key)?'block':'none';});
+      // View transition: fade + Y-slide the incoming view
+      const activeEl=$(cards[which]);
+      if(activeEl){activeEl.classList.remove('viewIn');void activeEl.offsetWidth;activeEl.classList.add('viewIn');}
       document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',b.getAttribute('data-nav')===which);});
       if(window.innerWidth<900)toggleSidebar(true);
     }catch(e){console.warn('nav layout',e);}
@@ -6941,7 +6991,7 @@ function nav(which){
 function enterStage(title){
   // Kill any leftover stage runtime (games / overlays) before entering a new stage
   try{StageRT.kill();}catch(_){}
-  document.body.classList.add('stageActive');nav('practice');
+  document.body.classList.add('stageActive','focus-mode-active');nav('practice');
   try{$('practiceTitle').textContent=title||'⚡ תרגול';}catch(_){}
 }
 function cleanupStageState(){
@@ -6953,7 +7003,7 @@ function exitStage(){
   try{StageRT.kill();}catch(_){}
   cleanupStageState();
   TimerController.stopAll();
-  document.body.classList.remove('stageActive');
+  document.body.classList.remove('stageActive','focus-mode-active');
   S.session=null;saveStateDebounced();nav('home');renderCockpit();
 }
 
@@ -7214,6 +7264,11 @@ function handleAnswer(choice,isTimeout){
   if(ok){
     S.totalCorrect++;sess.correct++;S.correctStreak=(S.correctStreak||0)+1;
     S.xp+=xp;haptic('success');
+    // Micro-interaction: success glow on the card + spring bounce on the chosen option
+    try{
+      const pc=$('practiceCard');if(pc){pc.classList.remove('successGlow');void pc.offsetWidth;pc.classList.add('successGlow');setTimeout(()=>pc.classList.remove('successGlow'),950);}
+      setTimeout(()=>{const co=document.querySelector('.opt.correct');if(co)co.classList.add('springIn');},30);
+    }catch(_){}
     // Track in global history
     if(sess.current?.id){S.recentCorrect=S.recentCorrect||[];S.recentCorrect.push(sess.current.id);if(S.recentCorrect.length>50)S.recentCorrect=S.recentCorrect.slice(-50);}
     // Mistake mastery
@@ -7826,7 +7881,7 @@ function startConfetti(ms){
 function downloadJSON(obj,filename){const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);}
 function pickJSONFile(cb){const inp=document.createElement('input');inp.type='file';inp.accept='application/json';inp.onchange=async()=>{const f=inp.files[0];if(!f)return;try{cb(JSON.parse(await f.text()));}catch(e){alert('קובץ לא תקין');}};inp.click();}
 function exportData(){downloadJSON({...S,_v6:true,_exportDate:new Date().toISOString()},'amirnet_elite_v5_backup.json');}
-function importData(){pickJSONFile(obj=>{S=Object.assign(structuredClone(DEFAULT_STATE),obj);saveState();renderCockpit();nav('home');toast('✅ מצב יובא');});}
+function importData(){pickJSONFile(obj=>{S=makeReactive(Object.assign(structuredClone(DEFAULT_STATE),obj));saveState();renderCockpit();nav('home');toast('✅ מצב יובא');});}
 function exportQuestionBank(){downloadJSON({questions:CHALLENGE_BANK},'amirnet_questions.json');}
 function exportDictionary(){downloadJSON({words:FULL_DICTIONARY},'amirnet_dictionary.json');}
 
@@ -7875,7 +7930,7 @@ function importQPack(){
     toast(`✅ ${newQs.length} שאלות חדשות נוספו. רענן.`);
   });
 }
-function resetAll(){if(!confirm('לאפס הכל? כל ההתקדמות תימחק.'))return;S=structuredClone(DEFAULT_STATE);saveState();renderCockpit();nav('home');}
+function resetAll(){if(!confirm('לאפס הכל? כל ההתקדמות תימחק.'))return;S=makeReactive(structuredClone(DEFAULT_STATE));saveState();renderCockpit();nav('home');}
 function openImportExport(){nav('vocab');setVTab('manage');}
 
 // ===== SRS ENGINE (SM-2) =====
@@ -8943,10 +8998,42 @@ function searchDict(query){
 }
 
 
+// ===== MODULE: NAV — Global dictionary search (Cmd/Ctrl+K) =====
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='k'){e.preventDefault();try{openDictSearch();}catch(_){}}
+});
+
+// ===== MODULE: UI — Slim iconic sidebar (split leading emoji into icon + label) =====
+function slimSidebarInit(){
+  try{
+    const t=document.querySelector('#sidebar .sbTitle');if(t)t.textContent='AMIRNET';
+    document.querySelectorAll('#sidebar .sbBtn').forEach(btn=>{
+      if(btn.querySelector('.sbIco'))return;
+      const tn=btn.firstChild;if(!tn||tn.nodeType!==3)return;
+      const m=tn.textContent.match(/^\s*(\S+)\s*/);if(!m)return;
+      tn.textContent=tn.textContent.slice(m[0].length);
+      const lab=document.createElement('span');lab.className='sbLab';
+      while(btn.firstChild)lab.appendChild(btn.firstChild);
+      const ico=document.createElement('span');ico.className='sbIco';ico.textContent=m[1];
+      btn.appendChild(ico);btn.appendChild(lab);
+      btn.title=lab.textContent.trim();
+    });
+  }catch(_){}
+}
+
+// ===== MODULE MAP: State / Engine / UI_Renderer / Navigation =====
+window.App={
+  State:{get:()=>S,save:saveState,load:loadState,reset:resetAll,makeReactive},
+  Engine:{chooseAdaptiveQuestion,weightedQuestionPicker,computePredictedAmirnetScore,getPlacement,gradeSrs,srsGetDueWords},
+  UI:{renderCockpit,renderDashboard,renderHomePro,renderExamCenter,renderStats,renderVocabHub,renderQuestion,renderLadder,toast},
+  Nav:{go:nav,enterStage,exitStage,toggleSidebar,openDictSearch}
+};
+
 // ===== INIT =====
 (function init(){
   try{
     try{if(localStorage.getItem('amir_sb_collapsed')==='1')document.body.classList.add('sbCollapsed');}catch(_){}
+    slimSidebarInit();
     renderCockpit();nav('home');
     if(S.debugMode)setTimeout(()=>{const dp=$('debugPanel');if(dp)dp.classList.add('show');runDiagnostics();},500);
   }catch(e){console.error('Init failed:',e);toast('שגיאה באתחול. נסה לרענן.');}

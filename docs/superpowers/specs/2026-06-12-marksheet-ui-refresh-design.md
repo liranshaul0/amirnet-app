@@ -1,7 +1,7 @@
 # Marksheet — Amirnet UI refresh design
 
 Date: 2026-06-12
-Status: Approved (concept + gold accent)
+Status: Approved (concept + gold accent). **Evolved same-day into "Midnight Amber"** per the user's master refactor prompt — see addendum at the end.
 
 ## Context & goal
 
@@ -85,3 +85,18 @@ No changes to study logic, scoring, SRS, storage, or question/dictionary data.
 - Check RTL/LTR mixing intact and mobile width (375–390px) — bottom bar, tap targets, ladder.
 - `prefers-reduced-motion` disables animations.
 - Commit per logical chunk; offer to push when the user confirms.
+
+---
+
+## Addendum — "Midnight Amber" evolution (same day)
+
+The user supplied a master refactor prompt evolving Marksheet into a premium-SaaS register. Implemented on top of the Marksheet base (all study logic/data retained — 444 questions, SRS, IRT theta/diff, authentic mock, 50–150 scoring):
+
+- **Palette deepened**: bg `#08090f`, surface `#11131f`, borders `rgba(255,255,255,0.08)`; gold `#f6b53d` unchanged. Glassmorphism restored: `backdrop-filter: blur(16px)` + deep soft shadows on cards, cockpit, sidebar, bottom bar.
+- **Bento dashboard**: home is a 4-column bento grid — Predicted Score (2×2, with placement ladder + mock CTAs), Daily Mission (2), Streak (1), Word of the Day (1), Daily Challenge (2), Mastery Rings (2); collapses to 2 columns under 760px.
+- **Focus Mode ("Dojo")**: `stageActive`/`focus-mode-active` on body hides sidebar, cockpit, and bottom bar during practice/mock sessions.
+- **Slim iconic sidebar** (104px, icon over tiny label; emoji split into `.sbIco`/`.sbLab` at init) and a **floating pill bottom bar** on mobile.
+- **Global search**: Cmd/Ctrl+K opens the dictionary search from anywhere.
+- **Micro-interactions**: success glow on the practice card + spring bounce on the correct option (correct answers only); fade + Y-slide view transitions on nav; haptics were already wired.
+- **Architecture**: reactive `S` via Proxy — writes to xp/level/streak/accuracy keys auto-refresh the cockpit (debounced); `window.App = {State, Engine, UI, Nav}` module map; all `S` reassignment paths (`load`, `importData`, `resetAll`) wrap through `makeReactive`.
+- Kept single-file `index.html` deliberately: GitHub Pages deploy + the retain-100%-of-logic requirement made an in-file modularization the safe call.

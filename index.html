@@ -6,6 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="color-scheme" content="dark"/>
+<meta name="theme-color" content="#08090f"/>
+<link rel="manifest" href="manifest.webmanifest"/>
 <title>AMIRNET ELITE V7.0</title>
 <style>
 
@@ -7532,10 +7534,10 @@ function showMockReview(){
   reviewHTML+='<div style="max-height:60vh;overflow-y:auto;padding-right:8px">';
   for(let i=0;i<answers.length;i++){
     const a=answers[i];
-    const ok=a.correct;
+    const ok=(a.ok!==undefined)?!!a.ok:(a.chosen===a.correct);
     const q=a.question||{};
     const yourAns=a.chosen||'—';
-    const correctAns=a.correctAnswer||'—';
+    const correctAns=a.correctAnswer||a.correct||'—';
     const yourText=q.options?q.options[yourAns]||yourAns:yourAns;
     const correctText=q.options?q.options[correctAns]||correctAns:correctAns;
     reviewHTML+=`<div class="reviewCard ${ok?'correct':'wrong'}">
@@ -7544,6 +7546,8 @@ function showMockReview(){
       ${!ok?` • Correct: <span dir="ltr" style="color:var(--good)">${escapeHtml(correctText)}</span>`:''}
       </div>
       ${q.explanationHebrew?'<div class="rExplain" dir="rtl">'+escapeHtml(q.explanationHebrew)+'</div>':''}
+      ${(()=>{if(ok)return'';const fq=Q_MAP.get(a.qid);const ww=fq&&fq.whyWrong&&yourAns?fq.whyWrong[yourAns]:null;
+        return ww?'<div class="rExplain" dir="rtl" style="border-right:3px solid var(--bad);padding-right:10px;margin-top:6px"><b>למה הבחירה שלך שגויה:</b> '+escapeHtml(ww)+'</div>':'';})()}
     </div>`;
   }
   reviewHTML+='</div>';
@@ -7710,7 +7714,7 @@ function advanceMockSection(fromTimeout){
   showSectionTransition(fromSectionIdx, sess.sectionIdx);
 }
 function finishMock(){
-  TimerController.stopAll();document.body.classList.remove('stageActive');
+  TimerController.stopAll();document.body.classList.remove('stageActive','focus-mode-active');
   const sess=S.session;if(!sess){nav('home');return;}
   const total=sess.totalQuestions||sess.answers.length||1,correct=sess.correct||0,accuracy=correct/total;
   
@@ -8570,7 +8574,7 @@ const E=window.E={
   toggleDebug,saveGoalsFromUI:()=>{ensureDaily();const g=S.goals;g.vocabNew=clampInt($('goalNew').value,0,80,g.vocabNew);g.vocabReview=clampInt($('goalReview').value,0,120,g.vocabReview);g.sc=clampInt($('goalSC').value,0,50,g.sc);g.rs=clampInt($('goalRS').value,0,50,g.rs);g.rc=clampInt($('goalRC').value,0,50,g.rc);saveState();renderDashboard();toast('✅ יעדים נשמרו');},
   openImportExport,exportData,importData,exportQuestionBank,exportDictionary,importDictPack,importQPack,resetAll,
   setVTab,startSrsQueue,revealSrs,skipSrs,gradeSrs,toggleKnown,openWordNote,addToSrsNow,quickAddWord,
-  renderMistakeLab,clearMastered,applyVocabFilter,loadMoreVocab,finishMock,
+  renderMistakeLab,clearMastered,applyVocabFilter,loadMoreVocab,finishMock,practiceWeakSpot,
   openDictSearch,closeDictSearch,renderPracticeHub,togglePilotSection,showMockReview,continueMockSection,resetProgress,confirmReset,toggleTheme,showSectionTransition,
   // Games
   startMemoryMatch,flipCard,startSpeedQuiz,speedAnswer,startSwipeMode,swipeAction,
@@ -8817,10 +8821,10 @@ function renderExamCenter(){
   
   // Mistake Heatmap
   const heatmap=computeMistakeHeatmap();
-  const heatHTML=heatmap.length?`<div class="item" style="margin-top:12px"><div style="font-weight:1000;margin-bottom:8px">🔥 Weak Points Heatmap</div><div class="heatGrid">${heatmap.map(h=>{
+  const heatHTML=heatmap.length?`<div class="item" style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px"><div style="font-weight:1000">🔥 Weak Points Heatmap</div><div style="font-size:.72rem;color:var(--muted)">לחץ על קטגוריה לתרגול ממוקד</div></div><div class="heatGrid">${heatmap.map(h=>{
     const bg=h.pct>50?'rgba(239,68,68,0.15)':h.pct>25?'rgba(245,158,11,0.12)':'rgba(34,197,94,0.1)';
     const bc=h.pct>50?'rgba(239,68,68,0.3)':h.pct>25?'rgba(245,158,11,0.25)':'rgba(34,197,94,0.2)';
-    return `<div class="heatCell" style="background:${bg};border-color:${bc}"><div style="font-size:1.1rem;font-weight:1000;color:${h.pct>50?'var(--bad)':h.pct>25?'var(--warn)':'var(--good)'}">${h.pct}%</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">${h.label}</div><div style="font-size:.68rem;color:var(--muted2)">${h.wrong}/${h.total} טעויות</div></div>`;
+    return `<div class="heatCell" onclick="E.practiceWeakSpot('${escapeJs(h.key)}')" style="background:${bg};border-color:${bc};cursor:pointer"><div style="font-size:1.1rem;font-weight:1000;color:${h.pct>50?'var(--bad)':h.pct>25?'var(--warn)':'var(--good)'}">${h.pct}%</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">${h.label}</div><div style="font-size:.68rem;color:var(--muted2)">${h.wrong}/${h.total} טעויות</div></div>`;
   }).join('')}</div></div>`:'';
   
   el.innerHTML=`
@@ -8908,6 +8912,25 @@ function computeMistakeHeatmap(){
   }
   const labels={sentence:'Sentence Completion',restatement:'Restatement',reading:'Reading',vocab:'Vocabulary',logic:'Logic',syntax:'Syntax',paraphrase:'Paraphrase',connectors:'Connectors',advanced:'Advanced',inversion:'Inversion',conditional:'Conditional',passive:'Passive'};
   return Object.entries(cats).filter(([k,v])=>v.total>=2).map(([k,v])=>({key:k,label:labels[k]||k,total:v.total,wrong:v.wrong,pct:Math.round((v.wrong/v.total)*100)})).sort((a,b)=>b.pct-a.pct).slice(0,8);
+}
+
+// One-tap targeted practice for a weak category (type or tag)
+function practiceWeakSpot(key){
+  if(!guardAction())return;
+  const mm=S.mistakeMastery||{};
+  const matches=q=>!!q&&(q.type===key||(q.tags||[]).includes(key));
+  const ids=[];
+  for(const[id,m]of Object.entries(mm)){if(m.mastered)continue;const q=Q_MAP.get(id);if(matches(q))ids.push(id);}
+  const recent=new Set(S.recentCorrect||[]);
+  if(ids.length<12){
+    const pool=CHALLENGE_BANK.filter(q=>matches(q)&&!recent.has(q.id)&&!ids.includes(q.id));
+    shuffle(pool);
+    for(const q of pool){ids.push(q.id);if(ids.length>=12)break;}
+  }
+  if(!ids.length){toast('אין שאלות בקטגוריה זו');return;}
+  shuffle(ids);
+  S.session={id:'ws_'+Date.now(),mode:'mission',startedAt:Date.now(),idx:0,items:ids.slice(0,12),correct:0,timeSpent:0,timerSec:0,current:null,reinsertion:{}};
+  enterStage('🎯 נקודות חלשות');nextQuestion(true);
 }
 
 // ===== V5: ADAPTIVE WEIGHTED QUESTION PICKER =====
@@ -9043,5 +9066,12 @@ window.App={
 </script>
 <div class="themeToggle" id="themeToggleBtn" onclick="E.toggleTheme()" title="Toggle light/dark mode">☀️</div>
 <script>try{if(localStorage.getItem('amirnet_theme')==='light')document.getElementById('themeToggleBtn').textContent='🌙';}catch(_){}</script>
+<script>
+// PWA: register the service worker only when hosted (https or localhost),
+// so opening index.html directly from disk keeps working.
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});
+}
+</script>
 </body>
 </html>

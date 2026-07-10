@@ -100,3 +100,6 @@ The user supplied a master refactor prompt evolving Marksheet into a premium-Saa
 - **Micro-interactions**: success glow on the practice card + spring bounce on the correct option (correct answers only); fade + Y-slide view transitions on nav; haptics were already wired.
 - **Architecture**: reactive `S` via Proxy — writes to xp/level/streak/accuracy keys auto-refresh the cockpit (debounced); `window.App = {State, Engine, UI, Nav}` module map; all `S` reassignment paths (`load`, `importData`, `resetAll`) wrap through `makeReactive`.
 - Kept single-file `index.html` deliberately: GitHub Pages deploy + the retain-100%-of-logic requirement made an in-file modularization the safe call.
+
+### Accent revision — "Midnight Indigo" (2026-07-10)
+Seeing the gold live at full scale, the user rejected it emphatically ("the yellow — it's just vomit"). Accent swapped app-wide to electric indigo `#6E79F4` (hover `#5661E0`; light mode `#4953C8`), white text on accent. All remaining yellow/amber eliminated: warnings/streak-fire moved to warm orange `#E0784A`, the daily-challenge badge to indigo, the passage highlighter to soft cyan. Manifest icons recolored; SW cache bumped to `amirnet-v2`. **Standing rule: no yellow/gold anywhere in this app's UI.**

@@ -6,46 +6,55 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="color-scheme" content="dark"/>
-<meta name="theme-color" content="#08090f"/>
+<meta name="theme-color" content="#5B5BD6"/>
 <link rel="manifest" href="manifest.webmanifest"/>
 <title>AMIRNET — הכנה למבחן אמיר״ם</title>
 <style>/* ===== V2 CSS — Glassmorphism Neo-Dark ===== */
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Midnight Indigo — deep ink + electric indigo */
-  --bg1:#08090f;--bg2:#11131f;--bg3:#1a1d2e;
-  --ink:#08090f;--paper:#11131f;--paper2:#1a1d2e;--line:rgba(255,255,255,0.08);
-  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);--glass-hover:rgba(255,255,255,0.07);
-  --text:#EAEDF4;--muted:#98A0B3;--muted2:#6A7186;--faint:#6A7186;
-  --accent:#6E79F4;--accent2:#5661E0;--accent-glow:rgba(110,121,244,0.22);
-  --accent-soft:rgba(110,121,244,0.15);--accent-ink:#FFFFFF;
-  --good:#2FBF8F;--good-bg:rgba(47,191,143,0.12);--good-border:rgba(47,191,143,0.46);
-  --warn:#E0784A;--warn-bg:rgba(224,120,74,0.10);--warn-border:rgba(224,120,74,0.42);
-  --bad:#F2584E;--bad-bg:rgba(242,88,78,0.11);--bad-border:rgba(242,88,78,0.46);
-  --blue:#36B5FF;--pink:#FF4F81;--cyan:#34D6C5;
+  /* Clarity — light-first professional (white surfaces, single indigo accent) */
+  --bg1:#F3F4F9;--bg2:#FFFFFF;--bg3:#ECEEF6;
+  --ink:#F3F4F9;--paper:#FFFFFF;--paper2:#F6F7FB;--line:rgba(23,26,45,0.09);
+  --glass:#FAFAFD;--glass-border:rgba(23,26,45,0.09);--glass-hover:#F1F2F9;
+  --text:#1D2130;--muted:#6B7185;--muted2:#9BA1B3;--faint:#9BA1B3;
+  --accent:#5B5BD6;--accent2:#4A4AC4;--accent-glow:rgba(91,91,214,0.18);
+  --accent-soft:rgba(91,91,214,0.10);--accent-ink:#FFFFFF;
+  --good:#178A5E;--good-bg:rgba(23,138,94,0.10);--good-border:rgba(23,138,94,0.35);
+  --warn:#C96A3B;--warn-bg:rgba(201,106,59,0.10);--warn-border:rgba(201,106,59,0.35);
+  --bad:#D6453A;--bad-bg:rgba(214,69,58,0.08);--bad-border:rgba(214,69,58,0.35);
+  --blue:#2E7CD6;--pink:#C2438D;--cyan:#1FA8A0;
   --radius:16px;--radius-sm:12px;--radius-xs:10px;
   --blur:blur(16px);
-  --shadow:0 18px 44px rgba(0,0,0,0.55);
-  --font:'Inter','Heebo',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --shadow:0 1px 2px rgba(23,26,45,0.05),0 10px 30px rgba(23,26,45,0.07);
+  --font:'Heebo','Inter',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
   --font-he:'Heebo','Assistant','Segoe UI',Arial,sans-serif;
   --font-mono:'Space Grotesk',ui-monospace,'SFMono-Regular',Menlo,monospace;
   --transition:all .22s cubic-bezier(.4,0,.2,1);
   --safe-bottom:env(safe-area-inset-bottom,0px);
 }
+html.dark-mode{
+  --bg1:#0E1017;--bg2:#151823;--bg3:#1D2130;
+  --ink:#0E1017;--paper:#151823;--paper2:#1D2130;--line:var(--line);
+  --glass:var(--glass);--glass-border:var(--line);--glass-hover:var(--line);
+  --text:#EAEDF4;--muted:#98A0B3;--muted2:#6A7186;--faint:#6A7186;
+  --accent:#7C86F0;--accent2:#6570E4;--accent-glow:rgba(124,134,240,0.22);
+  --accent-soft:rgba(124,134,240,0.15);--accent-ink:#0E1017;
+  --good:#2FBF8F;--good-bg:rgba(47,191,143,0.12);--good-border:rgba(47,191,143,0.46);
+  --warn:#E0784A;--warn-bg:rgba(224,120,74,0.10);--warn-border:rgba(224,120,74,0.42);
+  --bad:#F2584E;--bad-bg:rgba(242,88,78,0.11);--bad-border:rgba(242,88,78,0.46);
+  --shadow:0 18px 44px rgba(0,0,0,0.55);
+}
 html{height:100%;height:100dvh;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;scroll-behavior:smooth}
 body{min-height:100%;min-height:100dvh;font-family:var(--font);color:var(--text);
   background:var(--bg1);
-  background-image:
-    radial-gradient(ellipse 1000px 640px at 50% -8%,rgba(110,121,244,0.07),transparent 60%),
-    radial-gradient(ellipse 760px 520px at 100% 100%,rgba(54,181,255,0.045),transparent 55%);
-  background-attachment:fixed;overflow-x:hidden;line-height:1.5;-webkit-font-smoothing:antialiased}
+  background-attachment:fixed;overflow-x:hidden;line-height:1.55;-webkit-font-smoothing:antialiased}
 button,.btn,.tile,.opt,.sbBtn,.bbBtn,.tileBtn,.switch,.vTab,.gameCard,.swipeCard{
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;cursor:pointer}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:10px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px}
 
 /* Glass Card */
-.card{backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);background:linear-gradient(160deg,rgba(255,255,255,0.055),rgba(255,255,255,0.015)),rgba(17,19,31,0.66);border:1px solid var(--glass-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(14px,3vw,28px);margin-bottom:16px;transform:translateZ(0)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(16px,3vw,28px);margin-bottom:16px}
 .item{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;transition:var(--transition)}
 .item:hover{background:var(--glass-hover)}
 
@@ -54,40 +63,42 @@ button,.btn,.tile,.opt,.sbBtn,.bbBtn,.tileBtn,.switch,.vTab,.gameCard,.swipeCard
 .main{flex:1;padding:16px;padding-bottom:calc(70px + var(--safe-bottom));max-width:960px;margin:0 auto;width:100%}
 
 /* Sidebar (Desktop) */
-#sidebar{position:fixed;top:0;right:0;width:104px;height:100%;height:100dvh;padding:14px 8px;
-  background:rgba(17,19,31,0.72);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
-  border-left:1px solid var(--glass-border);z-index:800;overflow-y:auto;transition:transform .35s ease;
+#sidebar{position:fixed;top:0;right:0;width:216px;height:100%;height:100dvh;padding:18px 12px;
+  background:var(--paper);
+  border-left:1px solid var(--line);z-index:800;overflow-y:auto;transition:transform .35s ease;
   display:flex;flex-direction:column}
-#sidebar .sbTitle{font-size:.72rem;font-weight:700;letter-spacing:2px;margin-bottom:14px;color:var(--accent);font-family:var(--font-mono);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sbBtn{display:flex;flex-direction:column;align-items:center;gap:5px;width:100%;padding:10px 4px;border:1px solid transparent;border-radius:var(--radius-xs);
-  background:transparent;color:var(--muted);font:inherit;font-weight:600;font-size:.6rem;text-align:center;
-  transition:var(--transition);margin-bottom:2px}
-.sbBtn .sbIco{font-size:1.3rem;line-height:1}
-.sbBtn .sbLab{font-size:.6rem;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sbBtn:hover{background:var(--glass);border-color:var(--glass-border);color:var(--text)}
-.sbBtn.active{background:var(--accent-soft);border-color:rgba(110,121,244,0.35);color:var(--accent)}
+#sidebar .sbTitle{font-size:1.05rem;font-weight:700;letter-spacing:1.5px;margin:2px 10px 18px;color:var(--text);font-family:var(--font-mono)}
+#sidebar .sbTitle b{color:var(--accent)}
+.sbBtn{display:flex;flex-direction:row;align-items:center;gap:11px;width:100%;padding:10px 12px;border:none;border-radius:var(--radius-xs);
+  background:transparent;color:var(--muted);font:inherit;font-weight:500;font-size:.88rem;text-align:right;
+  transition:var(--transition);margin-bottom:3px}
+.sbBtn .sbIco{display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sbBtn .sbIco .ic{width:19px;height:19px}
+.sbBtn .sbLab{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sbBtn:hover{background:var(--glass-hover);color:var(--text)}
+.sbBtn.active{background:var(--accent);color:var(--accent-ink);font-weight:600}
 body.sbCollapsed #sidebar{transform:translateX(100%)}
 
 /* Mobile Bottom Bar */
 @media(max-width:899px){
   #sidebar{display:none}
   #bottomBar{display:flex!important;position:fixed;bottom:calc(10px + var(--safe-bottom));left:10px;right:10px;z-index:700;
-    background:rgba(17,19,31,0.78);border-radius:18px;box-shadow:var(--shadow);
-    border:1px solid var(--glass-border);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+    background:var(--paper);border-radius:18px;box-shadow:0 6px 24px rgba(23,26,45,0.14);
+    border:1px solid var(--line);
     padding:7px 6px;gap:2px;justify-content:space-around}
   .main{padding-bottom:calc(88px + var(--safe-bottom))}
   .bbBtn{flex:1;text-align:center;padding:8px 4px;border:none;background:transparent;color:var(--muted);
     font:inherit;font-size:.68rem;font-weight:700;border-radius:var(--radius-xs);transition:var(--transition);display:flex;flex-direction:column;align-items:center;gap:2px}
   .bbBtn .ico{font-size:1.2rem}.bbBtn.active{color:var(--accent);background:var(--accent-glow)}
 }
-@media(min-width:900px){#bottomBar{display:none!important}.main{margin-right:104px}}
+@media(min-width:900px){#bottomBar{display:none!important}.main{margin-right:216px}}
 #sbBackdrop{display:none;position:fixed;inset:0;z-index:799;background:rgba(0,0,0,0.5)}
 
 /* Cockpit Header */
-.cockpit{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;padding:11px 15px;
-  background:rgba(17,19,31,0.66);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
-  border:1px solid var(--glass-border);border-radius:var(--radius)}
-.cockpit .xpBar{flex:1;min-width:80px;height:6px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden}
+.cockpit{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;padding:12px 18px;
+  background:var(--paper);
+  border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.cockpit .xpBar{flex:1;min-width:80px;height:6px;background:var(--line);border-radius:99px;overflow:hidden}
 .cockpit .xpFill{height:100%;background:var(--accent);border-radius:99px;transition:width .6s ease}
 .cockpit .stat{font-size:.76rem;font-weight:600;color:var(--muted);white-space:nowrap}
 .cockpit .stat b{color:var(--text);font-weight:500;font-family:var(--font-mono)}
@@ -96,7 +107,7 @@ body.sbCollapsed #sidebar{transform:translateX(100%)}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:var(--radius-xs);
   border:1px solid var(--glass-border);background:var(--glass);color:var(--text);
   font:inherit;font-size:.82rem;font-weight:800;transition:var(--transition);white-space:nowrap;line-height:1.3}
-.btn:hover{background:var(--glass-hover);border-color:rgba(255,255,255,0.18);transform:translateY(-1px)}
+.btn:hover{background:var(--glass-hover);border-color:var(--glass-border);transform:translateY(-1px)}
 .btn:active{transform:scale(.97)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
 .btn.primary:hover{background:var(--accent2);border-color:var(--accent2);box-shadow:0 4px 18px var(--accent-glow)}
@@ -104,7 +115,7 @@ body.sbCollapsed #sidebar{transform:translateX(100%)}
 .btn .kbHint{font-size:.6rem;opacity:.5;margin-right:3px;padding:1px 4px;border:1px solid var(--line);border-radius:4px;font-family:var(--font-mono)}
 
 /* Switch */
-.switch{display:inline-flex;width:42px;height:24px;border-radius:99px;background:rgba(255,255,255,0.10);border:1px solid var(--glass-border);position:relative;transition:var(--transition)}
+.switch{display:inline-flex;width:42px;height:24px;border-radius:99px;background:var(--line);border:1px solid var(--glass-border);position:relative;transition:var(--transition)}
 .switch::after{content:'';position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:var(--transition)}
 .switch.on{background:var(--accent);border-color:var(--accent)}.switch.on::after{right:calc(100% - 20px);background:#fff}
 
@@ -118,7 +129,7 @@ body.sbCollapsed #sidebar{transform:translateX(100%)}
 .mItem:hover{background:var(--glass-hover)}
 .mLeft{flex:1;min-width:0}.mTitle{font-weight:700;font-size:.86rem}.mSub{font-size:.75rem;color:var(--muted);margin-top:2px}
 .mRight{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.mBar{width:60px;height:6px;border-radius:99px;background:rgba(255,255,255,0.08);overflow:hidden}.mBar div{height:100%;border-radius:99px;background:var(--accent);transition:width .5s ease}
+.mBar{width:60px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}.mBar div{height:100%;border-radius:99px;background:var(--accent);transition:width .5s ease}
 .mCount{font-size:.75rem;font-weight:800;color:var(--muted);min-width:40px;text-align:center}
 
 /* Tiles */
@@ -166,7 +177,7 @@ body.sbCollapsed #sidebar{transform:translateX(100%)}
 /* Stats */
 .typeBars{display:flex;flex-direction:column;gap:8px}
 .typeBarRow{display:flex;align-items:center;gap:10px}.typeBarLabel{min-width:100px;font-weight:800;font-size:.80rem}
-.typeBarTrack{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden}
+.typeBarTrack{flex:1;height:8px;background:var(--glass-hover);border-radius:99px;overflow:hidden}
 .typeBarFill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:99px;transition:width .7s ease}
 .typeBarPct{min-width:55px;font-weight:700;font-size:.78rem;text-align:left}
 .radarWrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:700px){.radarWrap{grid-template-columns:1fr}}
@@ -194,20 +205,42 @@ body.sbCollapsed #sidebar{transform:translateX(100%)}
 .ladderSpine .rung.goal .rlab{font-weight:600}
 .ladderSpine .rung.goal .rdot{background:transparent;border:2px solid var(--accent)}
 
-/* Bento Dashboard */
-.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
-.bItem{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px;min-width:0;transition:var(--transition)}
-.bItem:hover{border-color:rgba(255,255,255,0.14)}
-.bScore{grid-column:span 2;grid-row:span 2}
-.bMission{grid-column:span 2}
-.bStreak,.bWotd{grid-column:span 1;display:flex;flex-direction:column;justify-content:center}
-.bDC{grid-column:span 2}
-.bRings{grid-column:span 2}
-.bWotd{cursor:pointer}
+/* Clarity home layout */
+.pageHead{margin-bottom:16px}
+.pageTitle{font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
+.pageSub{font-size:.88rem;color:var(--muted);margin-top:2px;font-weight:400}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
+  background:linear-gradient(120deg,var(--accent),var(--accent2));border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:14px;color:#fff}
+.heroLabel{font-size:.78rem;font-weight:500;color:rgba(255,255,255,0.75);letter-spacing:.4px}
+.hero .bigScore{color:#fff}
+.hero .placementBadge{background:rgba(255,255,255,0.16);border:none;color:#fff;margin:6px 0 0}
+.heroSide{display:flex;flex-direction:column;gap:8px;min-width:180px}
+.btn.heroCta{background:#fff;border-color:transparent;color:var(--accent);font-weight:700;justify-content:center}
+.btn.heroCta:hover{background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.18);transform:translateY(-1px)}
+.btn.heroGhost{background:rgba(255,255,255,0.14);border-color:transparent;color:#fff;justify-content:center}
+.btn.heroGhost:hover{background:rgba(255,255,255,0.22);border-color:transparent}
+.statRow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.statTile{background:var(--paper2);border-radius:var(--radius-sm);padding:14px 16px;min-width:0}
+.stLabel{font-size:.76rem;color:var(--muted);font-weight:500}
+.stVal{font-family:var(--font-mono);font-size:1.55rem;font-weight:700;margin-top:2px;color:var(--text)}
+.wotdTile{cursor:pointer;transition:var(--transition)}
+.wotdTile:hover{background:var(--accent-soft)}
+.panel{background:var(--paper2);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px;min-width:0}
+.panelHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.panelTitle{font-size:.95rem;font-weight:700}
+.panelPct{font-family:var(--font-mono);font-weight:700;font-size:1.1rem;color:var(--accent)}
+.twoCol{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.twoCol>.panel{margin-bottom:0}
+.twoCol>div>.panel:last-child{margin-bottom:0}
+.track{height:7px;border-radius:99px;background:rgba(23,26,45,0.08);overflow:hidden}
+html.dark-mode .track{background:rgba(255,255,255,0.10)}
+.trackFill{height:100%;border-radius:99px;background:var(--accent);transition:width .5s ease}
 @media(max-width:760px){
-  .bento{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .bScore,.bMission,.bDC,.bRings{grid-column:span 2}
-  .bStreak,.bWotd{grid-column:span 1}
+  .statRow{grid-template-columns:1fr 1fr}
+  .twoCol{grid-template-columns:1fr}
+  .twoCol>.panel{margin-bottom:12px}
+  .hero{padding:18px}
 }
 
 /* Icons (inline SVG, stroke = currentColor) */
@@ -251,14 +284,14 @@ body.stageActive .main,body.focus-mode-active .main{margin-right:0!important;max
 
 /* Word Popover */
 #wordPop{position:fixed;display:none;z-index:6000;padding:14px;max-width:320px;
-  background:rgba(13,21,41,0.97);border:1px solid var(--glass-border);border-radius:var(--radius-sm);
+  background:var(--paper);border:1px solid var(--glass-border);border-radius:var(--radius-sm);
   backdrop-filter:blur(20px);box-shadow:0 12px 40px rgba(0,0,0,0.5)}
 .wT{font-weight:700;font-size:.98rem;direction:ltr}.wH{color:var(--muted);font-weight:700;margin-top:3px;font-size:.86rem}
 .wS{font-size:.78rem;color:var(--muted2);margin-top:3px;direction:ltr}.wA{margin-top:8px;display:flex;gap:6px}
 
 /* Toast */
 #toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:9000;padding:12px 22px;
-  border-radius:var(--radius-sm);background:rgba(13,21,41,0.96);border:1px solid var(--glass-border);
+  border-radius:var(--radius-sm);background:var(--paper);border:1px solid var(--glass-border);
   font-weight:800;font-size:.86rem;display:none;white-space:nowrap;backdrop-filter:blur(16px);
   animation:slideUp .3s ease}
 @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
@@ -273,7 +306,7 @@ body.stageActive #exitBtn{display:block}
 /* STAGE MODE */
 body.stageActive #sidebar,body.stageActive .cockpit,body.stageActive #bottomBar{display:none!important}
 body.stageActive #practiceCard{position:fixed!important;inset:0!important;z-index:5000!important;border-radius:0!important;border:none!important;
-  background:linear-gradient(135deg,rgba(13,21,41,0.98),rgba(7,11,23,0.99))!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;padding:clamp(12px,3vw,28px)!important;margin:0!important}
+  background:var(--bg1)!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;padding:clamp(12px,3vw,28px)!important;margin:0!important}
 body.stageActive .split{max-height:100%;overflow:visible}
 
 /* Game Cards */
@@ -288,7 +321,7 @@ body.stageActive .split{max-height:100%;overflow:visible}
 
 /* Swipe Mode */
 .swipeContainer{position:relative;width:100%;max-width:380px;height:min(420px,55dvh);margin:12px auto;perspective:1000px;touch-action:none;-webkit-touch-callout:none}
-.swipeCard{position:absolute;inset:0;border-radius:var(--radius);touch-action:none;-webkit-touch-callout:none;background:linear-gradient(145deg,rgba(255,255,255,0.09),rgba(255,255,255,0.03));
+.swipeCard{position:absolute;inset:0;border-radius:var(--radius);touch-action:none;-webkit-touch-callout:none;background:linear-gradient(145deg,var(--line),var(--glass));
   border:1.5px solid var(--glass-border);backdrop-filter:var(--blur);padding:28px;display:flex;flex-direction:column;
   align-items:center;justify-content:center;text-align:center;cursor:grab;transition:transform .15s ease;user-select:none;
   box-shadow:var(--shadow)}
@@ -299,7 +332,7 @@ body.stageActive .split{max-height:100%;overflow:visible}
 .swipeIndicator.know{left:16px;color:var(--good)}.swipeIndicator.study{right:16px;color:var(--bad)}
 
 /* Speed Quiz */
-.speedBar{width:100%;height:8px;border-radius:99px;background:rgba(255,255,255,0.08);overflow:hidden;margin:10px 0}
+.speedBar{width:100%;height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:10px 0}
 .speedFill{height:100%;border-radius:99px;transition:width 50ms linear}
 .speedScore{font-size:2.4rem;font-weight:800;text-align:center;
   background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -307,7 +340,7 @@ body.stageActive .split{max-height:100%;overflow:visible}
 /* Passage Progress */
 .pp-left{display:flex;align-items:center;gap:8px;flex:1}
 .pp-pill{font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:99px;background:rgba(110,121,244,0.12);border:1px solid rgba(110,121,244,0.25);white-space:nowrap}
-.pp-track{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,0.06);overflow:hidden}
+.pp-track{flex:1;height:5px;border-radius:99px;background:var(--glass-hover);overflow:hidden}
 .pp-fill{height:100%;border-radius:99px;background:var(--accent);transition:width .4s ease}
 .pp-right{font-weight:700;font-size:.78rem;min-width:35px;text-align:center}
 #passageProgress{display:none;padding:8px 14px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-xs);margin-top:8px;gap:10px;align-items:center}
@@ -315,20 +348,20 @@ body.stageActive .split{max-height:100%;overflow:visible}
 /* Backdrop */
 .modalOverlay{display:none;position:fixed;inset:0;z-index:7000;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);align-items:center;justify-content:center}
 .modalOverlay.show{display:flex}
-.modal{background:linear-gradient(135deg,rgba(13,21,41,0.98),rgba(7,11,23,0.99));border:1px solid var(--glass-border);
+.modal{background:var(--paper);border:1px solid var(--glass-border);
   border-radius:var(--radius);padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.6);animation:slideUp .35s ease}
 
 /* Debug Panel */
 #debugPanel{display:none;position:fixed;bottom:80px;right:10px;z-index:8000;max-width:360px;max-height:50vh;overflow-y:auto;
-  padding:14px;background:rgba(7,11,23,0.97);border:1px solid var(--warn-border);border-radius:var(--radius-sm);font-size:.75rem;color:var(--warn);backdrop-filter:blur(16px)}
+  padding:14px;background:var(--paper);border:1px solid var(--warn-border);border-radius:var(--radius-sm);font-size:.75rem;color:var(--warn);backdrop-filter:blur(16px)}
 #debugPanel.show{display:block}
 
 /* Error Overlay */
 #errOverlay{display:none;position:fixed;bottom:80px;left:10px;z-index:8500;padding:12px;max-width:340px;
-  background:rgba(7,11,23,0.96);border:1px solid var(--bad-border);border-radius:var(--radius-sm);font-size:.78rem;color:var(--bad);backdrop-filter:blur(14px)}
+  background:var(--paper);border:1px solid var(--bad-border);border-radius:var(--radius-sm);font-size:.78rem;color:var(--bad);backdrop-filter:blur(14px)}
 
 /* Keyboard Hints */
-.kbHint{font-size:.6rem;opacity:.4;margin-right:3px;padding:1px 4px;border:1px solid rgba(255,255,255,0.12);border-radius:4px}
+.kbHint{font-size:.6rem;opacity:.4;margin-right:3px;padding:1px 4px;border:1px solid var(--line);border-radius:4px}
 @media(pointer:coarse){.kbHint{display:none}}
 
 /* Goal inputs */
@@ -395,8 +428,8 @@ body.stageActive .split{max-height:100%;overflow:visible}
 .wotdLeft{font-weight:800}
 .wotdWord{display:flex;flex-direction:column;gap:2px;min-width:0}
 .wotdEn{font-weight:800;font-size:1.15rem;direction:ltr;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wotdHe{font-weight:700;color:rgba(238,242,255,0.78);font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wotdHint{font-size:.75rem;color:rgba(238,242,255,0.55);font-weight:800}
+.wotdHe{font-weight:700;color:var(--muted);font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wotdHint{font-size:.75rem;color:var(--muted2);font-weight:800}
 
 /* Daily Challenge */
 .dcBadge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-weight:800;font-size:.76rem;
@@ -408,13 +441,13 @@ body.stageActive .split{max-height:100%;overflow:visible}
 .examHero{display:flex;gap:14px;flex-wrap:wrap;align-items:stretch}
 .examHero .left{flex:1;min-width:260px}
 .examHero .right{flex:1;min-width:260px}
-.examScoreBox{padding:16px;border-radius:var(--radius);border:1px solid rgba(110,121,244,0.28);background:linear-gradient(135deg,rgba(110,121,244,0.14),rgba(255,255,255,0.03))}
+.examScoreBox{padding:16px;border-radius:var(--radius);border:1px solid rgba(110,121,244,0.28);background:linear-gradient(135deg,rgba(110,121,244,0.14),var(--glass))}
 .examMetaLine{color:var(--muted);font-weight:800;font-size:.82rem;margin-top:6px}
 .examGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}
 @media(max-width:820px){.examGrid{grid-template-columns:1fr}}
-.examHistItem{padding:10px 12px;border-radius:var(--radius-xs);border:1px solid var(--glass-border);background:rgba(255,255,255,0.045);
+.examHistItem{padding:10px 12px;border-radius:var(--radius-xs);border:1px solid var(--glass-border);background:var(--glass);
   display:flex;justify-content:space-between;gap:10px;align-items:center;transition:var(--transition)}
-.examHistItem:hover{background:rgba(255,255,255,0.08);transform:translateX(-2px)}
+.examHistItem:hover{background:var(--line);transform:translateX(-2px)}
 .examHistItem.active{border-color:rgba(110,121,244,0.6);box-shadow:inset 0 0 0 2px rgba(110,121,244,0.15)}
 .examHistItem .d{color:var(--muted);font-weight:800;font-size:.76rem}
 .examHistItem .s{font-weight:800;font-size:.95rem}
@@ -431,7 +464,7 @@ body.stageActive .split{max-height:100%;overflow:visible}
   font-weight:800;font-size:clamp(1.2rem,3.2vw,1.5rem);line-height:1.15;
 }
 .gameFace.front{background:linear-gradient(135deg,rgba(15,20,40,0.9),rgba(10,15,30,0.85));
-  font-size:1.6rem;color:rgba(255,255,255,0.4);border:1px solid rgba(110,121,244,0.12)}
+  font-size:1.6rem;color:var(--muted);border:1px solid rgba(110,121,244,0.12)}
 .gameFace.back{transform:rotateY(180deg);font-weight:800;font-size:1.4rem;
   background:linear-gradient(135deg,rgba(110,121,244,0.18),rgba(6,182,212,0.08));
   border:1px solid rgba(110,121,244,0.25)}
@@ -476,20 +509,7 @@ body.stageActive .split{max-height:100%;overflow:visible}
 
 /* V6.3 Theme Toggle */
 .themeToggle{position:fixed;bottom:16px;left:16px;z-index:100;width:40px;height:40px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease}
-html.light-mode{
-  --ink:#F4F5F7;--paper:#FFFFFF;--paper2:#EEF0F3;--line:rgba(0,0,0,0.10);
-  --bg1:#F4F5F7;--bg2:#FFFFFF;--bg3:#EEF0F3;
-  --text:#1B1E26;--muted:#5B6170;--muted2:#8A90A0;--faint:#8A90A0;
-  --glass:rgba(0,0,0,0.025);--glass-border:rgba(0,0,0,0.08);--glass-hover:rgba(0,0,0,0.05);
-  --accent:#4953C8;--accent2:#3A44B5;--accent-soft:rgba(73,83,200,0.12);--accent-ink:#FFFFFF;--accent-glow:rgba(73,83,200,0.25);
-  --good:#1E9E73;--good-bg:rgba(30,158,115,0.12);--good-border:rgba(30,158,115,0.42);
-  --bad:#D64238;--bad-bg:rgba(214,66,56,0.10);--bad-border:rgba(214,66,56,0.42);
-  --shadow:0 8px 24px rgba(0,0,0,0.08);
-}
-html.light-mode body{background:var(--bg1);
-  background-image:radial-gradient(ellipse 1000px 640px at 50% -8%,rgba(73,83,200,0.06),transparent 60%);color:var(--text)}
-html.light-mode .opt .letter{border-color:var(--muted2);color:var(--muted)}
-html.light-mode #bottomBar{background:rgba(255,255,255,0.92)}
+html.dark-mode #bottomBar{background:rgba(21,24,35,0.92)}
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
@@ -497,7 +517,7 @@ html.light-mode #bottomBar{background:rgba(255,255,255,0.92)}
 
 /* V6.2 Practice Progress Bar */
 .practiceProgress{display:flex;align-items:center;gap:8px;padding:6px 0;margin-bottom:6px}
-.practiceProgress .ppBar{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden}
+.practiceProgress .ppBar{flex:1;height:4px;border-radius:2px;background:var(--glass-hover);overflow:hidden}
 .practiceProgress .ppFill{height:100%;border-radius:2px;background:var(--accent);transition:width .4s ease}
 .practiceProgress .ppLabel{font-size:.74rem;font-weight:800;color:var(--muted);white-space:nowrap}
 
@@ -564,7 +584,7 @@ body.stageActive #floatingDict{display:flex}
 #dictSearchModal{display:none;position:fixed;inset:0;z-index:6500;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
   align-items:flex-start;justify-content:center;padding-top:80px}
 #dictSearchModal.show{display:flex}
-#dictSearchBox{width:90%;max-width:480px;background:linear-gradient(135deg,rgba(13,21,41,0.98),rgba(7,11,23,0.99));
+#dictSearchBox{width:90%;max-width:480px;background:var(--paper);
   border:1px solid var(--glass-border);border-radius:var(--radius);padding:20px;max-height:70vh;overflow-y:auto;
   box-shadow:0 24px 60px rgba(0,0,0,0.6);animation:slideUp .3s ease}
 #dictSearchInput{width:100%;padding:14px 16px;border-radius:var(--radius-sm);border:1.5px solid rgba(110,121,244,0.35);
@@ -631,9 +651,108 @@ body.stageActive #floatingDict{display:flex}
 <div class="appWrap">
 <!-- Sidebar -->
 <div id="sbBackdrop" onclick="E.toggleSidebar(true)"></div>
-<nav id="sidebar"> <div class="sbTitle">AMIRNET</div> <button class="sbBtn active" data-nav="home" onclick="E.nav('home')"><span class="sbIco" data-ic="home"></span><span class="sbLab">בית</span></button> <button class="sbBtn" data-nav="practice" onclick="E.nav('practice')"><span class="sbIco" data-ic="bolt"></span><span class="sbLab">תרגול</span></button> <button class="sbBtn" data-nav="exam" onclick="E.nav('exam')"><span class="sbIco" data-ic="bank"></span><span class="sbLab">מבחנים</span></button> <button class="sbBtn" data-nav="vocab" onclick="E.nav('vocab')"><span class="sbIco" data-ic="book"></span><span class="sbLab">מילים</span></button> <button class="sbBtn" data-nav="games" onclick="E.nav('games')"><span class="sbIco" data-ic="grid"></span><span class="sbLab">משחקים</span></button> <button class="sbBtn" data-nav="mistakes" onclick="E.nav('mistakes')"><span class="sbIco" data-ic="crosshair"></span><span class="sbLab">טעויות</span></button> <button class="sbBtn" data-nav="strategy" onclick="E.nav('strategy')"><span class="sbIco" data-ic="layers"></span><span class="sbLab">מחברים</span></button> <button class="sbBtn" data-nav="stats" onclick="E.nav('stats')"><span class="sbIco" data-ic="chart"></span><span class="sbLab">נתונים</span></button> <hr style="border-color:var(--glass-border);margin:10px 0"/> <button class="sbBtn" onclick="E.toggleSpeed()"><span class="sbIco" data-ic="activity"></span><span class="sbLab">Speed: <span id="speedText">OFF</span></span></button> <button class="sbBtn" onclick="E.openImportExport()"><span class="sbIco" data-ic="save"></span><span class="sbLab">גיבוי</span></button> <button class="sbBtn" onclick="E.toggleDebug()"><span class="sbIco" data-ic="tool"></span><span class="sbLab">Debug</span></button> <button class="sbBtn" onclick="E.resetProgress()" style="color:var(--bad)"><span class="sbIco" data-ic="trash"></span><span class="sbLab">איפוס</span></button>
+<nav id="sidebar"> <div class="sbTitle">AMIR<b>NET</b></div> <button class="sbBtn active" data-nav="home" onclick="E.nav('home')"><span class="sbIco" data-ic="home"></span><span class="sbLab">בית</span></button> <button class="sbBtn" data-nav="practice" onclick="E.nav('practice')"><span class="sbIco" data-ic="bolt"></span><span class="sbLab">תרגול</span></button> <button class="sbBtn" data-nav="exam" onclick="E.nav('exam')"><span class="sbIco" data-ic="bank"></span><span class="sbLab">מבחנים</span></button> <button class="sbBtn" data-nav="vocab" onclick="E.nav('vocab')"><span class="sbIco" data-ic="book"></span><span class="sbLab">מילים</span></button> <button class="sbBtn" data-nav="games" onclick="E.nav('games')"><span class="sbIco" data-ic="grid"></span><span class="sbLab">משחקים</span></button> <button class="sbBtn" data-nav="mistakes" onclick="E.nav('mistakes')"><span class="sbIco" data-ic="crosshair"></span><span class="sbLab">טעויות</span></button> <button class="sbBtn" data-nav="strategy" onclick="E.nav('strategy')"><span class="sbIco" data-ic="layers"></span><span class="sbLab">מחברים</span></button> <button class="sbBtn" data-nav="stats" onclick="E.nav('stats')"><span class="sbIco" data-ic="chart"></span><span class="sbLab">נתונים</span></button> <hr style="border-color:var(--glass-border);margin:10px 0"/> <button class="sbBtn" onclick="E.toggleSpeed()"><span class="sbIco" data-ic="activity"></span><span class="sbLab">Speed: <span id="speedText">OFF</span></span></button> <button class="sbBtn" onclick="E.openImportExport()"><span class="sbIco" data-ic="save"></span><span class="sbLab">גיבוי</span></button> <button class="sbBtn" onclick="E.toggleDebug()"><span class="sbIco" data-ic="tool"></span><span class="sbLab">Debug</span></button> <button class="sbBtn" onclick="E.resetProgress()" style="color:var(--bad)"><span class="sbIco" data-ic="trash"></span><span class="sbLab">איפוס</span></button>
 </nav>
-<div class="main"> <!-- Cockpit --> <div class="cockpit"> <div class="stat"><b id="lvlText">Level 1</b></div> <div class="xpBar"><div class="xpFill" id="xpFill" style="width:0%"></div></div> <div class="stat"><span id="xpText">0</span>/<span id="xpNext">120</span> XP</div> <div class="stat streakFire"><span data-ic="flame"></span> <b id="streakText">0</b></div> <div class="stat"><span data-ic="target"></span> <b id="accText">—</b></div> <div class="stat" onclick="E.openExamDate()" style="cursor:pointer" title="תאריך המבחן — לחץ לעריכה"><span data-ic="calendar"></span> <b id="daysText">— ימים</b></div> <div class="stat" id="dailyWord" style="font-size:.72rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div> <button class="btn" style="padding:6px 10px;font-size:.76rem" onclick="E.toggleSidebar()">☰</button> </div> <!-- ===== HOME ===== --> <div id="homeCard" class="card"> <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px"> <div style="font-weight:700;font-size:1.1rem;letter-spacing:1px;font-family:var(--font-mono)">AMIRNET</div> <div style="font-weight:600;font-size:.8rem;color:var(--muted)">הכנה למבחן אמיר״ם</div> </div> <!-- ===== BENTO DASHBOARD ===== --> <div class="bento"> <div class="bItem bScore" id="perfSnap"> <div style="font-size:.72rem;color:var(--muted);font-weight:700;letter-spacing:.5px">PREDICTED AMIRNET</div> <div id="homePredScore" class="bigScore">—</div> <div id="homePlacement" class="placementBadge" style="margin:4px 0 0">—</div> <div class="ladderWrap"> <div class="ladderHead">מסלול הסיווג</div> <div id="homeLadder" class="ladderSpine"></div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"> <button class="btn primary" onclick="E.startMockExam('amirnet')">AMIRNET Mock</button> <button class="btn" onclick="E.nav('exam')">Exam Center</button> <button class="btn" onclick="E.startMockExam(25)">Quick</button> </div> </div> <div class="bItem bStreak"> <div style="font-size:.72rem;color:var(--muted);font-weight:700">רצף ימים</div> <div class="bigScore" id="bentoStreak" style="font-size:2.3rem;margin-top:4px">0</div> <div style="font-size:.74rem;color:var(--muted);margin-top:6px">דיוק <b id="bentoAcc" style="font-family:var(--font-mono);color:var(--text)">—</b></div> </div> <div class="bItem bWotd wotdBanner" id="wotdBanner" onclick="E.openWordOfDay()"> <div class="wotdLeft">Word of the Day</div> <div class="wotdWord"> <div class="wotdEn" id="wotdEn">—</div> <div class="wotdHe" id="wotdHe">—</div> <div class="wotdHint" id="wotdHint">לחץ לפרטים</div> </div> <div class="pill" style="white-space:nowrap">+XP</div> </div> <!-- Daily Challenge (Surprise Pro Feature) --> <div class="bItem bDC dcCardGlow" id="dailyChallengeCard"> <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"> <div> <div style="font-weight:800">Daily Challenge</div> <div id="dcDesc" style="color:var(--muted);font-weight:800;font-size:.82rem;margin-top:4px">—</div> </div> <div class="dcBadge" id="dcReward">+0 XP</div> </div> <div class="xpBar" style="height:8px;margin-top:10px"><div class="xpFill" id="dcFill" style="width:0%"></div></div> <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px"> <div id="dcProgressText" style="font-weight:800">—</div> <button class="btn primary" id="dcClaimBtn" onclick="E.claimDailyChallenge()" style="display:none">Claim XP</button> </div> </div> <!-- Daily Mission --> <div class="bItem bMission"> <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"> <div style="font-weight:800">משימה יומית</div> <div style="font-weight:800;font-size:1.4rem;color:var(--accent)" id="missionPct">0</div> </div> <div class="xpBar" style="height:8px;margin-top:8px"><div class="xpFill" id="missionFill" style="width:0%"></div></div> <div id="missionList" style="margin-top:10px"></div> <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="E.startDailyMission()">התחל משימה</button> </div> </div> <div class="bItem bRings"> <div style="font-size:.72rem;color:var(--muted);font-weight:700;margin-bottom:4px">שליטה לפי סוג</div> <div class="ringRow" id="homeRings"></div> </div> </div><!-- /bento --> <!-- Quick Actions --> <div class="grid grid3" style="margin-bottom:14px"> <div class="tile" onclick="E.startSession('sentence')"><div class="tIcon" data-ic="pencil"></div><div class="tLabel">Sentence</div></div> <div class="tile" onclick="E.startSession('restatement')"><div class="tIcon" data-ic="refresh"></div><div class="tLabel">Restatement</div></div> <div class="tile" onclick="E.startSession('reading')"><div class="tIcon" data-ic="bookOpen"></div><div class="tLabel">Reading</div></div> <div class="tile" onclick="E.startSession('mix')"><div class="tIcon" data-ic="shuffle"></div><div class="tLabel">Adaptive</div></div> <div class="tile" onclick="E.startMock(25)"><div class="tIcon" data-ic="clock"></div><div class="tLabel">Quick Mock</div></div> <div class="tile" onclick="E.startMock(60)"><div class="tIcon" data-ic="award"></div><div class="tLabel">Mock 60</div></div> </div> <!-- Games --> <div class="item" style="margin-bottom:14px"> <div style="font-weight:800;margin-bottom:8px">משחקים</div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="E.nav('games')">Memory Match</button> <button class="btn" onclick="E.startSpeedQuiz()">Speed Quiz</button> <button class="btn" onclick="E.startSwipeMode()">Swipe Cards</button> </div> </div> <!-- Goals --> <div class="item"> <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--glass-border)"> <div style="font-weight:800">תאריך המבחן</div> <input type="date" id="examDateInput" onchange="E.saveExamDate(this.value)" style="background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-xs);color:var(--text);font:inherit;font-weight:700;font-size:.82rem;padding:7px 10px;color-scheme:dark"/> <div id="examDateDays" style="font-weight:800;font-size:.8rem;color:var(--muted)"></div> </div> <div style="font-weight:800;margin-bottom:4px">יעדים יומיים</div> <div class="goalGrid"> <label>חדשות <input type="number" inputmode="numeric" id="goalNew" value="15" min="0" max="80"/></label> <label>חזרות <input type="number" inputmode="numeric" id="goalReview" value="15" min="0" max="120"/></label> <label>SC <input type="number" inputmode="numeric" id="goalSC" value="5" min="0" max="50"/></label> <label>RS <input type="number" inputmode="numeric" id="goalRS" value="5" min="0" max="50"/></label> <label>RC <input type="number" inputmode="numeric" id="goalRC" value="5" min="0" max="50"/></label> </div> <button class="btn" style="margin-top:8px" onclick="E.saveGoalsFromUI()">שמור יעדים</button> </div> </div> <!-- ===== EXAM CENTER ===== --> <div id="examCard" class="card" style="display:none"> <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px"> <div style="font-weight:800;font-size:1.05rem" class="shimmerText">מרכז מבחנים</div> <div style="font-weight:700;font-size:.8rem;color:var(--muted)">מרכז מבחנים מדומים • לחץ גבוה • תובנות אמיתיות</div> </div> <div id="examBody"></div> </div> <!-- ===== PRACTICE ===== --> <div id="practiceCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem" id="practiceTitle">תרגול</div> <div style="font-size:.78rem;color:var(--muted);margin-top:2px" id="practiceMeta"></div> <div id="practiceProgressBar" class="practiceProgress" style="display:none"><span class="ppLabel" id="ppLabel"></span><div class="ppBar"><div class="ppFill" id="ppFill"></div></div></div> <div id="mockProgress" class="mockProgress" style="display:none"></div> <div id="passageProgress" style="display:none"></div> <div id="practiceBody" style="margin-top:14px"></div> </div> <!-- V6 PRACTICE HUB --> <div id="practiceHubCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.15rem;margin-bottom:14px">Practice Hub</div> <div id="niteInstructionsArea" style="display:none"></div> <div class="phubGrid" style="margin-bottom:14px"> <div class="phubTile" onclick="E.startSession('sentence')"><div class="phIco"></div><div class="phLbl">Sentence Completion</div></div> <div class="phubTile" onclick="E.startSession('restatement')"><div class="phIco"></div><div class="phLbl">Restatement</div></div> <div class="phubTile" onclick="E.startSession('reading')"><div class="phIco"></div><div class="phLbl">Reading Comp.</div></div> <div class="phubTile" onclick="E.startSession('mix')"><div class="phIco"></div><div class="phLbl">Adaptive Mix</div></div> <div class="phubTile" onclick="E.startMistakeLab()"><div class="phIco"></div><div class="phLbl">Mistake Lab</div></div> <div class="phubTile" onclick="E.startMock('amirnet')"><div class="phIco"></div><div class="phLbl">AMIRNET Mock</div></div> </div> <div class="item" style="margin-bottom:14px"> <div style="font-weight:800;margin-bottom:8px">Practice Stats</div> <div id="practiceHubStats" style="color:var(--muted);font-size:.86rem">Loading...</div> </div> <div class="item"> <div style="font-weight:800;margin-bottom:8px">Learning Games</div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="E.startMemoryMatch()">Memory Match</button> <button class="btn" onclick="E.startSpeedQuiz()">Speed Quiz</button> <button class="btn" onclick="E.startSwipeMode()">Swipe Cards</button> </div> </div> </div> <!-- ===== VOCAB ===== --> <div id="vocabCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Vocab Hub</div> <div id="vocabBody"></div> </div> <!-- ===== GAMES ===== --> <div id="gamesCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Arcade Zone</div> <div id="gamesBody"></div> </div> <!-- ===== MISTAKES ===== --> <div id="mistakeCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Mistake Lab</div> <div id="mistakeBody"></div> </div> <!-- ===== STRATEGY ===== --> <div id="strategyCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">מחברים לוגיים</div> <div id="connectorList"></div> </div> <!-- ===== STATS ===== --> <div id="statsCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">דוח ביצועים</div> <div id="statsBody"></div> </div>
+<div class="main"> <!-- Cockpit --> <div class="cockpit"> <div class="stat"><b id="lvlText">Level 1</b></div> <div class="xpBar"><div class="xpFill" id="xpFill" style="width:0%"></div></div> <div class="stat"><span id="xpText">0</span>/<span id="xpNext">120</span> XP</div> <div class="stat streakFire"><span data-ic="flame"></span> <b id="streakText">0</b></div> <div class="stat"><span data-ic="target"></span> <b id="accText">—</b></div> <div class="stat" onclick="E.openExamDate()" style="cursor:pointer" title="תאריך המבחן — לחץ לעריכה"><span data-ic="calendar"></span> <b id="daysText">— ימים</b></div> <div class="stat" id="dailyWord" style="font-size:.72rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div> <button class="btn" style="padding:6px 10px;font-size:.76rem" onclick="E.toggleSidebar()">☰</button> </div> <!-- ===== HOME ===== --> <div id="homeCard" class="card">
+    <div class="pageHead">
+      <div class="pageTitle">שלום</div>
+      <div class="pageSub">עוד צעד אחד לקראת פטור. ממשיכים?</div>
+    </div>
+
+    <div class="hero">
+      <div class="heroMain">
+        <div class="heroLabel">ציון חזוי</div>
+        <div id="homePredScore" class="bigScore">—</div>
+        <div id="homePlacement" class="placementBadge">—</div>
+      </div>
+      <div class="heroSide">
+        <button class="btn heroCta" onclick="E.startMockExam('amirnet')">סימולציית אמיר״ם</button>
+        <button class="btn heroGhost" onclick="E.startMock(25)">מבחן מהיר</button>
+        <button class="btn heroGhost" onclick="E.nav('exam')">מרכז המבחנים</button>
+      </div>
+    </div>
+
+    <div class="statRow">
+      <div class="statTile"><div class="stLabel">דיוק כולל</div><div class="stVal" id="bentoAcc">—</div></div>
+      <div class="statTile"><div class="stLabel">רצף ימים</div><div class="stVal" id="bentoStreak">0</div></div>
+      <div class="statTile wotdTile" id="wotdBanner" onclick="E.openWordOfDay()">
+        <div class="stLabel">מילת היום</div>
+        <div class="stVal" id="wotdEn" dir="ltr" style="font-size:1.25rem">—</div>
+        <div class="pageSub" id="wotdHe" style="margin-top:2px">—</div>
+        <span id="wotdHint" style="display:none"></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panelTitle">מסלול הסיווג</div>
+      <div id="homeLadder" class="ladderSpine" style="margin-top:8px"></div>
+    </div>
+
+    <div class="twoCol">
+      <div class="panel">
+        <div class="panelHead"><div class="panelTitle">משימה יומית</div><div class="panelPct"><span id="missionPct">0</span></div></div>
+        <div class="track"><div class="trackFill" id="missionFill" style="width:0%"></div></div>
+        <div id="missionList" style="margin-top:10px"></div>
+        <button class="btn primary" style="margin-top:10px" onclick="E.startDailyMission()">התחל משימה</button>
+      </div>
+      <div>
+        <div class="panel" id="dailyChallengeCard">
+          <div class="panelHead"><div class="panelTitle">אתגר יומי</div><div class="dcBadge" id="dcReward">+0 XP</div></div>
+          <div class="pageSub" id="dcDesc">—</div>
+          <div class="track" style="margin-top:10px"><div class="trackFill" id="dcFill" style="width:0%"></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+            <div id="dcProgressText" style="font-weight:600;font-size:.85rem">—</div>
+            <button class="btn primary" id="dcClaimBtn" onclick="E.claimDailyChallenge()" style="display:none">קבל XP</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panelTitle" style="margin-bottom:6px">שליטה לפי סוג</div>
+          <div class="ringRow" id="homeRings"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panelTitle" style="margin-bottom:10px">תרגול מהיר</div>
+      <div class="grid grid3">
+        <div class="tile" onclick="E.startSession('sentence')"><div class="tIcon" data-ic="pencil"></div><div class="tLabel">השלמת משפטים</div></div>
+        <div class="tile" onclick="E.startSession('restatement')"><div class="tIcon" data-ic="refresh"></div><div class="tLabel">ניסוח מחדש</div></div>
+        <div class="tile" onclick="E.startSession('reading')"><div class="tIcon" data-ic="bookOpen"></div><div class="tLabel">הבנת הנקרא</div></div>
+        <div class="tile" onclick="E.startSession('mix')"><div class="tIcon" data-ic="shuffle"></div><div class="tLabel">תרגול אדפטיבי</div></div>
+        <div class="tile" onclick="E.startMock(25)"><div class="tIcon" data-ic="clock"></div><div class="tLabel">מבחן מהיר</div></div>
+        <div class="tile" onclick="E.startMock(60)"><div class="tIcon" data-ic="award"></div><div class="tLabel">מבחן מורחב</div></div>
+      </div>
+    </div>
+
+    <div class="twoCol">
+      <div class="panel">
+        <div class="panelTitle" style="margin-bottom:8px">משחקי מילים</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" onclick="E.nav('games')">Memory Match</button>
+          <button class="btn" onclick="E.startSpeedQuiz()">Speed Quiz</button>
+          <button class="btn" onclick="E.startSwipeMode()">Swipe Cards</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panelTitle" style="margin-bottom:8px">הגדרות תרגול</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+          <span style="font-size:.85rem;color:var(--muted)">תאריך המבחן</span>
+          <input type="date" id="examDateInput" onchange="E.saveExamDate(this.value)" style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-xs);color:var(--text);font:inherit;font-weight:500;font-size:.85rem;padding:7px 10px"/>
+          <span id="examDateDays" style="font-weight:600;font-size:.8rem;color:var(--muted)"></span>
+        </div>
+        <div class="goalGrid">
+          <label>חדשות <input type="number" inputmode="numeric" id="goalNew" value="15" min="0" max="80"/></label>
+          <label>חזרות <input type="number" inputmode="numeric" id="goalReview" value="15" min="0" max="120"/></label>
+          <label>SC <input type="number" inputmode="numeric" id="goalSC" value="5" min="0" max="50"/></label>
+          <label>RS <input type="number" inputmode="numeric" id="goalRS" value="5" min="0" max="50"/></label>
+          <label>RC <input type="number" inputmode="numeric" id="goalRC" value="5" min="0" max="50"/></label>
+        </div>
+        <button class="btn" style="margin-top:8px" onclick="E.saveGoalsFromUI()">שמור</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EXAM CENTER ===== --> <div id="examCard" class="card" style="display:none"> <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px"> <div style="font-weight:800;font-size:1.05rem" class="shimmerText">מרכז מבחנים</div> <div style="font-weight:700;font-size:.8rem;color:var(--muted)">מרכז מבחנים מדומים • לחץ גבוה • תובנות אמיתיות</div> </div> <div id="examBody"></div> </div> <!-- ===== PRACTICE ===== --> <div id="practiceCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem" id="practiceTitle">תרגול</div> <div style="font-size:.78rem;color:var(--muted);margin-top:2px" id="practiceMeta"></div> <div id="practiceProgressBar" class="practiceProgress" style="display:none"><span class="ppLabel" id="ppLabel"></span><div class="ppBar"><div class="ppFill" id="ppFill"></div></div></div> <div id="mockProgress" class="mockProgress" style="display:none"></div> <div id="passageProgress" style="display:none"></div> <div id="practiceBody" style="margin-top:14px"></div> </div> <!-- V6 PRACTICE HUB --> <div id="practiceHubCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.15rem;margin-bottom:14px">Practice Hub</div> <div id="niteInstructionsArea" style="display:none"></div> <div class="phubGrid" style="margin-bottom:14px"> <div class="phubTile" onclick="E.startSession('sentence')"><div class="phIco"></div><div class="phLbl">Sentence Completion</div></div> <div class="phubTile" onclick="E.startSession('restatement')"><div class="phIco"></div><div class="phLbl">Restatement</div></div> <div class="phubTile" onclick="E.startSession('reading')"><div class="phIco"></div><div class="phLbl">Reading Comp.</div></div> <div class="phubTile" onclick="E.startSession('mix')"><div class="phIco"></div><div class="phLbl">Adaptive Mix</div></div> <div class="phubTile" onclick="E.startMistakeLab()"><div class="phIco"></div><div class="phLbl">Mistake Lab</div></div> <div class="phubTile" onclick="E.startMock('amirnet')"><div class="phIco"></div><div class="phLbl">AMIRNET Mock</div></div> </div> <div class="item" style="margin-bottom:14px"> <div style="font-weight:800;margin-bottom:8px">Practice Stats</div> <div id="practiceHubStats" style="color:var(--muted);font-size:.86rem">Loading...</div> </div> <div class="item"> <div style="font-weight:800;margin-bottom:8px">Learning Games</div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="E.startMemoryMatch()">Memory Match</button> <button class="btn" onclick="E.startSpeedQuiz()">Speed Quiz</button> <button class="btn" onclick="E.startSwipeMode()">Swipe Cards</button> </div> </div> </div> <!-- ===== VOCAB ===== --> <div id="vocabCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Vocab Hub</div> <div id="vocabBody"></div> </div> <!-- ===== GAMES ===== --> <div id="gamesCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Arcade Zone</div> <div id="gamesBody"></div> </div> <!-- ===== MISTAKES ===== --> <div id="mistakeCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Mistake Lab</div> <div id="mistakeBody"></div> </div> <!-- ===== STRATEGY ===== --> <div id="strategyCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">מחברים לוגיים</div> <div id="connectorList"></div> </div> <!-- ===== STATS ===== --> <div id="statsCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">דוח ביצועים</div> <div id="statsBody"></div> </div>
 </div>
 </div>
 <!-- Bottom Bar (Mobile) -->
@@ -6978,7 +7097,7 @@ function nextQuestion(first){
 }
 
 function tokenizeToSpans(text){
-  return String(text||'').split(/(\b[A-Za-z][A-Za-z'-]*\b)/g).map(p=>/^[A-Za-z][A-Za-z'-]*$/.test(p)?`<span class="wTok" data-w="${escapeHtml(p)}" style="cursor:pointer;border-bottom:1px dotted rgba(255,255,255,0.30)">${escapeHtml(p)}</span>`:escapeHtml(p)
+  return String(text||'').split(/(\b[A-Za-z][A-Za-z'-]*\b)/g).map(p=>/^[A-Za-z][A-Za-z'-]*$/.test(p)?`<span class="wTok" data-w="${escapeHtml(p)}" style="cursor:pointer;border-bottom:1px dotted var(--muted2)">${escapeHtml(p)}</span>`:escapeHtml(p)
   ).join('');
 }
 function numberParagraphs(text){
@@ -7008,7 +7127,7 @@ function renderQuestion(q){
   const top=`<div class="qTop"> <div style="font-weight:700;font-size:.88rem">${q.type.toUpperCase()} • Difficulty ${q.difficulty||3}</div> <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"> <div class="timer" id="timerEl">—</div> <div class="streakFire ${(S.correctStreak||0)>=3?'heat':''}" id="streakChip">${ic('flame')} <b>${S.correctStreak||0}</b></div> <button class="btn" onclick="E.speakCurrent()">השמע</button>${q.type==='reading'?'<button class="btn" onclick="E.toggleHighlight()">סמן</button>':''}
       <button class="btn" onclick="E.useHint()" id="hintBtn">רמז<span class="kbHint">H</span></button>${q.type==='restatement'?'<button class="btn" onclick="E.analyzeQuestion()" id="analyzeBtn">נתח<span class="kbHint">A</span></button>':''}
       <button class="btn" onclick="E.exitStage()">יציאה</button> </div></div>`;
-  const explain=`<div class="explain" id="explainBox"> <div style="font-weight:700" id="explainTitle">הסבר</div> <div id="explainText" style="margin-top:8px;color:rgba(238,242,255,0.85)"></div> <div id="whyWrongBox" class="item" style="display:none;margin-top:10px"><div style="font-weight:700;margin-bottom:5px">למה המסיח שבחרת לא נכון?</div><div id="whyWrongText" style="color:rgba(238,242,255,0.85);line-height:1.75"></div></div> <div class="kv" id="explainKV"></div> <div id="hebrewBoost" style="display:none;margin-top:10px"></div> <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="E.advanceAfterFeedback()">הבא ⟶ <span class="kbHint">↵</span></button> <button class="btn" onclick="E.nav('stats')">דוח</button> </div></div>`;
+  const explain=`<div class="explain" id="explainBox"> <div style="font-weight:700" id="explainTitle">הסבר</div> <div id="explainText" style="margin-top:8px;color:var(--text)"></div> <div id="whyWrongBox" class="item" style="display:none;margin-top:10px"><div style="font-weight:700;margin-bottom:5px">למה המסיח שבחרת לא נכון?</div><div id="whyWrongText" style="color:var(--text);line-height:1.75"></div></div> <div class="kv" id="explainKV"></div> <div id="hebrewBoost" style="display:none;margin-top:10px"></div> <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="E.advanceAfterFeedback()">הבא ⟶ <span class="kbHint">↵</span></button> <button class="btn" onclick="E.nav('stats')">דוח</button> </div></div>`;
   if(q.type==='reading'){
     $('practiceBody').innerHTML=`<div class="split"><div class="passage"><div style="font-weight:700;margin-bottom:6px">${escapeHtml(q.passageTitle||'')}</div><div id="passageText">${numberParagraphs(q.passageText||'')}</div></div><div>${top}<div class="qText" dir="ltr">${escapeHtml(q.questionText)}</div><div style="display:flex;flex-direction:column;gap:8px">${options}</div>${explain}</div></div>`;
   }else{
@@ -7359,16 +7478,21 @@ function confirmReset(){
   location.reload();
 }
 
-// ===== V6.3: THEME TOGGLE =====
-function toggleTheme(){
-  document.documentElement.classList.toggle('light-mode');
-  const isLight=document.documentElement.classList.contains('light-mode');
-  try{localStorage.setItem('amirnet_theme',isLight?'light':'dark');}catch(_){}
+// ===== THEME TOGGLE (light is the default; dark is opt-in) =====
+function applyThemeButton(){
   const btn=document.getElementById('themeToggleBtn');
-  if(btn)btn.textContent=isLight?'':'';
+  if(btn)btn.innerHTML=document.documentElement.classList.contains('dark-mode')
+    ?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+    :'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
 }
-// Init theme
-try{if(localStorage.getItem('amirnet_theme')==='light')document.documentElement.classList.add('light-mode');}catch(_){}
+function toggleTheme(){
+  document.documentElement.classList.toggle('dark-mode');
+  const isDark=document.documentElement.classList.contains('dark-mode');
+  try{localStorage.setItem('amirnet_theme',isDark?'dark':'light');}catch(_){}
+  applyThemeButton();
+}
+// Init theme (default: light)
+try{if(localStorage.getItem('amirnet_theme')==='dark')document.documentElement.classList.add('dark-mode');}catch(_){}
 
 function startMockTimer(){
   TimerController.stopAll();
@@ -7539,7 +7663,7 @@ function renderStats(){
   
   el.innerHTML=`${scoreSection}
     <div class="item" style="margin-bottom:10px"> <div style="font-weight:700">סיכום: ${r.total} שאלות • ${r.correct} נכונות • דיוק ${r.accuracy}%</div> </div>${bHTML}${sbHTML}
-    <div class="radarWrap"> <div class="item radarCard"><div style="font-weight:700;margin-bottom:8px">Radar — שליטה</div><canvas id="radar" width="360" height="260" style="width:100%;max-width:520px;display:block"></canvas></div> <div class="item radarCard"><div style="font-weight:700;margin-bottom:8px">חולשות מובילות</div>${r.weak?.length?r.weak.map(([t,c])=>`<div style="display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><div style="font-weight:700">${t}</div><div style="font-weight:700;color:#FCA5A5">${c}</div></div>`).join(''):'<div style="color:var(--muted)">אין מספיק נתונים.</div>'}</div> </div>${histHTML}
+    <div class="radarWrap"> <div class="item radarCard"><div style="font-weight:700;margin-bottom:8px">Radar — שליטה</div><canvas id="radar" width="360" height="260" style="width:100%;max-width:520px;display:block"></canvas></div> <div class="item radarCard"><div style="font-weight:700;margin-bottom:8px">חולשות מובילות</div>${r.weak?.length?r.weak.map(([t,c])=>`<div style="display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--glass-hover)"><div style="font-weight:700">${t}</div><div style="font-weight:700;color:#FCA5A5">${c}</div></div>`).join(''):'<div style="color:var(--muted)">אין מספיק נתונים.</div>'}</div> </div>${histHTML}
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"> <button class="btn primary" onclick="E.nav('home')">חזרה</button> <button class="btn" onclick="E.startSession('mix')">עוד אימון</button> <button class="btn" onclick="E.startMistakeLab()">Mistake Lab</button> <button class="btn" onclick="E.startMock(25)">Quick Mock</button> </div>`;
   requestAnimationFrame(()=>{
     const roll=$('scoreRoll');if(roll)rollingNumber(roll,50,isMock?examScore:predictedScore,900);
@@ -7560,16 +7684,17 @@ function sectionBreakdownHTML(sb){
   return`<div class="item" style="margin-top:10px"><div style="font-weight:700;margin-bottom:6px">סיכום לפי מקטעים</div><div class="typeBars">${rows}</div></div>`;
 }
 function rollingNumber(el,from,to,ms){const start=performance.now();function step(t){const p=clamp((t-start)/ms,0,1);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function chartInk(a){return (document.documentElement.classList.contains('dark-mode')?'rgba(255,255,255,':'rgba(29,33,48,')+a+')';}
 function drawRadar(canvas,values){
   const ctx=canvas.getContext('2d');const labels=Object.keys(values);const vals=labels.map(k=>values[k]/100);
   const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2,R=Math.min(W,H)*0.34,steps=4;
-  ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=1;
+  ctx.strokeStyle=chartInk(0.12);ctx.lineWidth=1;
   for(let s=1;s<=steps;s++){const r=R*(s/steps);ctx.beginPath();for(let i=0;i<labels.length;i++){const a=-Math.PI/2+(i*(2*Math.PI/labels.length));const x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.closePath();ctx.stroke();}
-  ctx.fillStyle='rgba(238,242,255,0.75)';ctx.font='800 12px Plus Jakarta Sans,system-ui,Arial';
+  ctx.fillStyle=chartInk(0.75);ctx.font='600 12px Heebo,system-ui,Arial';
   for(let i=0;i<labels.length;i++){const a=-Math.PI/2+(i*(2*Math.PI/labels.length));ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();const x=cx+(R+18)*Math.cos(a),y=cy+(R+18)*Math.sin(a);ctx.textAlign=Math.cos(a)>0.2?'left':Math.cos(a)<-0.2?'right':'center';ctx.textBaseline='middle';ctx.fillText(labels[i],x,y);}
   ctx.beginPath();for(let i=0;i<labels.length;i++){const a=-Math.PI/2+(i*(2*Math.PI/labels.length));const r=R*vals[i];const x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
   ctx.closePath();ctx.fillStyle='rgba(110,121,244,0.20)';ctx.strokeStyle='rgba(110,121,244,0.85)';ctx.lineWidth=2;ctx.fill();ctx.stroke();
-  for(let i=0;i<labels.length;i++){const a=-Math.PI/2+(i*(2*Math.PI/labels.length));const r=R*vals[i];ctx.beginPath();ctx.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),3,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.9)';ctx.fill();}
+  for(let i=0;i<labels.length;i++){const a=-Math.PI/2+(i*(2*Math.PI/labels.length));const r=R*vals[i];ctx.beginPath();ctx.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),3,0,Math.PI*2);ctx.fillStyle='rgba(91,91,214,0.95)';ctx.fill();}
 }
 function drawHistoryChart(canvas){
   const hist=S.mockHistory||[];if(hist.length<2)return;
@@ -7580,9 +7705,9 @@ function drawHistoryChart(canvas){
   const scores=hist.map(h=>h.score);const minS=Math.max(40,Math.min(...scores)-10),maxS=Math.min(160,Math.max(...scores)+10);
   const norm=v=>(v-minS)/(maxS-minS);
   // Grid
-  ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.lineWidth=1;
+  ctx.strokeStyle=chartInk(0.10);ctx.lineWidth=1;
   for(const v of[50,85,100,120,134,150]){const y=padding.top+chartH*(1-norm(v));ctx.beginPath();ctx.moveTo(padding.left,y);ctx.lineTo(W-padding.right,y);ctx.stroke();
-    ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='600 10px system-ui';ctx.textAlign='right';ctx.fillText(v,padding.left-5,y+3);}
+    ctx.fillStyle=chartInk(0.5);ctx.font='600 10px system-ui';ctx.textAlign='right';ctx.fillText(v,padding.left-5,y+3);}
   // Line
   ctx.beginPath();ctx.strokeStyle='rgba(110,121,244,0.85)';ctx.lineWidth=2;
   scores.forEach((s,i)=>{const x=padding.left+(i/(scores.length-1))*chartW;const y=padding.top+chartH*(1-norm(s));if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
@@ -7694,7 +7819,7 @@ function pickNewWordIds(limit){const srs=getSrs();const notes=S.vocabNotes||{};c
 let missionAfterSrs=null,missionPendingQuestions=null,srsQueue=[],srsIdx=0,srsRevealed=false;
 function renderTodayPanel(){
   const due=getDueWordIds(),g=S.goals,dueGoal=Math.min(g.vocabReview,due.length);
-  $('vPanel').innerHTML=`<div class="missionCard"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><div style="font-weight:800">תור היום (SRS)</div><div style="color:var(--muted);font-weight:800;margin-top:4px;font-size:.84rem">Due: ${due.length} • יעד: ${dueGoal} • חדשות: ${g.vocabNew}</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="E.startSrsQueue('due')">חזרות</button><button class="btn" onclick="E.startSrsQueue('new')">חדשות</button><button class="btn" onclick="E.startSwipeMode()">Swipe</button></div></div><div style="margin-top:10px;color:rgba(238,242,255,0.84);line-height:1.8;font-size:.86rem">חזרות ${S.daily.vocabReviewed}/${dueGoal} • חדשות ${S.daily.vocabNew}/${g.vocabNew}</div><div id="srsStage" style="margin-top:12px"></div></div>`;
+  $('vPanel').innerHTML=`<div class="missionCard"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><div style="font-weight:800">תור היום (SRS)</div><div style="color:var(--muted);font-weight:800;margin-top:4px;font-size:.84rem">Due: ${due.length} • יעד: ${dueGoal} • חדשות: ${g.vocabNew}</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="E.startSrsQueue('due')">חזרות</button><button class="btn" onclick="E.startSrsQueue('new')">חדשות</button><button class="btn" onclick="E.startSwipeMode()">Swipe</button></div></div><div style="margin-top:10px;color:var(--text);line-height:1.8;font-size:.86rem">חזרות ${S.daily.vocabReviewed}/${dueGoal} • חדשות ${S.daily.vocabNew}/${g.vocabNew}</div><div id="srsStage" style="margin-top:12px"></div></div>`;
 }
 function startSrsQueue(kind){
   ensureDaily();const g=S.goals,due=getDueWordIds();
@@ -7758,7 +7883,7 @@ function startMissionSession(questionIds){
 
 // ===== BROWSE PANEL =====
 function renderBrowsePanel(){
-  $('vPanel').innerHTML=`<div class="vSearchWrap"><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><input id="vSearch" placeholder="Search English / Hebrew…" style="flex:1;min-width:200px;padding:12px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,0.16);background:rgba(0,0,0,0.18);color:var(--text);outline:none"/><select id="vLevel" style="min-width:140px;min-height:44px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,0.16);background:rgba(0,0,0,0.18);color:var(--text);padding:8px"><option value="all">כל הרמות</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select><button class="btn" onclick="E.applyVocabFilter()">חפש</button></div></div><div class="vList" id="vList"></div><div style="margin-top:10px;display:flex;gap:8px"><button class="btn" onclick="E.loadMoreVocab()">טען עוד</button></div>`;
+  $('vPanel').innerHTML=`<div class="vSearchWrap"><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><input id="vSearch" placeholder="Search English / Hebrew…" style="flex:1;min-width:200px;padding:12px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--paper2);color:var(--text);outline:none"/><select id="vLevel" style="min-width:140px;min-height:44px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--paper2);color:var(--text);padding:8px"><option value="all">כל הרמות</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select><button class="btn" onclick="E.applyVocabFilter()">חפש</button></div></div><div class="vList" id="vList"></div><div style="margin-top:10px;display:flex;gap:8px"><button class="btn" onclick="E.loadMoreVocab()">טען עוד</button></div>`;
   setTimeout(()=>{const s=$('vSearch');if(s){s.addEventListener('input',debounce(applyVocabFilter,200));s.addEventListener('keydown',e=>{if(e.key==='Enter')applyVocabFilter();});}},0);
   applyVocabFilter();
 }
@@ -8302,7 +8427,7 @@ function renderMasteryRings(){
     const pct=d.total>0?Math.round((d.correct/d.total)*100):0;
     const r=26,circ=2*Math.PI*r,offset=circ-(pct/100)*circ;
     const grade=pct>=80?'':pct>=50?'':'';
-    return `<div class="ring" onclick="E.startSession('${t.key}')" style="--ring-glow:${t.glow}"> <svg viewBox="0 0 64 64" width="64" height="64" style="flex-shrink:0"> <defs><filter id="glow_${t.key}"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs> <circle cx="32" cy="32" r="${r}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/> <circle cx="32" cy="32" r="${r}" fill="none" stroke="${t.color}" stroke-width="5.5"
+    return `<div class="ring" onclick="E.startSession('${t.key}')" style="--ring-glow:${t.glow}"> <svg viewBox="0 0 64 64" width="64" height="64" style="flex-shrink:0"> <defs><filter id="glow_${t.key}"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs> <circle cx="32" cy="32" r="${r}" fill="none" stroke="var(--glass-hover)" stroke-width="5"/> <circle cx="32" cy="32" r="${r}" fill="none" stroke="${t.color}" stroke-width="5.5"
           stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"
           transform="rotate(-90 32 32)" filter="url(#glow_${t.key})" class="ringProgress"/> <text x="32" y="36" text-anchor="middle" fill="${t.color}" font-size="13" font-weight="900">${pct}%</text> </svg> <div> <div class="rTitle">${t.icon} ${t.label} ${grade}</div> <div class="rSub">${d.correct}/${d.total} נכונות</div> </div> </div>`;
   }).join('');
@@ -8465,7 +8590,7 @@ function selectMockHistory(idx){
   const pane=$('examDetailPane');
   if(!pane||!m)return;
   const placement=getPlacement(m.score||80);
-  pane.innerHTML=`<div style="font-weight:800;margin-bottom:8px">${m.mode||'Mock'} — ${m.date||''}</div> <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px"> <div><div style="font-size:.72rem;color:var(--muted)">Score</div><div style="font-size:1.5rem;font-weight:800;color:${placement.color}">${m.score||'—'}</div></div> <div><div style="font-size:.72rem;color:var(--muted)">Accuracy</div><div style="font-size:1.5rem;font-weight:800">${m.accuracy||0}%</div></div> <div><div style="font-size:.72rem;color:var(--muted)">Questions</div><div style="font-size:1.5rem;font-weight:800">${m.total||0}</div></div> </div> <div class="placementBadge ${placement.cls}"><span style="color:${placement.color}">${placement.label}</span></div>${m.sectionBreakdown?`<div style="margin-top:10px">${m.sectionBreakdown.map(s=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><div style="font-weight:800;font-size:.82rem">${s.type} (§${s.id})</div><div style="font-weight:700;font-size:.82rem">${s.correct}/${s.total} (${s.pct}%)</div></div>`).join('')}</div>`:''}`;
+  pane.innerHTML=`<div style="font-weight:800;margin-bottom:8px">${m.mode||'Mock'} — ${m.date||''}</div> <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px"> <div><div style="font-size:.72rem;color:var(--muted)">Score</div><div style="font-size:1.5rem;font-weight:800;color:${placement.color}">${m.score||'—'}</div></div> <div><div style="font-size:.72rem;color:var(--muted)">Accuracy</div><div style="font-size:1.5rem;font-weight:800">${m.accuracy||0}%</div></div> <div><div style="font-size:.72rem;color:var(--muted)">Questions</div><div style="font-size:1.5rem;font-weight:800">${m.total||0}</div></div> </div> <div class="placementBadge ${placement.cls}"><span style="color:${placement.color}">${placement.label}</span></div>${m.sectionBreakdown?`<div style="margin-top:10px">${m.sectionBreakdown.map(s=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--glass-hover)"><div style="font-weight:800;font-size:.82rem">${s.type} (§${s.id})</div><div style="font-weight:700;font-size:.82rem">${s.correct}/${s.total} (${s.pct}%)</div></div>`).join('')}</div>`:''}`;
   renderExamCenter();
 }
 
@@ -8630,7 +8755,7 @@ window.App={
 (function init(){
   try{
     try{if(localStorage.getItem('amir_sb_collapsed')==='1')document.body.classList.add('sbCollapsed');}catch(_){}
-    hydrateIcons();
+    hydrateIcons();applyThemeButton();
     renderCockpit();nav('home');
     if(S.debugMode)setTimeout(()=>{const dp=$('debugPanel');if(dp)dp.classList.add('show');runDiagnostics();},500);
   }catch(e){console.error('Init failed:',e);toast('שגיאה באתחול. נסה לרענן.');}
@@ -8639,7 +8764,6 @@ window.App={
 })(); // End IIFE
 </script>
 <div class="themeToggle" id="themeToggleBtn" onclick="E.toggleTheme()" title="Toggle light/dark mode"></div>
-<script>try{if(localStorage.getItem('amirnet_theme')==='light')document.getElementById('themeToggleBtn').textContent='';}catch(_){}</script>
 <script>// PWA: register the service worker only when hosted (https or localhost),
 // so opening index.html directly from disk keeps working.
 if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){

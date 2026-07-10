@@ -7,17 +7,17 @@
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
-  "background_color": "#08090f",
-  "theme_color": "#08090f",
+  "background_color": "#F3F4F9",
+  "theme_color": "#5B5BD6",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%2308090f'/%3E%3Ccircle cx='256' cy='256' r='150' fill='none' stroke='%236e79f4' stroke-width='36'/%3E%3Ctext x='256' y='324' font-family='Arial,Helvetica,sans-serif' font-size='190' font-weight='700' fill='%236e79f4' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%235b5bd6'/%3E%3Ccircle cx='256' cy='256' r='150' fill='none' stroke='%23ffffff' stroke-width='36'/%3E%3Ctext x='256' y='324' font-family='Arial,Helvetica,sans-serif' font-size='190' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%2308090f'/%3E%3Ccircle cx='256' cy='256' r='130' fill='none' stroke='%236e79f4' stroke-width='32'/%3E%3Ctext x='256' y='314' font-family='Arial,Helvetica,sans-serif' font-size='165' font-weight='700' fill='%236e79f4' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%235b5bd6'/%3E%3Ccircle cx='256' cy='256' r='130' fill='none' stroke='%23ffffff' stroke-width='32'/%3E%3Ctext x='256' y='314' font-family='Arial,Helvetica,sans-serif' font-size='165' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"

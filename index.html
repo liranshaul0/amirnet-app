@@ -268,6 +268,28 @@ html.dark-mode .track{background:rgba(255,255,255,0.10)}
 .sbIco .ic,.bbBtn .ico .ic{width:20px;height:20px;vertical-align:middle}
 .tile .tIcon .ic{width:26px;height:26px;color:var(--accent)}
 
+/* ===== AI layer (tutor + mnemonics) ===== */
+.aiTutorCard{margin-top:12px;background:var(--paper2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px}
+.aiTutorHeader{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;
+  padding-bottom:8px;border-bottom:1px solid var(--line)}
+.aiTutorBadge{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:.9rem;color:var(--accent)}
+.aiTutorBadge .ic{width:17px;height:17px}
+.aiTutorModel{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);background:var(--glass);
+  border:1px solid var(--line);border-radius:99px;padding:3px 9px;white-space:nowrap}
+.aiTutorLoading{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.88rem;padding:6px 0}
+.aiSpinner{width:17px;height:17px;border-radius:50%;flex-shrink:0;
+  border:2px solid var(--line);border-top-color:var(--accent);animation:aiSpin .7s linear infinite}
+@keyframes aiSpin{to{transform:rotate(360deg)}}
+.aiTutorContent{font-size:.9rem;line-height:1.75;color:var(--text)}
+.aiHeading{font-weight:700;margin:10px 0 4px;color:var(--text)}
+.aiParagraph{margin:5px 0}
+.aiBullet{display:flex;gap:8px;margin:5px 0;align-items:flex-start}
+.aiBulletDot{color:var(--accent);font-weight:700;line-height:1.6}
+.aiBulletText{flex:1;min-width:0}
+.btn.aiBtn{border-color:rgba(91,91,214,0.45);color:var(--accent)}
+.btn.aiBtn:hover{background:var(--accent-soft);border-color:var(--accent)}
+body.noAi .aiBtn,body.noAi .aiVocabBtn{display:none!important}
+
 /* Micro-interactions */
 .successGlow{animation:glowPulse .9s ease}
 @keyframes glowPulse{0%{box-shadow:var(--shadow)}30%{box-shadow:0 0 0 2px var(--good-border),0 0 36px rgba(47,191,143,0.35)}100%{box-shadow:var(--shadow)}}
@@ -829,6 +851,29 @@ body.stageActive #floatingDict{display:flex}
 <div id="debugPanel"></div>
 <div id="errOverlay"></div>
 <div id="importModal" class="modalOverlay"></div>
+<div id="aiMnemonicModal" class="modalOverlay" onclick="if(event.target===this)E.closeAiMnemonic()">
+  <div class="modalBox" style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px;max-width:540px;width:92%;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:10px">
+      <div style="font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:8px"><span data-ic="star" style="color:var(--accent);display:inline-flex"></span> אסוציאציית זיכרון</div>
+      <button class="btn" onclick="E.closeAiMnemonic()" style="padding:6px 12px">&times;</button>
+    </div>
+    <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper2);padding:12px 16px;border-radius:var(--radius-sm)">
+      <div style="min-width:0">
+        <div id="aiMnemonicEn" style="font-size:1.3rem;font-weight:700;font-family:var(--font-mono)" dir="ltr">Word</div>
+        <div id="aiMnemonicHe" style="font-size:.95rem;color:var(--accent);font-weight:600;margin-top:2px">תרגום</div>
+      </div>
+      <button class="btn" id="aiMnemonicSpeakBtn" onclick="speak(this.dataset.word)">השמע</button>
+    </div>
+    <div id="aiMnemonicLoading" style="display:none;padding:26px 16px;text-align:center;color:var(--muted)">
+      <div class="aiTutorLoading" style="justify-content:center"><div class="aiSpinner"></div><div>יוצר אסוציאציות זיכרון…</div></div>
+    </div>
+    <div id="aiMnemonicContent" style="margin-bottom:16px;line-height:1.75;font-size:.92rem;color:var(--text)"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;border-top:1px solid var(--line);padding-top:14px">
+      <button class="btn" onclick="E.regenerateAiMnemonic()">נסה שוב</button>
+      <button class="btn primary" onclick="E.saveAiMnemonicToWord()">שמור בכרטיסייה</button>
+    </div>
+  </div>
+</div>
 <script>"use strict";
 // ====================================================================
 // AMIRNET ELITE V5 — Premium Exam Preparation Engine  
@@ -7188,7 +7233,7 @@ function renderQuestion(q){
   const top=`<div class="qTop"> <div style="font-weight:700;font-size:.88rem">${q.type.toUpperCase()} • Difficulty ${q.difficulty||3}</div> <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"> <div class="timer" id="timerEl">—</div> <div class="streakFire ${(S.correctStreak||0)>=3?'heat':''}" id="streakChip">${ic('flame')} <b>${S.correctStreak||0}</b></div> <button class="btn" onclick="E.speakCurrent()">השמע</button>${q.type==='reading'?'<button class="btn" onclick="E.toggleHighlight()">סמן</button>':''}
       <button class="btn" onclick="E.useHint()" id="hintBtn">רמז<span class="kbHint">H</span></button>${q.type==='restatement'?'<button class="btn" onclick="E.analyzeQuestion()" id="analyzeBtn">נתח<span class="kbHint">A</span></button>':''}
       <button class="btn" onclick="E.exitStage()">יציאה</button> </div></div>`;
-  const explain=`<div class="explain" id="explainBox"> <div style="font-weight:700" id="explainTitle">הסבר</div> <div id="explainText" style="margin-top:8px;color:var(--text)"></div> <div id="whyWrongBox" class="item" style="display:none;margin-top:10px"><div style="font-weight:700;margin-bottom:5px">למה המסיח שבחרת לא נכון?</div><div id="whyWrongText" style="color:var(--text);line-height:1.75"></div></div> <div class="kv" id="explainKV"></div> <div id="hebrewBoost" style="display:none;margin-top:10px"></div> <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="E.advanceAfterFeedback()">הבא ⟶ <span class="kbHint">↵</span></button> <button class="btn" onclick="E.nav('stats')">דוח</button> </div></div>`;
+  const explain=`<div class="explain" id="explainBox"> <div style="font-weight:700" id="explainTitle">הסבר</div> <div id="explainText" style="margin-top:8px;color:var(--text)"></div> <div id="whyWrongBox" class="item" style="display:none;margin-top:10px"><div style="font-weight:700;margin-bottom:5px">למה המסיח שבחרת לא נכון?</div><div id="whyWrongText" style="color:var(--text);line-height:1.75"></div></div> <div class="kv" id="explainKV"></div> <div id="hebrewBoost" style="display:none;margin-top:10px"></div> <div id="aiTutorBox" class="aiTutorCard" style="display:none"></div> <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="E.advanceAfterFeedback()">הבא ⟶ <span class="kbHint">↵</span></button> <button class="btn aiBtn" id="aiTutorBtn" onclick="E.askAiTutor()">ניתוח חונך AI</button> <button class="btn" onclick="E.nav('stats')">דוח</button> </div></div>`;
   if(q.type==='reading'){
     $('practiceBody').innerHTML=`<div class="split"><div class="passage"><div style="font-weight:700;margin-bottom:6px">${escapeHtml(q.passageTitle||'')}</div><div id="passageText">${numberParagraphs(q.passageText||'')}</div></div><div>${top}<div class="qText" dir="ltr">${escapeHtml(q.questionText)}</div><div style="display:flex;flex-direction:column;gap:8px">${options}</div>${explain}</div></div>`;
   }else{
@@ -7770,6 +7815,104 @@ function isDarkNow(){
   try{return window.matchMedia('(prefers-color-scheme: dark)').matches;}catch(_){return false;}
 }
 function chartInk(a){return (isDarkNow()?'rgba(255,255,255,':'rgba(29,33,48,')+a+')';}
+
+// ===== MODULE: AI (optional backend) ====================================
+// The AI features need server.js running (Express + Gemini). On a static host
+// like GitHub Pages there is no backend, so we probe once and hide the buttons
+// instead of letting them fail with a 404.
+let AI_AVAILABLE=false;let _currentAiWordObj=null,_currentAiMnemonicText='';
+async function detectAiBackend(){
+  try{
+    const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),2500);
+    const res=await fetch('/api/ai-health',{signal:ctrl.signal});
+    clearTimeout(t);
+    AI_AVAILABLE=res.ok;
+  }catch(_){AI_AVAILABLE=false;}
+  document.body.classList.toggle('noAi',!AI_AVAILABLE);
+}
+function formatAiOutput(text){
+  if(!text)return '';
+  return escapeHtml(text).replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\*(.*?)\*/g,'<i>$1</i>').replace(/\n/g,'<br/>');
+}
+function formatAiTutorText(txt){
+  if(!txt)return '';
+  const out=[];
+  for(const raw of String(txt).split('\n')){
+    let line=raw.trim();if(!line)continue;
+    line=escapeHtml(line).replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');
+    if(/^[•\-*]\s*/.test(line))out.push(`<div class="aiBullet"><span class="aiBulletDot">•</span><div class="aiBulletText">${line.replace(/^[•\-*]\s*/,'')}</div></div>`);
+    else if(/^(\d+[.)]|#+)\s*/.test(line))out.push(`<div class="aiHeading">${line.replace(/^(\d+[.)]|#+)\s*/,'')}</div>`);
+    else out.push(`<p class="aiParagraph">${line}</p>`);
+  }
+  return out.join('');
+}
+function aiHeader(title,model){
+  return `<div class="aiTutorHeader"><div class="aiTutorBadge">${ic('star')} ${escapeHtml(title)}</div>`+
+    (model?`<div class="aiTutorModel">${escapeHtml(model)}</div>`:'')+`</div>`;
+}
+async function askAiTutor(customPrompt){
+  const sess=S.session;if(!sess)return;
+  const q=sess._shuffledQ||sess.current;if(!q)return;
+  const box=$('aiTutorBox'),btn=$('aiTutorBtn');if(!box)return;
+  box.style.display='block';
+  box.innerHTML=aiHeader('חונך AI','Gemini')+`<div class="aiTutorLoading"><div class="aiSpinner"></div><div>מנתח את השאלה והמסיחים…</div></div>`;
+  if(btn)btn.disabled=true;
+  try{
+    const res=await fetch('/api/ai-tutor',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:q.questionText,passage:q.passageText||'',options:q.options,
+        correctAnswer:(q.options&&q.options[q.correctAnswer])||q.correctAnswer,
+        userAnswer:sess._lastChoice?((q.options&&q.options[sess._lastChoice])||sess._lastChoice):'',
+        type:q.type,customPrompt:customPrompt||'ניתוח מעמיק, פירוק תחבירי ומלכודות מסיחים בעברית',useHighThinking:true})});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    box.innerHTML=aiHeader('ניתוח חונך AI','Gemini')+`<div class="aiTutorContent">${formatAiTutorText(data.explanation||'לא התקבל הסבר.')}</div>`;
+  }catch(err){
+    console.warn('AI tutor unavailable',err);
+    box.innerHTML=aiHeader('חונך AI')+`<div class="aiTutorContent" style="color:var(--muted)">ניתוח ה-AI אינו זמין כרגע (נדרש שרת פעיל).</div>`;
+  }finally{ if(btn)btn.disabled=false; }
+}
+function openAiMnemonicModal(w){
+  const modal=$('aiMnemonicModal');if(!modal)return;
+  _currentAiWordObj=w;
+  $('aiMnemonicEn').textContent=w.word||'';
+  $('aiMnemonicHe').textContent=w.hebrewTranslation||'';
+  const spk=$('aiMnemonicSpeakBtn');if(spk)spk.dataset.word=w.word||'';
+  $('aiMnemonicContent').innerHTML='';
+  modal.classList.add('show');
+  fetchAiMnemonic(w);
+}
+function closeAiMnemonic(){const m=$('aiMnemonicModal');if(m)m.classList.remove('show');}
+async function fetchAiMnemonic(w){
+  const load=$('aiMnemonicLoading'),body=$('aiMnemonicContent');
+  if(load)load.style.display='block';if(body)body.style.display='none';
+  try{
+    const res=await fetch('/api/ai-mnemonic',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({word:w.word,hebrewTranslation:w.hebrewTranslation,definition:w.englishDefinition,example:w.exampleSentence})});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+    _currentAiMnemonicText=data.mnemonic||'';
+    if(body)body.innerHTML=formatAiOutput(_currentAiMnemonicText);
+  }catch(e){
+    if(body)body.innerHTML=`<div style="color:var(--muted)">לא ניתן ליצור אסוציאציה כרגע (נדרש שרת פעיל).</div>`;
+  }finally{
+    if(load)load.style.display='none';if(body)body.style.display='block';
+  }
+}
+function regenerateAiMnemonic(){if(_currentAiWordObj)fetchAiMnemonic(_currentAiWordObj);}
+function saveAiMnemonicToWord(){
+  if(!_currentAiWordObj)return;
+  const txt=(_currentAiMnemonicText||'').trim();
+  if(!txt){toast('אין מה לשמור עדיין');return;}
+  S.vocabNotes=S.vocabNotes||{};
+  const n=S.vocabNotes[_currentAiWordObj.id]||{};n.mnemonicHe=txt;S.vocabNotes[_currentAiWordObj.id]=n;
+  saveState();toast('האסוציאציה נשמרה בכרטיסייה');closeAiMnemonic();
+  try{renderSrsCard();}catch(_){}
+}
+function generateAiMnemonic(id){
+  const w=(typeof VOCAB_DB!=='undefined'?VOCAB_DB.find(x=>x.id===id):null)||_mergedDictCache.find(x=>x.id===id);
+  if(w)openAiMnemonicModal(w);
+}
 function drawRadar(canvas,values){
   const ctx=canvas.getContext('2d');const labels=Object.keys(values);const vals=labels.map(k=>values[k]/100);
   const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2,R=Math.min(W,H)*0.34,steps=4;
@@ -7923,7 +8066,7 @@ function renderSrsCard(){
   const colText=col.length?col.map(x=>`<span class="pill" dir="ltr">${escapeHtml(x)}</span>`).join(' '):'<span style="color:var(--muted)">—</span>';
   const mn=(n.mnemonicHe||w.mnemonicHe||'').trim();
   const stage=$('srsStage');if(!stage)return;
-  stage.innerHTML=`<div class="vWord"><div class="vWordTop"><div><div class="vEn" dir="ltr">${escapeHtml(w.word)}</div><div class="vHe">${srsRevealed?''+ht:'(הסתרה) — לחץ Reveal'}</div><div class="vMeta"><b>Example:</b> <span dir="ltr">${ex}</span></div><div class="vMeta"><b>Collocations:</b>${colText}</div>${mn?`<div class="lightbulb"><b>מנמוניקה:</b>${escapeHtml(mn)}</div>`:''}</div><div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><button class="btn" onclick="E.toggleKnown('${id}')">${n.known==='known'?' Known':' Mark known'}</button><button class="btn" onclick="E.openWordNote('${id}')">מנמוניקה</button><button class="btn" onclick="speak('${escapeJs(w.word)}')">השמע</button></div></div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="E.revealSrs()">Reveal <span class="kbHint">Space</span></button><button class="btn" onclick="E.skipSrs()">דלג</button><div class="chip" style="margin-right:auto">${srsIdx+1}/${srsQueue.length}</div></div><div id="srsGrades" style="margin-top:12px;display:${srsRevealed?'flex':'none'};gap:8px;flex-wrap:wrap"><button class="btn" style="border-color:var(--bad-border)" onclick="E.gradeSrs('again')">שכחתי</button><button class="btn" style="border-color:var(--warn-border)" onclick="E.gradeSrs('hard')">קשה</button><button class="btn" style="border-color:var(--good-border)" onclick="E.gradeSrs('good')">בסדר</button><button class="btn primary" onclick="E.gradeSrs('easy')">קל!</button></div></div>`;
+  stage.innerHTML=`<div class="vWord"><div class="vWordTop"><div><div class="vEn" dir="ltr">${escapeHtml(w.word)}</div><div class="vHe">${srsRevealed?''+ht:'(הסתרה) — לחץ Reveal'}</div><div class="vMeta"><b>Example:</b> <span dir="ltr">${ex}</span></div><div class="vMeta"><b>Collocations:</b>${colText}</div>${mn?`<div class="lightbulb"><b>מנמוניקה:</b>${escapeHtml(mn)}</div>`:''}</div><div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><button class="btn" onclick="E.toggleKnown('${id}')">${n.known==='known'?' Known':' Mark known'}</button><button class="btn" onclick="E.openWordNote('${id}')">מנמוניקה</button><button class="btn aiBtn aiVocabBtn" onclick="E.generateAiMnemonic('${id}')">אסוציאציית AI</button><button class="btn" onclick="speak('${escapeJs(w.word)}')">השמע</button></div></div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="E.revealSrs()">Reveal <span class="kbHint">Space</span></button><button class="btn" onclick="E.skipSrs()">דלג</button><div class="chip" style="margin-right:auto">${srsIdx+1}/${srsQueue.length}</div></div><div id="srsGrades" style="margin-top:12px;display:${srsRevealed?'flex':'none'};gap:8px;flex-wrap:wrap"><button class="btn" style="border-color:var(--bad-border)" onclick="E.gradeSrs('again')">שכחתי</button><button class="btn" style="border-color:var(--warn-border)" onclick="E.gradeSrs('hard')">קשה</button><button class="btn" style="border-color:var(--good-border)" onclick="E.gradeSrs('good')">בסדר</button><button class="btn primary" onclick="E.gradeSrs('easy')">קל!</button></div></div>`;
 }
 function revealSrs(){srsRevealed=true;renderSrsCard();}
 function skipSrs(){srsIdx++;srsRevealed=false;if(srsIdx>=srsQueue.length){$('srsStage').innerHTML='<div class="item">סיימת </div>';return;}renderSrsCard();}
@@ -8421,6 +8564,7 @@ const E=window.E={
   openImportExport,exportData,importData,exportQuestionBank,exportDictionary,importDictPack,importQPack,resetAll,
   setVTab,startSrsQueue,revealSrs,skipSrs,gradeSrs,toggleKnown,openWordNote,addToSrsNow,quickAddWord,
   renderMistakeLab,clearMastered,applyVocabFilter,loadMoreVocab,finishMock,practiceWeakSpot,
+  askAiTutor,generateAiMnemonic,openAiMnemonicModal,closeAiMnemonic,regenerateAiMnemonic,saveAiMnemonicToWord,
   openDictSearch,closeDictSearch,renderPracticeHub,togglePilotSection,showMockReview,continueMockSection,resetProgress,confirmReset,toggleTheme,showSectionTransition,
   // Games
   startMemoryMatch,flipCard,startSpeedQuiz,speedAnswer,startSwipeMode,swipeAction,
@@ -8840,7 +8984,7 @@ window.App={
 (function init(){
   try{
     try{if(localStorage.getItem('amir_sb_collapsed')==='1')document.body.classList.add('sbCollapsed');}catch(_){}
-    hydrateIcons();applyThemeButton();
+    hydrateIcons();applyThemeButton();detectAiBackend();
     renderCockpit();nav('home');
     if(S.debugMode)setTimeout(()=>{const dp=$('debugPanel');if(dp)dp.classList.add('show');runDiagnostics();},500);
   }catch(e){console.error('Init failed:',e);toast('שגיאה באתחול. נסה לרענן.');}

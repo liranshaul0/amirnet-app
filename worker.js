@@ -15,11 +15,12 @@
 // and a retired id just returns 404. These are only a first guess — if they all fail
 // the code asks the API which models this key can actually use (see discoverGeminiModels).
 const GEMINI_MODELS = [
+  'gemini-2.5-flash',
   'gemini-flash-latest',
-  'gemini-3.1-flash-lite',
-  'gemini-3.7-flash',
-  'gemini-2.0-flash',
 ];
+
+// Variants that answer to generateContent but are not general text models.
+const NON_TEXT_MODEL = /(tts|video|audio|image|vision|embedding|imagen|veo)/i;
 const CF_MODELS = [
   '@cf/meta/llama-3.1-8b-instruct',
   '@cf/meta/llama-3-8b-instruct',
@@ -41,7 +42,7 @@ async function discoverGeminiModels(apiKey) {
     const names = (data.models || [])
       .filter(m => (m.supportedGenerationMethods || []).indexOf('generateContent') > -1)
       .map(m => String(m.name || '').replace(/^models\//, ''))
-      .filter(n => n && n.indexOf('gemini') === 0 && n.indexOf('embedding') === -1);
+      .filter(n => n && n.indexOf('gemini') === 0 && !NON_TEXT_MODEL.test(n));
     // Prefer the cheap fast tiers before the heavier ones.
     names.sort((a, b) => {
       const rank = n => (n.indexOf('flash') > -1 ? 0 : n.indexOf('pro') > -1 ? 1 : 2);

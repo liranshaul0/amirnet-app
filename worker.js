@@ -67,20 +67,30 @@ async function runWorkersAi(ai, messages, maxTokens) {
 }
 
 async function generate(env, system, task, maxTokens, temperature) {
+  // Collect why each provider declined so a failure is diagnosable from the
+  // response instead of vanishing. These strings are status text only, never the key.
+  const tried = [];
   if (env.GEMINI_API_KEY) {
     try {
       return await runGemini(env.GEMINI_API_KEY, 'הנחיות: ' + system + '\n\n' + task, maxTokens, temperature);
     } catch (err) {
-      if (!env.AI) throw err;
+      tried.push('gemini: ' + ((err && err.message) || String(err)));
     }
   }
   if (env.AI) {
-    return runWorkersAi(env.AI, [
-      { role: 'system', content: system },
-      { role: 'user', content: task },
-    ], maxTokens);
+    try {
+      return await runWorkersAi(env.AI, [
+        { role: 'system', content: system },
+        { role: 'user', content: task },
+      ], maxTokens);
+    } catch (err) {
+      tried.push('workers-ai: ' + ((err && err.message) || String(err)));
+    }
   }
-  throw new Error('No AI provider configured');
+  if (!tried.length) tried.push('no provider configured');
+  const e = new Error(tried.join(' | '));
+  e.detail = tried;
+  throw e;
 }
 
 async function readBody(request) {
@@ -127,7 +137,7 @@ async function handleTutor(request, env) {
     const r = await generate(env, system, task, 4096, 0.7);
     return json({ explanation: r.text, model: r.model, provider: r.provider });
   } catch (err) {
-    return json({ error: 'ניתוח ה-AI אינו זמין כרגע' });
+    return json({ error: 'ניתוח ה-AI אינו זמין כרגע', detail: (err && err.detail) || String((err && err.message) || err) });
   }
 }
 
@@ -154,7 +164,7 @@ async function handleMnemonic(request, env) {
     const r = await generate(env, system, task, 3072, 0.8);
     return json({ word: body.word, mnemonic: r.text, model: r.model, provider: r.provider });
   } catch (err) {
-    return json({ error: 'יצירת האסוציאציה אינה זמינה כרגע' });
+    return json({ error: 'יצירת האסוציאציה אינה זמינה כרגע', detail: (err && err.detail) || String((err && err.message) || err) });
   }
 }
 

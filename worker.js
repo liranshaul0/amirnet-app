@@ -11,12 +11,48 @@
  * The key is read server-side only and never reaches the browser.
  */
 
-const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+// Hard-coding model ids is brittle: names differ between generations and accounts,
+// and a retired id just returns 404. These are only a first guess — if they all fail
+// the code asks the API which models this key can actually use (see discoverGeminiModels).
+const GEMINI_MODELS = [
+  'gemini-flash-latest',
+  'gemini-3.1-flash-lite',
+  'gemini-3.7-flash',
+  'gemini-2.0-flash',
+];
 const CF_MODELS = [
   '@cf/meta/llama-3.1-8b-instruct',
   '@cf/meta/llama-3-8b-instruct',
-  '@cf/mistral/mistral-7b-instruct-v0.2',
+  '@cf/qwen/qwen1.5-14b-chat-awq',
+  '@cf/google/gemma-7b-it',
 ];
+
+// Cached per isolate so the model list is fetched at most once per worker instance.
+let _discovered = null;
+
+async function discoverGeminiModels(apiKey) {
+  if (_discovered) return _discovered;
+  try {
+    const res = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(apiKey)
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    const names = (data.models || [])
+      .filter(m => (m.supportedGenerationMethods || []).indexOf('generateContent') > -1)
+      .map(m => String(m.name || '').replace(/^models\//, ''))
+      .filter(n => n && n.indexOf('gemini') === 0 && n.indexOf('embedding') === -1);
+    // Prefer the cheap fast tiers before the heavier ones.
+    names.sort((a, b) => {
+      const rank = n => (n.indexOf('flash') > -1 ? 0 : n.indexOf('pro') > -1 ? 1 : 2);
+      return rank(a) - rank(b);
+    });
+    _discovered = names.slice(0, 4);
+    return _discovered;
+  } catch (_) {
+    return [];
+  }
+}
 
 function json(obj) {
   return new Response(JSON.stringify(obj), {
@@ -24,33 +60,55 @@ function json(obj) {
   });
 }
 
+async function callGeminiModel(apiKey, model, prompt, maxTokens, temperature) {
+  const res = await fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/' +
+      model + ':generateContent?key=' + encodeURIComponent(apiKey),
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: maxTokens, temperature: temperature },
+      }),
+    }
+  );
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  const cand = data && data.candidates && data.candidates[0];
+  const parts = cand && cand.content && cand.content.parts;
+  const text = parts ? parts.map(p => p.text || '').join('') : '';
+  if (!text.trim()) {
+    throw new Error('empty' + (cand && cand.finishReason ? ' (' + cand.finishReason + ')' : ''));
+  }
+  return text.trim();
+}
+
 async function runGemini(apiKey, prompt, maxTokens, temperature) {
   let lastError = null;
+  const attempted = {};
   for (const model of GEMINI_MODELS) {
+    attempted[model] = true;
     try {
-      const res = await fetch(
-        'https://generativelanguage.googleapis.com/v1beta/models/' +
-          model + ':generateContent?key=' + encodeURIComponent(apiKey),
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { maxOutputTokens: maxTokens, temperature: temperature },
-          }),
-        }
-      );
-      if (!res.ok) { lastError = new Error('Gemini HTTP ' + res.status); continue; }
-      const data = await res.json();
-      const parts = data && data.candidates && data.candidates[0] &&
-        data.candidates[0].content && data.candidates[0].content.parts;
-      const text = parts ? parts.map(p => p.text || '').join('') : '';
-      if (text.trim()) return { text: text.trim(), model: model, provider: 'gemini' };
-      lastError = new Error('Gemini returned empty');
-    } catch (err) { lastError = err; }
+      const text = await callGeminiModel(apiKey, model, prompt, maxTokens, temperature);
+      return { text: text, model: model, provider: 'gemini' };
+    } catch (err) {
+      lastError = new Error(model + ': ' + ((err && err.message) || err));
+    }
+  }
+  // None of the guesses worked — ask which models this key actually has.
+  for (const model of await discoverGeminiModels(apiKey)) {
+    if (attempted[model]) continue;
+    try {
+      const text = await callGeminiModel(apiKey, model, prompt, maxTokens, temperature);
+      return { text: text, model: model, provider: 'gemini' };
+    } catch (err) {
+      lastError = new Error(model + ': ' + ((err && err.message) || err));
+    }
   }
   throw lastError || new Error('Gemini unavailable');
 }
+
 
 async function runWorkersAi(ai, messages, maxTokens) {
   let lastError = null;
@@ -174,6 +232,12 @@ export default {
     const path = url.pathname;
 
     if (path === '/api/ai-health') return handleHealth(env);
+    if (path === '/api/ai-models') {
+      // Diagnostic: which models this key can actually reach. No secret is returned.
+      if (!env.GEMINI_API_KEY) return json({ error: 'no GEMINI_API_KEY' });
+      _discovered = null;
+      return json({ tried: GEMINI_MODELS, available: await discoverGeminiModels(env.GEMINI_API_KEY) });
+    }
     if (path === '/api/ai-tutor' && request.method === 'POST') return handleTutor(request, env);
     if (path === '/api/ai-mnemonic' && request.method === 'POST') return handleMnemonic(request, env);
     if (path.startsWith('/api/')) return json({ error: 'not found' });

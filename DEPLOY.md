@@ -1,8 +1,19 @@
-# הפעלת ה-AI בחינם (Cloudflare Pages + Workers AI)
+# הפעלת ה-AI בחינם (Cloudflare Pages)
 
-המסלול הזה לא דורש מפתח API, לא דורש כרטיס אשראי ולא דורש שרת משלך.
-המודל רץ אצל Cloudflare, והאתר וה-API יושבים על אותו דומיין — כך שהקוד באפליקציה
-עובד בדיוק כמו שהוא.
+Cloudflare מארח את האתר ואת ה-API על אותו דומיין, בחינם. את המודל עצמו אפשר
+לקבל משני מקורות, והקוד תומך בשניהם:
+
+| ספק | מפתח נדרש | איכות העברית |
+|---|---|---|
+| **Gemini** (מומלץ) | כן — חינמי מ-AI Studio | טובה מאוד |
+| Workers AI | לא | בינונית — מודלים קטנים |
+
+**למה Gemini עדיף כאן:** כל הפלט של הפיצ'רים הוא בעברית — הסברים פסיכומטריים
+ומשחקי מילים לאסוציאציות. המודלים החינמיים של Workers AI קטנים (7-8B) והעברית
+שלהם חלשה יחסית. Gemini Flash חזק בהרבה בעברית, וגם הוא חינמי.
+
+הפונקציות מנסות Gemini קודם אם קיים מפתח, ונופלות ל-Workers AI אם לא — כך
+שהאפליקציה עובדת בשני המצבים.
 
 ## למה לא GitHub Pages
 
@@ -33,22 +44,36 @@ GitHub Pages מגיש קבצים סטטיים בלבד ולא מריץ שום ק
 
 ### 3. חיבור המודל (הצעד היחיד שקל לפספס)
 
-בפרויקט שנוצר: **Settings** → **Bindings** → **Add binding**:
+בחר לפחות אחד מהשניים. אפשר גם את שניהם — Gemini ישמש כברירת מחדל
+ו-Workers AI כגיבוי.
 
+**א. Gemini (מומלץ — עברית טובה יותר)**
+
+1. היכנס ל-`aistudio.google.com` → **Get API key** → צור מפתח (חינם).
+2. בפרויקט ב-Cloudflare: **Settings** → **Variables and Secrets** → **Add**:
+   - Type: **Secret** (לא Plaintext — כך המפתח לא נחשף)
+   - Name: `GEMINI_API_KEY`
+   - Value: המפתח שיצרת
+
+**ב. Workers AI (בלי מפתח בכלל)**
+
+**Settings** → **Bindings** → **Add binding**:
 - Type: **Workers AI**
 - Variable name: `AI`  ← חייב להיות בדיוק כך, באותיות גדולות
 
-שמור, ואז **Deployments** → **Retry deployment** כדי שהחיבור ייכנס לתוקף.
+בסיום: **Deployments** → **Retry deployment** כדי שההגדרות ייכנסו לתוקף.
 
 ### 4. בדיקה
 
-פתח `https://<השם-שלך>.pages.dev/api/ai-health`. אמור לחזור:
+פתח `https://<השם-שלך>.pages.dev/api/ai-health`. אמור לחזור משהו כזה:
 
 ```json
-{ "ok": true, "configured": true, "provider": "cloudflare-workers-ai" }
+{ "ok": true, "configured": true, "provider": "gemini",
+  "providers": { "gemini": true, "workersAi": false } }
 ```
 
-אם `configured` הוא `false` — החיבור מסעיף 3 לא נשמר או שלא הרצת פריסה מחדש.
+`provider` מראה מי בפועל יענה. אם `configured` הוא `false` — ההגדרות מסעיף 3
+לא נשמרו או שלא הרצת פריסה מחדש.
 
 עכשיו פתח את האתר עצמו: כפתורי ה-AI יופיעו מעצמם (האפליקציה בודקת את
 `/api/ai-health` בעלייה ומסתירה אותם רק כשאין שרת).
@@ -57,7 +82,7 @@ GitHub Pages מגיש קבצים סטטיים בלבד ולא מריץ שום ק
 
 | קובץ | סביבה | מודל |
 |---|---|---|
-| `functions/api/*.js` | Cloudflare Pages | Workers AI — בלי מפתח |
+| `functions/api/*.js` | Cloudflare Pages | Gemini אם יש מפתח, אחרת Workers AI |
 | `server.js` | הרצה מקומית (`npm run dev`) | Gemini — דורש `GEMINI_API_KEY` |
 
 שתי הסביבות חושפות את אותם נתיבים (`/api/ai-tutor`, `/api/ai-mnemonic`,
@@ -65,8 +90,9 @@ GitHub Pages מגיש קבצים סטטיים בלבד ולא מריץ שום ק
 
 ## החלפת המודל
 
-`functions/_shared.js` מחזיק רשימת מודלים שנוסים לפי הסדר, כדי שאם אחד לא זמין
-בחשבון שלך — הבא בתור ייכנס. אפשר לערוך את הרשימה שם.
+`functions/_shared.js` מחזיק שתי רשימות — `GEMINI_MODELS` ו-`CF_MODELS` — שנוסות
+לפי הסדר, כך שאם מזהה מודל אינו זמין בחשבון שלך, הבא בתור ייכנס אוטומטית.
+אפשר לערוך את הרשימות שם.
 
 ## אזהרה אחת
 

@@ -12,723 +12,7 @@
 <title>AMIRNET — הכנה למבחן אמיר״ם</title>
 <script>/* Apply the saved theme before first paint (no white flash on dark phones) */
 try{var _t=localStorage.getItem('amirnet_theme');if(_t==='dark')document.documentElement.classList.add('dark-mode');else if(_t==='light')document.documentElement.classList.add('light-mode');}catch(e){}</script>
-<style>/* ===== Clarity — adaptive light/dark design system ===== */
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  /* Clarity — soft light (low-glare surfaces, single indigo accent) */
-  --bg1:#E9EBF2;--bg2:#F7F8FC;--bg3:#E2E5EE;
-  --ink:#E9EBF2;--paper:#F7F8FC;--paper2:#EFF1F7;--line:rgba(23,26,45,0.10);
-  --glass:#F2F4F9;--glass-border:rgba(23,26,45,0.10);--glass-hover:#E8EBF3;
-  --text:#232838;--muted:#646A7D;--muted2:#949AAB;--faint:#949AAB;
-  --accent:#5B5BD6;--accent2:#4A4AC4;--accent-glow:rgba(91,91,214,0.18);
-  --accent-soft:rgba(91,91,214,0.10);--accent-ink:#FFFFFF;
-  --good:#178A5E;--good-bg:rgba(23,138,94,0.10);--good-border:rgba(23,138,94,0.35);
-  --warn:#C96A3B;--warn-bg:rgba(201,106,59,0.10);--warn-border:rgba(201,106,59,0.35);
-  --bad:#D6453A;--bad-bg:rgba(214,69,58,0.08);--bad-border:rgba(214,69,58,0.35);
-  --blue:#2E7CD6;--pink:#C2438D;--cyan:#1FA8A0;
-  --radius:16px;--radius-sm:12px;--radius-xs:10px;
-  --blur:blur(16px);
-  --shadow:0 1px 2px rgba(23,26,45,0.05),0 10px 30px rgba(23,26,45,0.07);
-  --font:'Heebo','Inter',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
-  --font-he:'Heebo','Assistant','Segoe UI',Arial,sans-serif;
-  --font-mono:'Space Grotesk',ui-monospace,'SFMono-Regular',Menlo,monospace;
-  --transition:all .22s cubic-bezier(.4,0,.2,1);
-  --safe-bottom:env(safe-area-inset-bottom,0px);
-}
-/* Dark tokens — applied when the OS asks for dark (unless the user forced light),
-   or when the user explicitly chooses dark. */
-@media (prefers-color-scheme: dark){
-  html:not(.light-mode){
-    --bg1:#0E1017;--bg2:#151823;--bg3:#1D2130;
-    --ink:#0E1017;--paper:#151823;--paper2:#1D2130;--line:rgba(255,255,255,0.09);
-    --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.09);--glass-hover:rgba(255,255,255,0.07);
-    --text:#E7EAF2;--muted:#98A0B3;--muted2:#6A7186;--faint:#6A7186;
-    --accent:#7C86F0;--accent2:#6570E4;--accent-glow:rgba(124,134,240,0.22);
-    --accent-soft:rgba(124,134,240,0.15);--accent-ink:#0E1017;
-    --good:#2FBF8F;--good-bg:rgba(47,191,143,0.12);--good-border:rgba(47,191,143,0.46);
-    --warn:#E0784A;--warn-bg:rgba(224,120,74,0.10);--warn-border:rgba(224,120,74,0.42);
-    --bad:#F2584E;--bad-bg:rgba(242,88,78,0.11);--bad-border:rgba(242,88,78,0.46);
-    --shadow:0 18px 44px rgba(0,0,0,0.55);
-  }
-}
-html.dark-mode{
-  --bg1:#0E1017;--bg2:#151823;--bg3:#1D2130;
-  --ink:#0E1017;--paper:#151823;--paper2:#1D2130;--line:rgba(255,255,255,0.09);
-  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.09);--glass-hover:rgba(255,255,255,0.07);
-  --text:#E7EAF2;--muted:#98A0B3;--muted2:#6A7186;--faint:#6A7186;
-  --accent:#7C86F0;--accent2:#6570E4;--accent-glow:rgba(124,134,240,0.22);
-  --accent-soft:rgba(124,134,240,0.15);--accent-ink:#0E1017;
-  --good:#2FBF8F;--good-bg:rgba(47,191,143,0.12);--good-border:rgba(47,191,143,0.46);
-  --warn:#E0784A;--warn-bg:rgba(224,120,74,0.10);--warn-border:rgba(224,120,74,0.42);
-  --bad:#F2584E;--bad-bg:rgba(242,88,78,0.11);--bad-border:rgba(242,88,78,0.46);
-  --shadow:0 18px 44px rgba(0,0,0,0.55);
-}
-html{height:100%;height:100dvh;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;scroll-behavior:smooth}
-body{min-height:100%;min-height:100dvh;font-family:var(--font);color:var(--text);
-  background:var(--bg1);
-  background-attachment:fixed;overflow-x:hidden;line-height:1.55;-webkit-font-smoothing:antialiased}
-button,.btn,.tile,.opt,.sbBtn,.bbBtn,.tileBtn,.switch,.vTab,.gameCard,.swipeCard{
-  touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;cursor:pointer}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px}
-
-/* Glass Card */
-.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(16px,3vw,28px);margin-bottom:16px}
-.item{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;transition:var(--transition)}
-.item:hover{background:var(--glass-hover)}
-
-/* Layout */
-.appWrap{display:flex;min-height:100vh;min-height:100dvh}
-.main{flex:1;padding:16px;padding-bottom:calc(70px + var(--safe-bottom));max-width:960px;margin:0 auto;width:100%}
-
-/* Sidebar (Desktop) */
-#sidebar{position:fixed;top:0;right:0;width:216px;height:100%;height:100dvh;padding:18px 12px;
-  background:var(--paper);
-  border-left:1px solid var(--line);z-index:800;overflow-y:auto;transition:transform .35s ease;
-  display:flex;flex-direction:column}
-#sidebar .sbTitle{font-size:1.05rem;font-weight:700;letter-spacing:1.5px;margin:2px 10px 18px;color:var(--text);font-family:var(--font-mono)}
-#sidebar .sbTitle b{color:var(--accent)}
-.sbBtn{display:flex;flex-direction:row;align-items:center;gap:11px;width:100%;padding:10px 12px;border:none;border-radius:var(--radius-xs);
-  background:transparent;color:var(--muted);font:inherit;font-weight:500;font-size:.88rem;text-align:right;
-  transition:var(--transition);margin-bottom:3px}
-.sbBtn .sbIco{display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.sbBtn .sbIco .ic{width:19px;height:19px}
-.sbBtn .sbLab{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sbBtn:hover{background:var(--glass-hover);color:var(--text)}
-.sbBtn.active{background:var(--accent);color:var(--accent-ink);font-weight:600}
-body.sbCollapsed #sidebar{transform:translateX(100%)}
-
-/* Mobile Bottom Bar */
-@media(max-width:899px){
-  #sidebar{display:none}
-  #bottomBar{display:flex!important;position:fixed;bottom:calc(10px + var(--safe-bottom));left:10px;right:10px;z-index:700;
-    background:var(--paper);border-radius:18px;box-shadow:0 6px 24px rgba(23,26,45,0.14);
-    border:1px solid var(--line);
-    padding:7px 6px;gap:2px;justify-content:space-around}
-  .main{padding-bottom:calc(88px + var(--safe-bottom))}
-  .bbBtn{flex:1;min-height:52px;text-align:center;padding:8px 4px;border:none;background:transparent;color:var(--muted);
-    font:inherit;font-size:.7rem;font-weight:600;border-radius:var(--radius-xs);transition:var(--transition);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
-  .bbBtn .ico{font-size:1.2rem}.bbBtn.active{color:var(--accent);background:var(--accent-glow)}
-}
-@media(min-width:900px){#bottomBar{display:none!important}.main{margin-right:216px}}
-#sbBackdrop{display:none;position:fixed;inset:0;z-index:799;background:rgba(0,0,0,0.5)}
-
-/* Cockpit Header */
-.cockpit{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;padding:12px 18px;
-  background:var(--paper);
-  border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-.cockpit .xpBar{flex:1;min-width:80px;height:6px;background:var(--line);border-radius:99px;overflow:hidden}
-.cockpit .xpFill{height:100%;background:var(--accent);border-radius:99px;transition:width .6s ease}
-.cockpit .stat{font-size:.76rem;font-weight:600;color:var(--muted);white-space:nowrap}
-.cockpit .stat b{color:var(--text);font-weight:500;font-family:var(--font-mono)}
-
-/* Buttons */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:var(--radius-xs);
-  border:1px solid var(--glass-border);background:var(--glass);color:var(--text);
-  font:inherit;font-size:.82rem;font-weight:800;transition:var(--transition);white-space:nowrap;line-height:1.3}
-.btn:hover{background:var(--glass-hover);border-color:var(--glass-border);transform:translateY(-1px)}
-.btn:active{transform:scale(.97)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
-.btn.primary:hover{background:var(--accent2);border-color:var(--accent2);box-shadow:0 4px 18px var(--accent-glow)}
-.btn.danger{border-color:var(--bad-border);color:var(--bad)}
-.btn .kbHint{font-size:.6rem;opacity:.5;margin-right:3px;padding:1px 4px;border:1px solid var(--line);border-radius:4px;font-family:var(--font-mono)}
-
-/* Switch */
-.switch{display:inline-flex;width:42px;height:24px;border-radius:99px;background:var(--line);border:1px solid var(--glass-border);position:relative;transition:var(--transition)}
-.switch::after{content:'';position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:var(--transition)}
-.switch.on{background:var(--accent);border-color:var(--accent)}.switch.on::after{right:calc(100% - 20px);background:#fff}
-
-/* Grid Layout */
-.grid{display:grid;gap:12px}
-.grid2{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-.grid3{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
-
-/* Dashboard */
-.mItem{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);margin-bottom:6px;transition:var(--transition)}
-.mItem:hover{background:var(--glass-hover)}
-.mLeft{flex:1;min-width:0}.mTitle{font-weight:700;font-size:.86rem}.mSub{font-size:.75rem;color:var(--muted);margin-top:2px}
-.mRight{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.mBar{width:60px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}.mBar div{height:100%;border-radius:99px;background:var(--accent);transition:width .5s ease}
-.mCount{font-size:.75rem;font-weight:800;color:var(--muted);min-width:40px;text-align:center}
-
-/* Tiles */
-.tile{padding:18px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--glass);transition:var(--transition);text-align:center}
-.tile:hover{background:var(--glass-hover);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.2)}
-.tile .tIcon{font-size:1.8rem;margin-bottom:6px}.tile .tLabel{font-weight:700;font-size:.84rem}
-
-/* Practice / Question */
-.qTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--glass-border)}
-.qText{font-size:1rem;line-height:1.75;font-weight:400;margin:12px 0;color:var(--text)}
-.opt{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid var(--glass-border);border-radius:var(--radius-sm);
-  background:var(--glass);cursor:pointer;transition:var(--transition);position:relative;overflow:hidden}
-.opt:hover{background:var(--glass-hover);border-color:var(--accent);transform:translateX(-3px)}
-.opt:hover .letter{border-color:var(--accent);color:var(--accent)}
-.opt:active{transform:scale(.98)}
-.opt .letter .kbHint{display:none}
-.opt .letter{width:30px;height:30px;border-radius:50%;border:2px solid var(--muted2);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:.82rem;flex-shrink:0;background:transparent;color:var(--muted);font-family:var(--font-mono);transition:var(--transition)}
-.opt.selected{border-color:var(--accent);background:var(--accent-soft)}
-.opt.selected .letter{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.opt.correct{background:var(--good-bg)!important;border-color:var(--good-border)!important}
-.opt.correct .letter{background:var(--good)!important;color:#08251c!important;border-color:var(--good)!important}
-.opt.wrong{background:var(--bad-bg)!important;border-color:var(--bad-border)!important}
-.opt.wrong .letter{background:var(--bad)!important;color:#3a0c09!important;border-color:var(--bad)!important}
-.opt.disabled{opacity:.35;pointer-events:none;filter:grayscale(.5)}
-.timer{font-weight:500;font-size:1.05rem;min-width:62px;text-align:center;padding:4px 10px;border-radius:var(--radius-xs);background:var(--paper2);border:1px solid var(--line);font-family:var(--font-mono);letter-spacing:.5px}
-.timer.urgent{color:var(--bad);border-color:var(--bad-border);animation:pulse .6s ease infinite alternate}
-@keyframes pulse{to{opacity:.6}}
-
-/* Explain/Feedback */
-.explain{display:none;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:16px;margin-top:14px;animation:slideUp .35s ease}
-.explain.show{display:block}
-.chip{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:99px;font-size:.78rem;font-weight:700;background:var(--glass);border:1px solid var(--glass-border);margin:3px 2px;transition:var(--transition)}
-.hebrewChip{background:rgba(91,91,214,0.12);border-color:rgba(91,91,214,0.25);color:#C4B5FD}
-
-/* Reading Split */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media(max-width:800px){.split{grid-template-columns:1fr}}
-.passage{max-height:70vh;overflow-y:auto;padding:16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);font-size:.92rem;line-height:1.85}
-.passage p{direction:ltr;text-align:left}mark.hl{background:rgba(52,214,197,0.28);border-radius:3px;padding:1px 2px;color:inherit}
-
-/* Hint & Analyze */
-.hintBox{background:rgba(224,120,74,0.08);border:1px solid var(--warn-border);border-radius:var(--radius-sm);padding:12px;margin-top:10px;font-size:.88rem;animation:slideUp .3s ease}
-.analyzeBox{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.30);border-radius:var(--radius-sm);padding:14px;margin-top:10px;font-size:.86rem;direction:ltr;text-align:left;line-height:2}
-
-/* Stats */
-.typeBars{display:flex;flex-direction:column;gap:8px}
-.typeBarRow{display:flex;align-items:center;gap:10px}.typeBarLabel{min-width:100px;font-weight:800;font-size:.80rem}
-.typeBarTrack{flex:1;height:8px;background:var(--glass-hover);border-radius:99px;overflow:hidden}
-.typeBarFill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:99px;transition:width .7s ease}
-.typeBarPct{min-width:55px;font-weight:700;font-size:.78rem;text-align:left}
-.radarWrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:700px){.radarWrap{grid-template-columns:1fr}}
-.radarCard{min-height:200px}
-
-/* Placement Badge */
-.placementBadge{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:99px;font-weight:700;font-size:.9rem;
-  background:var(--paper2);border:1px solid var(--line);margin:8px 0}
-.placementBadge.exempt{background:var(--good-bg);border-color:var(--good-border)}
-
-/* Placement Ladder (signature) */
-.ladderWrap{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-.ladderHead{font-size:.74rem;color:var(--muted);font-weight:600;margin-bottom:2px}
-.ladderSpine{position:relative;display:flex;flex-direction:column}
-.ladderSpine::before{content:'';position:absolute;right:5px;top:16px;bottom:16px;width:2px;background:var(--line)}
-.ladderSpine .rung{display:flex;align-items:center;gap:11px;padding:7px 0;color:var(--faint);font-size:.84rem;position:relative;z-index:1}
-.ladderSpine .rdot{width:12px;height:12px;border-radius:50%;background:var(--muted2);flex-shrink:0}
-.ladderSpine .rlab{flex:1;font-weight:500}
-.ladderSpine .rrange{font-family:var(--font-mono);font-size:.72rem;color:var(--faint)}
-.ladderSpine .rhere{font-family:var(--font-mono);font-size:.72rem;color:var(--accent-ink);background:var(--accent);padding:2px 9px;border-radius:99px;font-weight:500}
-.ladderSpine .rung.on{color:var(--text)}
-.ladderSpine .rung.on .rlab{font-weight:700}
-.ladderSpine .rung.on .rdot{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
-.ladderSpine .rung.goal{color:var(--accent)}
-.ladderSpine .rung.goal .rlab{font-weight:600}
-.ladderSpine .rung.goal .rdot{background:transparent;border:2px solid var(--accent)}
-
-/* Clarity home layout */
-.pageHead{margin-bottom:16px}
-.pageTitle{font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
-.pageSub{font-size:.88rem;color:var(--muted);margin-top:2px;font-weight:400}
-.hero{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
-  background:linear-gradient(120deg,var(--accent),var(--accent2));border-radius:var(--radius);
-  padding:22px 24px;margin-bottom:14px;color:#fff}
-.heroLabel{font-size:.78rem;font-weight:500;color:rgba(255,255,255,0.75);letter-spacing:.4px}
-.hero .bigScore{color:#fff}
-.hero .placementBadge{background:rgba(255,255,255,0.18);border:none;color:#fff;margin:6px 0 0}
-.hero .placementBadge span{color:#fff!important}
-.heroSide{display:flex;flex-direction:column;gap:8px;min-width:180px}
-.btn.heroCta{background:#fff;border-color:transparent;color:var(--accent);font-weight:700;justify-content:center}
-.btn.heroCta:hover{background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.18);transform:translateY(-1px)}
-.btn.heroGhost{background:rgba(255,255,255,0.14);border-color:transparent;color:#fff;justify-content:center}
-.btn.heroGhost:hover{background:rgba(255,255,255,0.22);border-color:transparent}
-.statRow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
-.statTile{background:var(--paper2);border-radius:var(--radius-sm);padding:14px 16px;min-width:0}
-.stLabel{font-size:.76rem;color:var(--muted);font-weight:500}
-.stVal{font-family:var(--font-mono);font-size:1.55rem;font-weight:700;margin-top:2px;color:var(--text)}
-.wotdTile{cursor:pointer;transition:var(--transition)}
-.wotdTile:hover{background:var(--accent-soft)}
-.panel{background:var(--paper2);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px;min-width:0}
-.panelHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
-.panelTitle{font-size:.95rem;font-weight:700}
-.panelPct{font-family:var(--font-mono);font-weight:700;font-size:1.1rem;color:var(--accent)}
-.twoCol{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.twoCol>.panel{margin-bottom:0}
-.twoCol>div>.panel:last-child{margin-bottom:0}
-.track{height:7px;border-radius:99px;background:rgba(23,26,45,0.08);overflow:hidden}
-html.dark-mode .track{background:rgba(255,255,255,0.10)}
-.trackFill{height:100%;border-radius:99px;background:var(--accent);transition:width .5s ease}
-@media(max-width:760px){
-  .statRow{grid-template-columns:1fr 1fr}
-  .twoCol{grid-template-columns:1fr}
-  .twoCol>.panel{margin-bottom:12px}
-  .hero{padding:18px}
-}
-
-/* Icons (inline SVG, stroke = currentColor) */
-.ic{width:1.1em;height:1.1em;vertical-align:-0.18em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:inline-block}
-.sbIco .ic,.bbBtn .ico .ic{width:20px;height:20px;vertical-align:middle}
-.tile .tIcon .ic{width:26px;height:26px;color:var(--accent)}
-
-/* ===== AI layer (tutor + mnemonics) ===== */
-.aiTutorCard{margin-top:12px;background:var(--paper2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px}
-.aiTutorHeader{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;
-  padding-bottom:8px;border-bottom:1px solid var(--line)}
-.aiTutorBadge{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:.9rem;color:var(--accent)}
-.aiTutorBadge .ic{width:17px;height:17px}
-.aiTutorModel{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);background:var(--glass);
-  border:1px solid var(--line);border-radius:99px;padding:3px 9px;white-space:nowrap}
-.aiTutorLoading{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.88rem;padding:6px 0}
-.aiSpinner{width:17px;height:17px;border-radius:50%;flex-shrink:0;
-  border:2px solid var(--line);border-top-color:var(--accent);animation:aiSpin .7s linear infinite}
-@keyframes aiSpin{to{transform:rotate(360deg)}}
-.aiTutorContent{font-size:.9rem;line-height:1.75;color:var(--text)}
-.aiHeading{font-weight:700;margin:10px 0 4px;color:var(--text)}
-.aiParagraph{margin:5px 0}
-.aiBullet{display:flex;gap:8px;margin:5px 0;align-items:flex-start}
-.aiBulletDot{color:var(--accent);font-weight:700;line-height:1.6}
-.aiBulletText{flex:1;min-width:0}
-.btn.aiBtn{border-color:rgba(91,91,214,0.45);color:var(--accent)}
-.btn.aiBtn:hover{background:var(--accent-soft);border-color:var(--accent)}
-body.noAi .aiBtn,body.noAi .aiVocabBtn{display:none!important}
-
-/* Micro-interactions */
-.successGlow{animation:glowPulse .9s ease}
-@keyframes glowPulse{0%{box-shadow:var(--shadow)}30%{box-shadow:0 0 0 2px var(--good-border),0 0 36px rgba(47,191,143,0.35)}100%{box-shadow:var(--shadow)}}
-.springIn{animation:springPop .5s cubic-bezier(.34,1.56,.64,1)}
-@keyframes springPop{0%{transform:scale(1)}45%{transform:scale(1.045)}70%{transform:scale(.985)}100%{transform:scale(1)}}
-.viewIn{animation:viewSlide .32s cubic-bezier(.22,.9,.35,1)}
-@keyframes viewSlide{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-
-/* Focus Mode — "Dojo" (distraction-free sessions) */
-body.stageActive #sidebar,body.focus-mode-active #sidebar,
-body.stageActive #bottomBar,body.focus-mode-active #bottomBar,
-body.stageActive .cockpit,body.focus-mode-active .cockpit{display:none!important}
-body.stageActive .main,body.focus-mode-active .main{margin-right:0!important;max-width:860px;padding-bottom:20px}
-
-/* Mock Progress */
-.mockProgress{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:8px 16px}
-.mockProgress .seg{padding:6px 14px;border:1px solid var(--glass-border);border-radius:var(--radius-xs);font-size:.76rem;font-weight:700;background:var(--glass);transition:var(--transition)}
-.mockProgress .seg.active{border-color:rgba(91,91,214,0.65);box-shadow:inset 0 0 0 2px rgba(91,91,214,0.12);animation:pulseGlow 1.5s ease infinite}
-.mockProgress .seg.done{border-color:var(--good-border);background:var(--good-bg)}
-.mockProgress .seg .mini{opacity:.75;font-weight:800;margin-inline-start:5px}
-@keyframes pulseGlow{0%,100%{box-shadow:inset 0 0 0 2px rgba(91,91,214,0.12)}50%{box-shadow:inset 0 0 0 2px rgba(91,91,214,0.35)}}
-
-/* Vocab Hub */
-.vTabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.vTab{padding:9px 16px;border-radius:var(--radius-xs);border:1px solid var(--glass-border);background:var(--glass);color:var(--muted);font:inherit;font-weight:800;font-size:.80rem;transition:var(--transition)}
-.vTab.active{background:var(--accent-glow);color:var(--text);border-color:rgba(91,91,214,0.35)}
-.vWord{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px;margin-bottom:8px;transition:var(--transition)}
-.vWord:hover{background:var(--glass-hover)}.vWordTop{display:flex;justify-content:space-between;gap:12px}
-.vEn{font-weight:700;font-size:1.05rem;direction:ltr}.vHe{font-weight:700;color:var(--muted);margin-top:3px;font-size:.88rem}
-.vMeta{font-size:.78rem;color:var(--muted2);margin-top:3px;direction:ltr}
-.lightbulb{font-size:.82rem;color:var(--warn);margin-top:5px;padding:6px 10px;background:var(--warn-bg);border-radius:var(--radius-xs);border:1px solid rgba(224,120,74,0.15)}
-.missionCard{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:18px}
-.pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.72rem;font-weight:700;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);color:var(--blue)}
-
-/* Word Popover */
-#wordPop{position:fixed;display:none;z-index:6000;padding:14px;max-width:320px;
-  background:var(--paper);border:1px solid var(--glass-border);border-radius:var(--radius-sm);
-  backdrop-filter:blur(20px);box-shadow:0 12px 40px rgba(0,0,0,0.5)}
-.wT{font-weight:700;font-size:.98rem;direction:ltr}.wH{color:var(--muted);font-weight:700;margin-top:3px;font-size:.86rem}
-.wS{font-size:.78rem;color:var(--muted2);margin-top:3px;direction:ltr}.wA{margin-top:8px;display:flex;gap:6px}
-
-/* Toast */
-#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:9000;padding:12px 22px;
-  border-radius:var(--radius-sm);background:var(--paper);border:1px solid var(--glass-border);
-  font-weight:800;font-size:.86rem;display:none;white-space:nowrap;backdrop-filter:blur(16px);
-  animation:slideUp .3s ease}
-@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
-/* Confetti Canvas */
-#confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
-
-/* Focus Exit */
-#exitBtn{display:none;position:fixed;top:12px;right:12px;z-index:5001}
-body.stageActive #exitBtn{display:block}
-
-/* STAGE MODE */
-body.stageActive #sidebar,body.stageActive .cockpit,body.stageActive #bottomBar{display:none!important}
-body.stageActive #practiceCard{position:fixed!important;inset:0!important;z-index:5000!important;border-radius:0!important;border:none!important;
-  background:var(--bg1)!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;padding:clamp(12px,3vw,28px)!important;margin:0!important}
-body.stageActive .split{max-height:100%;overflow:visible}
-
-/* Game Cards */
-.gameGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
-@media(max-width:600px){.gameGrid{grid-template-columns:repeat(3,1fr)}}
-.gameCard{aspect-ratio:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;
-  border-radius:var(--radius-sm);border:1.5px solid var(--glass-border);background:var(--glass);
-  font-weight:800;font-size:.82rem;cursor:pointer;transition:all .35s ease;perspective:600px;position:relative;overflow:hidden}
-.gameCard.flipped{background:var(--accent-glow);border-color:rgba(91,91,214,0.4);box-shadow:0 0 18px rgba(91,91,214,0.18)}
-.gameCard.matched{background:var(--good-bg);border-color:var(--good-border);pointer-events:none;opacity:.7}
-.gameCard .front,.gameCard .back{backface-visibility:hidden}
-
-/* Swipe Mode */
-.swipeContainer{position:relative;width:100%;max-width:380px;height:min(420px,55dvh);margin:12px auto;perspective:1000px;touch-action:none;-webkit-touch-callout:none}
-.swipeCard{position:absolute;inset:0;border-radius:var(--radius);touch-action:none;-webkit-touch-callout:none;background:linear-gradient(145deg,var(--line),var(--glass));
-  border:1.5px solid var(--glass-border);backdrop-filter:var(--blur);padding:28px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;cursor:grab;transition:transform .15s ease;user-select:none;
-  box-shadow:var(--shadow)}
-.swipeCard.dragging{transition:none;cursor:grabbing}
-.swipeCard.swipeRight{transform:translateX(120%) rotate(15deg);opacity:0;transition:all .4s ease}
-.swipeCard.swipeLeft{transform:translateX(-120%) rotate(-15deg);opacity:0;transition:all .4s ease}
-.swipeIndicator{position:absolute;top:20px;font-size:1.2rem;font-weight:800;opacity:0;transition:opacity .2s ease;direction:ltr;pointer-events:none;padding:6px 12px;border-radius:8px;background:rgba(0,0,0,0.4)}
-.swipeIndicator.know{left:16px;color:var(--good)}.swipeIndicator.study{right:16px;color:var(--bad)}
-
-/* Speed Quiz */
-.speedBar{width:100%;height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:10px 0}
-.speedFill{height:100%;border-radius:99px;transition:width 50ms linear}
-.speedScore{font-size:2.4rem;font-weight:800;text-align:center;
-  background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-
-/* Passage Progress */
-.pp-left{display:flex;align-items:center;gap:8px;flex:1}
-.pp-pill{font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:99px;background:rgba(91,91,214,0.12);border:1px solid rgba(91,91,214,0.25);white-space:nowrap}
-.pp-track{flex:1;height:5px;border-radius:99px;background:var(--glass-hover);overflow:hidden}
-.pp-fill{height:100%;border-radius:99px;background:var(--accent);transition:width .4s ease}
-.pp-right{font-weight:700;font-size:.78rem;min-width:35px;text-align:center}
-#passageProgress{display:none;padding:8px 14px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-xs);margin-top:8px;gap:10px;align-items:center}
-
-/* Backdrop */
-.modalOverlay{display:none;position:fixed;inset:0;z-index:7000;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);align-items:center;justify-content:center}
-.modalOverlay.show{display:flex}
-.modal{background:var(--paper);border:1px solid var(--glass-border);
-  border-radius:var(--radius);padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.6);animation:slideUp .35s ease}
-
-/* Debug Panel */
-#debugPanel{display:none;position:fixed;bottom:80px;right:10px;z-index:8000;max-width:360px;max-height:50vh;overflow-y:auto;
-  padding:14px;background:var(--paper);border:1px solid var(--warn-border);border-radius:var(--radius-sm);font-size:.75rem;color:var(--warn);backdrop-filter:blur(16px)}
-#debugPanel.show{display:block}
-
-/* Error Overlay */
-#errOverlay{display:none;position:fixed;bottom:80px;left:10px;z-index:8500;padding:12px;max-width:340px;
-  background:var(--paper);border:1px solid var(--bad-border);border-radius:var(--radius-sm);font-size:.78rem;color:var(--bad);backdrop-filter:blur(14px)}
-
-/* Keyboard Hints */
-.kbHint{font-size:.6rem;opacity:.4;margin-right:3px;padding:1px 4px;border:1px solid var(--line);border-radius:4px}
-@media(pointer:coarse){.kbHint{display:none}}
-
-/* Goal inputs */
-.goalGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:10px}
-.goalGrid label{font-size:.78rem;font-weight:800;display:flex;flex-direction:column;gap:4px}
-.goalGrid input{width:100%;padding:10px 8px;border-radius:var(--radius-xs);border:1px solid var(--line);background:var(--paper);color:var(--text);font:inherit;font-size:16px;font-weight:600;text-align:center}
-
-/* Score animation */
-@keyframes scoreReveal{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.scoreReveal{animation:scoreReveal .6s cubic-bezier(.175,.885,.32,1.275)}
-
-/* Daily word shimmer */
-@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-.shimmerText{background:linear-gradient(90deg,var(--text),var(--accent),var(--text));background-size:200% auto;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite}
-
-/* Streak fire */
-.streakFire{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:700;
-  background:linear-gradient(135deg,rgba(224,120,74,0.15),rgba(239,68,68,0.1));border:1px solid rgba(224,120,74,0.3)}
-.streakFire.heat{box-shadow:0 0 18px rgba(224,120,74,0.22),0 0 42px rgba(239,68,68,0.12);animation:neonPulse 1.05s ease-in-out infinite;}
-
-
-
-/* ===== PRO LAYER (V3) — Neon Feedback + Rings + מרכז מבחנים ===== */
-@keyframes neonPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
-.opt.correct{
-  box-shadow:0 0 0 1px rgba(34,197,94,0.55),0 0 18px rgba(34,197,94,0.35),0 0 46px rgba(34,197,94,0.18);
-  animation:neonPulse .9s ease-in-out 1;
-}
-.opt.wrong{
-  box-shadow:0 0 0 1px rgba(239,68,68,0.62),0 0 18px rgba(239,68,68,0.28),0 0 46px rgba(239,68,68,0.14);
-  animation:neonPulse .9s ease-in-out 1;
-}
-
-/* Big score */
-.bigScore{
-  font-size:3.1rem;font-weight:700;line-height:1;font-family:var(--font-mono);
-  color:var(--accent);letter-spacing:-0.01em;
-}
-@media(max-width:420px){.bigScore{font-size:2.6rem}}
-
-/* Mastery Rings */
-.ringRow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
-@media(max-width:740px){.ringRow{grid-template-columns:1fr}}
-.ring{
-  display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-sm);
-  border:1px solid var(--glass-border);background:var(--glass);transition:var(--transition);
-}
-.ring:hover{background:var(--glass-hover);transform:translateY(-1px)}
-.ring svg{width:56px;height:56px;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(91,91,214,0.18))}
-.ring .rTitle{font-weight:800;font-size:.9rem}
-.ring .rSub{color:var(--muted);font-weight:800;font-size:.78rem;margin-top:2px}
-.ring .rPct{margin-inline-start:auto;font-weight:800;font-size:1.05rem}
-
-/* Word of the Day Banner */
-.wotdBanner{
-  margin-bottom:14px;padding:14px 16px;border-radius:var(--radius);
-  border:1px solid rgba(91,91,214,0.35);
-  background:linear-gradient(135deg,rgba(91,91,214,0.22),rgba(6,182,212,0.12));
-  box-shadow:0 14px 40px rgba(0,0,0,0.35);
-  display:flex;justify-content:space-between;align-items:center;gap:12px;
-}
-.wotdBanner:hover{transform:translateY(-1px);background:linear-gradient(135deg,rgba(91,91,214,0.30),rgba(6,182,212,0.14))}
-.wotdLeft{font-weight:800}
-.wotdWord{display:flex;flex-direction:column;gap:2px;min-width:0}
-.wotdEn{font-weight:800;font-size:1.15rem;direction:ltr;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wotdHe{font-weight:700;color:var(--muted);font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wotdHint{font-size:.75rem;color:var(--muted2);font-weight:800}
-
-/* Daily Challenge */
-.dcBadge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-weight:800;font-size:.76rem;
-  background:var(--accent-soft);border:1px solid rgba(91,91,214,0.35);color:#A9B1FF}
-.dcBadge.done{background:rgba(47,191,143,0.12);border-color:rgba(47,191,143,0.35);color:#7FE0BF}
-.dcCardGlow{box-shadow:0 0 0 1px rgba(91,91,214,0.18),0 0 26px rgba(91,91,214,0.10)}
-
-/* מרכז מבחנים */
-.examHero{display:flex;gap:14px;flex-wrap:wrap;align-items:stretch}
-.examHero .left{flex:1;min-width:260px}
-.examHero .right{flex:1;min-width:260px}
-.examScoreBox{padding:16px;border-radius:var(--radius);border:1px solid rgba(91,91,214,0.28);background:linear-gradient(135deg,rgba(91,91,214,0.14),var(--glass))}
-.examMetaLine{color:var(--muted);font-weight:800;font-size:.82rem;margin-top:6px}
-.examGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}
-@media(max-width:820px){.examGrid{grid-template-columns:1fr}}
-.examHistItem{padding:10px 12px;border-radius:var(--radius-xs);border:1px solid var(--glass-border);background:var(--glass);
-  display:flex;justify-content:space-between;gap:10px;align-items:center;transition:var(--transition)}
-.examHistItem:hover{background:var(--line);transform:translateX(-2px)}
-.examHistItem.active{border-color:rgba(91,91,214,0.6);box-shadow:inset 0 0 0 2px rgba(91,91,214,0.15)}
-.examHistItem .d{color:var(--muted);font-weight:800;font-size:.76rem}
-.examHistItem .s{font-weight:800;font-size:.95rem}
-
-/* Memory Match 3D Flip (no mirrored text) */
-.gameCard{perspective:1100px;position:relative;overflow:hidden;padding:0!important;display:block}
-.gameCardInner{
-  position:absolute;inset:0;transform-style:preserve-3d;transition:transform .48s cubic-bezier(.2,.8,.2,1);
-}
-.gameCard.flipped .gameCardInner{transform:rotateY(180deg)}
-.gameFace{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;
-  backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  font-weight:800;font-size:clamp(1.2rem,3.2vw,1.5rem);line-height:1.15;
-}
-.gameFace.front{background:linear-gradient(135deg,rgba(15,20,40,0.9),rgba(10,15,30,0.85));
-  font-size:1.6rem;color:var(--muted);border:1px solid rgba(91,91,214,0.12)}
-.gameFace.back{transform:rotateY(180deg);font-weight:800;font-size:1.4rem;
-  background:linear-gradient(135deg,rgba(91,91,214,0.18),rgba(6,182,212,0.08));
-  border:1px solid rgba(91,91,214,0.25)}
-.gameFace.tiny{font-size:clamp(1.2rem,3.0vw,1.35rem)}
-
-
-
-/* V6.3 Desktop Layout */
-@media(min-width:900px){
-  .split{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-  .split .passage{max-height:70vh;overflow-y:auto;padding-right:12px;position:sticky;top:10px}
-  #main{max-width:960px;margin:0 auto}
-}
-@media(min-width:1200px){
-  #main{max-width:1100px}
-  .examHero{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  .examGrid{grid-template-columns:1fr 1fr}
-}
-
-/* V6.3 Section Transition */
-.sectionTransition{text-align:center;padding:40px 20px}
-.sectionTransition .stTitle{font-size:1.5rem;font-weight:800;margin-bottom:12px}
-.sectionTransition .stInfo{font-size:.9rem;color:var(--muted);margin-bottom:20px;line-height:1.7}
-.sectionTransition .stNext{font-size:1rem;font-weight:800;color:var(--accent);margin-bottom:16px}
-.sectionTransition .stBtn{padding:14px 40px;font-size:1.05rem}
-
-/* V6.3 Mock Review */
-.reviewCard{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:14px;margin-bottom:10px;direction:ltr}
-.reviewCard.correct{border-left:3px solid var(--good)}
-.reviewCard.wrong{border-left:3px solid var(--bad)}
-.reviewCard .rqText{font-size:.85rem;line-height:1.6;margin-bottom:8px}
-.reviewCard .rAnswer{font-size:.82rem;font-weight:800}
-.reviewCard .rExplain{font-size:.8rem;color:var(--muted);margin-top:6px;line-height:1.5}
-
-/* V6.3 Keyboard hint */
-.kbHint{display:none;font-size:.68rem;color:var(--muted2);margin-left:6px;font-weight:700}
-@media(hover:hover){.kbHint{display:inline}}
-
-/* V6.3 Reset Confirm */
-.resetOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center}
-.resetBox{background:var(--card);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px;max-width:340px;text-align:center}
-
-/* V6.3 Theme Toggle */
-.themeToggle{position:fixed;bottom:16px;left:16px;z-index:100;width:40px;height:40px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s ease}
-html.dark-mode #bottomBar{background:rgba(21,24,35,0.92)}
-
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-}
-
-/* ===== Touch / iPhone ergonomics ===== */
-@media(max-width:899px){
-  /* Comfortable, thumb-reachable targets (Apple HIG: >=44px) */
-  .btn{min-height:46px;padding:12px 18px;font-size:.88rem}
-  .opt{padding:16px 14px;gap:14px;align-items:center}
-  .opt .letter{width:34px;height:34px;font-size:.9rem}
-  .opt .qText{font-size:1rem;line-height:1.6}
-  .tile{padding:16px 12px;min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .themeToggle{width:46px;height:46px;bottom:calc(84px + var(--safe-bottom));left:12px}
-  #floatingDict{width:52px;height:52px;bottom:calc(84px + var(--safe-bottom))}
-  /* No accidental horizontal panning */
-  html,body{max-width:100%;overflow-x:hidden}
-  .main{padding:12px;padding-bottom:calc(96px + var(--safe-bottom))}
-  .card{padding:14px;border-radius:14px}
-  /* Reading passages: real scroll momentum, sane height */
-  .passage{max-height:46vh;-webkit-overflow-scrolling:touch;font-size:1rem;line-height:1.8}
-  .split{gap:12px}
-  /* Typography that survives a 390px screen */
-  .pageTitle{font-size:1.2rem}
-  .bigScore{font-size:2.6rem}
-  .hero{padding:16px;gap:14px}
-  .heroSide{min-width:100%;flex-direction:row;flex-wrap:wrap}
-  .heroSide .btn{flex:1 1 auto}
-  .statRow{gap:10px}
-  .stVal{font-size:1.35rem}
-  /* Word of the day fills the row instead of leaving a hole beside it */
-  .statRow .wotdTile{grid-column:1 / -1}
-  /* Cockpit: keep only what fits a phone; the long daily-word chip goes */
-  .cockpit{gap:10px;padding:10px 12px}
-  .cockpit #dailyWord{display:none}
-  .cockpit .xpBar{order:-1;flex-basis:100%;min-width:100%}
-  /* Native controls should never trigger iOS auto-zoom (<16px does) */
-  input,select,textarea{font-size:16px}
-}
-/* Focus mode on phones: keep the exit button clear of the notch */
-@media(max-width:899px){
-  #exitBtn{top:calc(8px + env(safe-area-inset-top,0px));right:8px}
-  body.stageActive #practiceCard{padding:14px!important;padding-top:calc(14px + env(safe-area-inset-top,0px))!important;
-    padding-bottom:calc(20px + var(--safe-bottom))!important}
-}
-
-/* V6.2 Practice Progress Bar */
-.practiceProgress{display:flex;align-items:center;gap:8px;padding:6px 0;margin-bottom:6px}
-.practiceProgress .ppBar{flex:1;height:4px;border-radius:2px;background:var(--glass-hover);overflow:hidden}
-.practiceProgress .ppFill{height:100%;border-radius:2px;background:var(--accent);transition:width .4s ease}
-.practiceProgress .ppLabel{font-size:.74rem;font-weight:800;color:var(--muted);white-space:nowrap}
-
-/* V6 Hebrew Typography */
-[dir="rtl"],.placementBadge,.mTitle,.mSub,.sbBtn,.cockpit .stat,
-.dcBadge,.wotdHe,.chip,[dir="rtl"] .qText{font-family:var(--font-he),var(--font)}
-
-/* V6 RC Numbered Paragraphs */
-.passage p[data-p]{position:relative;padding-left:28px;margin-bottom:10px}
-.passage p[data-p]::before{content:'¶'attr(data-p);position:absolute;left:0;top:0;
-  font-size:.72rem;font-weight:700;color:var(--accent);opacity:.7;min-width:22px}
-.passage .pRef{color:var(--accent);font-weight:700;text-decoration:underline;cursor:pointer}
-
-/* V6 Practice Hub Card */
-.phubGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.phubTile{padding:18px 14px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);
-  background:var(--glass);text-align:center;cursor:pointer;transition:var(--transition)}
-.phubTile:hover{background:var(--glass-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.25)}
-.phubTile .phIco{font-size:1.8rem;margin-bottom:6px}
-.phubTile .phLbl{font-weight:700;font-size:.84rem}
-
-/* V6 Swipe 3D Flip */
-.swipeCardInner{position:relative;width:100%;height:100%;transform-style:preserve-3d;will-change:transform;-webkit-transform-style:preserve-3d;
-  transition:transform .5s cubic-bezier(.4,0,.2,1)}
-.swipeCardInner.is-flipped{transform:rotateY(180deg);-webkit-transform:rotateY(180deg)}
-.swipeFace{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:24px;text-align:center;border-radius:inherit}
-.swipeFace.swipeFront{z-index:2}
-.swipeFace.swipeBack{transform:rotateY(180deg);-webkit-transform:rotateY(180deg);
-  background:linear-gradient(135deg,rgba(91,91,214,0.14),rgba(6,182,212,0.08))}
-.swipeCard.swipeBg{pointer-events:none}
-.swipeCard.swipeBg .swipeInner{display:flex;align-items:center;justify-content:center;height:100%;padding:24px}
-
-/* V6 NITE Instructions Banner */
-.niteBanner{padding:14px 16px;border-radius:var(--radius-sm);margin-bottom:14px;
-  background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(91,91,214,0.06));
-  border:1px solid rgba(59,130,246,0.2);font-size:.82rem;line-height:1.7;direction:ltr;text-align:left}
-.niteBanner b{color:var(--accent);font-weight:700}
-
-/* V6 Enhanced Neon Feedback */
-@keyframes v6neonGreen{
-  0%{box-shadow:0 0 0 2px rgba(34,197,94,0.7),0 0 20px rgba(34,197,94,0.4)}
-  50%{box-shadow:0 0 0 4px rgba(34,197,94,0.9),0 0 50px rgba(34,197,94,0.5),0 0 100px rgba(34,197,94,0.2)}
-  100%{box-shadow:0 0 0 2px rgba(34,197,94,0.7),0 0 20px rgba(34,197,94,0.4)}}
-@keyframes v6neonRed{
-  0%,100%{transform:translateX(0);box-shadow:0 0 0 2px rgba(239,68,68,0.7),0 0 18px rgba(239,68,68,0.3)}
-  12%{transform:translateX(-6px)}25%{transform:translateX(6px)}37%{transform:translateX(-5px)}
-  50%{transform:translateX(5px);box-shadow:0 0 0 3px rgba(239,68,68,0.9),0 0 40px rgba(239,68,68,0.5)}
-  62%{transform:translateX(-3px)}75%{transform:translateX(3px)}87%{transform:translateX(-1px)}}
-
-/* ===== V5 ENHANCEMENTS ===== */
-
-/* Floating Dictionary Button */
-#floatingDict{position:fixed;bottom:90px;right:16px;z-index:5500;width:52px;height:52px;border-radius:50%;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));border:2px solid rgba(91,91,214,0.5);
-  color:#fff;font-size:1.3rem;display:none;align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 6px 24px rgba(91,91,214,0.4);transition:all .3s ease}
-body.stageActive #floatingDict{display:flex}
-#floatingDict:hover{transform:scale(1.12);box-shadow:0 8px 32px rgba(91,91,214,0.55)}
-@keyframes floatBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-/* Dictionary Search Modal */
-#dictSearchModal{display:none;position:fixed;inset:0;z-index:6500;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
-  align-items:flex-start;justify-content:center;padding-top:80px}
-#dictSearchModal.show{display:flex}
-#dictSearchBox{width:90%;max-width:480px;background:var(--paper);
-  border:1px solid var(--glass-border);border-radius:var(--radius);padding:20px;max-height:70vh;overflow-y:auto;
-  box-shadow:0 24px 60px rgba(0,0,0,0.6);animation:slideUp .3s ease}
-#dictSearchInput{width:100%;padding:14px 16px;border-radius:var(--radius-sm);border:1.5px solid rgba(91,91,214,0.35);
-  background:var(--paper);color:var(--text);font:inherit;font-size:16px;font-weight:700;outline:none;
-  transition:border-color .2s ease}
-#dictSearchInput:focus{border-color:var(--accent)}
-#dictResults{margin-top:12px}
-.dictResultItem{padding:12px;border-radius:var(--radius-xs);border:1px solid var(--glass-border);
-  background:var(--glass);margin-bottom:8px;cursor:pointer;transition:var(--transition)}
-.dictResultItem:hover{background:var(--glass-hover);transform:translateX(-3px)}
-.dictResultItem .dw{font-weight:700;font-size:1rem;direction:ltr}
-.dictResultItem .dh{color:var(--muted);font-weight:700;font-size:.86rem;margin-top:2px}
-.dictResultItem .dm{color:var(--muted2);font-size:.78rem;margin-top:3px;direction:ltr}
-
-/* Neon feedback enhancement */
-@keyframes neonGreenPulse{
-  0%{box-shadow:0 0 0 2px rgba(34,197,94,0.6),0 0 20px rgba(34,197,94,0.35)}
-  50%{box-shadow:0 0 0 3px rgba(34,197,94,0.8),0 0 40px rgba(34,197,94,0.5),0 0 80px rgba(34,197,94,0.2)}
-  100%{box-shadow:0 0 0 2px rgba(34,197,94,0.6),0 0 20px rgba(34,197,94,0.35)}
-}
-@keyframes neonRedShake{
-  0%,100%{transform:translateX(0)}
-  15%{transform:translateX(-5px)}
-  30%{transform:translateX(5px)}
-  45%{transform:translateX(-4px)}
-  60%{transform:translateX(4px)}
-  75%{transform:translateX(-2px)}
-  90%{transform:translateX(2px)}
-}
-.opt.correct{animation:v6neonGreen .9s ease-in-out 1!important;
-  box-shadow:0 0 0 3px rgba(34,197,94,0.8),0 0 30px rgba(34,197,94,0.45),0 0 60px rgba(34,197,94,0.2)!important;
-  background:var(--good-bg)!important;border-color:var(--good-border)!important}
-.opt.wrong{animation:v6neonRed .6s ease-in-out 1!important;
-  box-shadow:0 0 0 3px rgba(239,68,68,0.8),0 0 25px rgba(239,68,68,0.4),0 0 55px rgba(239,68,68,0.18)!important;
-  background:var(--bad-bg)!important;border-color:var(--bad-border)!important}
-
-/* Mastery Rings V6 */
-.ringProgress{transition:stroke-dashoffset 1.4s cubic-bezier(.25,.8,.25,1)}
-.ring{cursor:pointer}
-.ring:hover{background:var(--glass-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
-.ring:hover svg{filter:drop-shadow(0 0 20px var(--ring-glow,rgba(91,91,214,0.35)))}
-.ring:active{transform:scale(.97)}
-
-/* Swipe card stacking */
-.swipeStack{position:relative;width:100%;max-width:380px;height:440px;margin:20px auto}
-.swipeStack .swipeCard:nth-child(2){transform:scale(.96) translateY(8px);opacity:.7;z-index:1}
-.swipeStack .swipeCard:nth-child(3){transform:scale(.92) translateY(16px);opacity:.4;z-index:0}
-.swipeStack .swipeCard:first-child{z-index:2}
-
-/* Weak Points Badge */
-.weakBadge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:99px;font-weight:800;font-size:.76rem;
-  background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#FCA5A5}
-
-/* V5 Exam Heatmap */
-.heatGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin-top:10px}
-.heatCell{padding:10px;border-radius:var(--radius-xs);text-align:center;font-weight:800;font-size:.82rem;
-  border:1px solid var(--glass-border);transition:var(--transition)}
-.heatCell:hover{transform:scale(1.05)}
-
-
-</style>
+<link rel="stylesheet" href="app.css"/>
 </head>
 <body dir="rtl" role="main">
 <div class="appWrap">
@@ -736,103 +20,181 @@ body.stageActive #floatingDict{display:flex}
 <div id="sbBackdrop" onclick="E.toggleSidebar(true)"></div>
 <nav id="sidebar"> <div class="sbTitle">AMIR<b>NET</b></div> <button class="sbBtn active" data-nav="home" onclick="E.nav('home')"><span class="sbIco" data-ic="home"></span><span class="sbLab">בית</span></button> <button class="sbBtn" data-nav="practice" onclick="E.nav('practice')"><span class="sbIco" data-ic="bolt"></span><span class="sbLab">תרגול</span></button> <button class="sbBtn" data-nav="exam" onclick="E.nav('exam')"><span class="sbIco" data-ic="bank"></span><span class="sbLab">מבחנים</span></button> <button class="sbBtn" data-nav="vocab" onclick="E.nav('vocab')"><span class="sbIco" data-ic="book"></span><span class="sbLab">מילים</span></button> <button class="sbBtn" data-nav="games" onclick="E.nav('games')"><span class="sbIco" data-ic="grid"></span><span class="sbLab">משחקים</span></button> <button class="sbBtn" data-nav="mistakes" onclick="E.nav('mistakes')"><span class="sbIco" data-ic="crosshair"></span><span class="sbLab">טעויות</span></button> <button class="sbBtn" data-nav="strategy" onclick="E.nav('strategy')"><span class="sbIco" data-ic="layers"></span><span class="sbLab">מחברים</span></button> <button class="sbBtn" data-nav="stats" onclick="E.nav('stats')"><span class="sbIco" data-ic="chart"></span><span class="sbLab">נתונים</span></button> <hr style="border-color:var(--glass-border);margin:10px 0"/> <button class="sbBtn" onclick="E.toggleSpeed()"><span class="sbIco" data-ic="activity"></span><span class="sbLab">Speed: <span id="speedText">OFF</span></span></button> <button class="sbBtn" onclick="E.openImportExport()"><span class="sbIco" data-ic="save"></span><span class="sbLab">גיבוי</span></button> <button class="sbBtn" onclick="E.toggleDebug()"><span class="sbIco" data-ic="tool"></span><span class="sbLab">Debug</span></button> <button class="sbBtn" onclick="E.resetProgress()" style="color:var(--bad)"><span class="sbIco" data-ic="trash"></span><span class="sbLab">איפוס</span></button>
 </nav>
-<div class="main"> <!-- Cockpit --> <div class="cockpit"> <div class="stat"><b id="lvlText">Level 1</b></div> <div class="xpBar"><div class="xpFill" id="xpFill" style="width:0%"></div></div> <div class="stat"><span id="xpText">0</span>/<span id="xpNext">120</span> XP</div> <div class="stat streakFire"><span data-ic="flame"></span> <b id="streakText">0</b></div> <div class="stat"><span data-ic="target"></span> <b id="accText">—</b></div> <div class="stat" onclick="E.openExamDate()" style="cursor:pointer" title="תאריך המבחן — לחץ לעריכה"><span data-ic="calendar"></span> <b id="daysText">— ימים</b></div> <div class="stat" id="dailyWord" style="font-size:.72rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div> <button class="btn" style="padding:6px 10px;font-size:.76rem" onclick="E.toggleSidebar()">☰</button> </div> <!-- ===== HOME ===== --> <div id="homeCard" class="card">
-    <div class="pageHead">
-      <div class="pageTitle">שלום</div>
-      <div class="pageSub">עוד צעד אחד לקראת פטור. ממשיכים?</div>
-    </div>
-
-    <div class="hero">
-      <div class="heroMain">
-        <div class="heroLabel">ציון חזוי</div>
-        <div id="homePredScore" class="bigScore">—</div>
-        <div id="homePlacement" class="placementBadge">—</div>
-      </div>
-      <div class="heroSide">
-        <button class="btn heroCta" onclick="E.startMockExam('amirnet')">סימולציית אמיר״ם</button>
-        <button class="btn heroGhost" onclick="E.startMock(25)">מבחן מהיר</button>
-        <button class="btn heroGhost" onclick="E.nav('exam')">מרכז המבחנים</button>
+<div class="main"> 
+  <!-- Cockpit Header --> 
+  <div class="cockpit"> 
+    <div class="cockpitGroup">
+      <div class="lvlPill"><span data-ic="award"></span><b id="lvlText">Level 1</b></div> 
+      <div class="xpTrack" title="XP לרמה הבאה">
+        <div class="xpBar"><div class="xpFill" id="xpFill" style="width:0%"></div></div> 
+        <span class="stat" dir="ltr" style="background:transparent;border:none;padding:0"><span id="xpText">0</span>/<span id="xpNext">120</span> XP</span>
       </div>
     </div>
-
-    <div class="statRow">
-      <div class="statTile"><div class="stLabel">דיוק כולל</div><div class="stVal" id="bentoAcc">—</div></div>
-      <div class="statTile"><div class="stLabel">רצף ימים</div><div class="stVal" id="bentoStreak">0</div></div>
-      <div class="statTile wotdTile" id="wotdBanner" onclick="E.openWordOfDay()">
-        <div class="stLabel">מילת היום</div>
-        <div class="stVal" id="wotdEn" dir="ltr" style="font-size:1.25rem">—</div>
-        <div class="pageSub" id="wotdHe" style="margin-top:2px">—</div>
-        <span id="wotdHint" style="display:none"></span>
-      </div>
+    <div class="cockpitGroup">
+      <div class="stat streakFire" title="רצף ימי למידה פעילים"><span data-ic="flame"></span> <b id="streakText">0</b> ימים</div> 
+      <div class="stat" title="דיוק תשובות כולל"><span data-ic="target"></span> <b id="accText">—</b></div> 
+      <div class="stat" onclick="E.openQuickSettings()" style="cursor:pointer" title="תאריך הבחינה — לחץ להגדרה"><span data-ic="calendar"></span> <b id="daysText">— ימים</b></div> 
+      <div class="stat" id="dailyWord" style="font-size:.74rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:none"></div> 
     </div>
-
-    <div class="panel">
-      <div class="panelTitle">מסלול הסיווג</div>
-      <div id="homeLadder" class="ladderSpine" style="margin-top:8px"></div>
+    <div class="cockpitActions">
+      <button class="cockpitBtn" onclick="E.openDictSearch()" title="חיפוש מילון מהיר (Ctrl+K)"><span data-ic="search"></span></button>
+      <button class="cockpitBtn" onclick="E.openQuickSettings()" title="יעדי למידה ותאריך בחינה"><span data-ic="sliders"></span></button>
+      <button class="cockpitBtn" onclick="E.toggleTheme()" title="החלף מצב יום / לילה"><span data-ic="sun"></span></button>
+      <button class="cockpitBtn" style="display:none" id="mobileSbToggle" onclick="E.toggleSidebar()" title="תפריט">☰</button>
     </div>
+  </div> 
 
-    <div class="twoCol">
-      <div class="panel">
-        <div class="panelHead"><div class="panelTitle">משימה יומית</div><div class="panelPct"><span id="missionPct">0</span></div></div>
-        <div class="track"><div class="trackFill" id="missionFill" style="width:0%"></div></div>
-        <div id="missionList" style="margin-top:10px"></div>
-        <button class="btn primary" style="margin-top:10px" onclick="E.startDailyMission()">התחל משימה</button>
+  <!-- ===== HOME DASHBOARD ===== --> 
+  <div id="homeCard" class="card" style="padding:0;background:transparent;border:none;box-shadow:none">
+    
+    <!-- Bento Hero & Word of the Day -->
+    <div class="bentoHero">
+      <!-- Main Score & Quick Action Deck -->
+      <div class="bentoScoreCard">
+        <div>
+          <div class="bentoScoreTop">
+            <div>
+              <div class="bentoScoreLabel">ציון חזוי לאמירנ״ט</div>
+              <div id="homePredScore" class="bigScore" style="color:#ffffff;margin:4px 0 6px">—</div>
+            </div>
+            <div id="homePlacement" class="placementBadge" style="background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.28);color:#fff">—</div>
+          </div>
+          <div style="font-size:.84rem;opacity:.92;line-height:1.4">התקדמות מבוססת אלגוריתם שקלול רשמי של מאל״ו. מוכנים לתרגול הבא?</div>
+        </div>
+        
+        <div class="bentoScoreActions">
+          <button class="btn bentoPrimary" onclick="E.startMockExam('amirnet')">סימולציית אמיר״ם מלאה</button>
+          <button class="btn bentoGhost" onclick="E.startSession('mix')">⚡ תרגול אדפטיבי</button>
+          <button class="btn bentoGhost" onclick="E.startMock(25)">⏱️ מבחן 25 שאלות</button>
+        </div>
       </div>
-      <div>
-        <div class="panel" id="dailyChallengeCard">
-          <div class="panelHead"><div class="panelTitle">אתגר יומי</div><div class="dcBadge" id="dcReward">+0 XP</div></div>
-          <div class="pageSub" id="dcDesc">—</div>
-          <div class="track" style="margin-top:10px"><div class="trackFill" id="dcFill" style="width:0%"></div></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-            <div id="dcProgressText" style="font-weight:600;font-size:.85rem">—</div>
-            <button class="btn primary" id="dcClaimBtn" onclick="E.claimDailyChallenge()" style="display:none">קבל XP</button>
+
+      <!-- Word of the Day & Quick Mnemonic -->
+      <div class="bentoWotdCard" id="wotdBanner" onclick="E.openWordOfDay()">
+        <div>
+          <div class="wotdHead">
+            <span class="wotdTag">✨ מילת היום</span>
+            <button class="btn" style="padding:4px 10px;font-size:.76rem" onclick="event.stopPropagation();E.generateAiMnemonicForWotd()">אסוציאציית AI</button>
+          </div>
+          <div style="margin-top:12px">
+            <div class="wotdWord" id="wotdEn">—</div>
+            <div class="wotdTrans" id="wotdHe">—</div>
+            <span id="wotdHint" style="display:none"></span>
           </div>
         </div>
-        <div class="panel">
-          <div class="panelTitle" style="margin-bottom:6px">שליטה לפי סוג</div>
-          <div class="ringRow" id="homeRings"></div>
+        <div class="wotdActions">
+          <button class="btn" style="padding:6px 12px;font-size:.8rem" onclick="event.stopPropagation();E.speakWotd()">השמע הגייה</button>
+          <span style="font-size:.78rem;color:var(--muted);margin-inline-start:auto">+2 XP בחשיפה</span>
         </div>
       </div>
     </div>
 
-    <div class="panel">
-      <div class="panelTitle" style="margin-bottom:10px">תרגול מהיר</div>
-      <div class="grid grid3">
-        <div class="tile" onclick="E.startSession('sentence')"><div class="tIcon" data-ic="pencil"></div><div class="tLabel">השלמת משפטים</div></div>
-        <div class="tile" onclick="E.startSession('restatement')"><div class="tIcon" data-ic="refresh"></div><div class="tLabel">ניסוח מחדש</div></div>
-        <div class="tile" onclick="E.startSession('reading')"><div class="tIcon" data-ic="bookOpen"></div><div class="tLabel">הבנת הנקרא</div></div>
-        <div class="tile" onclick="E.startSession('mix')"><div class="tIcon" data-ic="shuffle"></div><div class="tLabel">תרגול אדפטיבי</div></div>
-        <div class="tile" onclick="E.startMock(25)"><div class="tIcon" data-ic="clock"></div><div class="tLabel">מבחן מהיר</div></div>
-        <div class="tile" onclick="E.startMock(60)"><div class="tIcon" data-ic="award"></div><div class="tLabel">מבחן מורחב</div></div>
+    <!-- Targeted Practice Deck (3 Primary Pillars) -->
+    <div class="deckGrid">
+      <div class="deckCard" onclick="E.startSession('sentence')">
+        <div class="deckCardHead">
+          <div>
+            <span class="deckBadge">SC · 20 דק׳</span>
+            <div class="deckTitle">השלמת משפטים</div>
+            <div class="deckSub">אוצר מילים אקדמי, הקשר תחבירי והבנת משפטים מורכבים</div>
+          </div>
+        </div>
+        <div class="deckFooter">
+          <span style="font-weight:700;font-size:.82rem;color:var(--accent)">התחל תרגול ←</span>
+          <span style="font-size:.76rem;color:var(--muted)">4 אפשרויות</span>
+        </div>
+      </div>
+
+      <div class="deckCard" onclick="E.startSession('restatement')">
+        <div class="deckCardHead">
+          <div>
+            <span class="deckBadge" style="background:var(--accent-teal-soft);color:var(--accent2)">RS · 20 דק׳</span>
+            <div class="deckTitle">ניסוח מחדש</div>
+            <div class="deckSub">זיהוי מסיחי מלכודת, קשרים לוגיים ושמירה על משמעות מקורית</div>
+          </div>
+        </div>
+        <div class="deckFooter">
+          <span style="font-weight:700;font-size:.82rem;color:var(--accent2)">התחל תרגול ←</span>
+          <span style="font-size:.76rem;color:var(--muted)">ניתוח לוגי</span>
+        </div>
+      </div>
+
+      <div class="deckCard" onclick="E.startSession('reading')">
+        <div class="deckCardHead">
+          <div>
+            <span class="deckBadge" style="background:rgba(217,119,6,0.12);color:var(--warn)">RC · 20 דק׳</span>
+            <div class="deckTitle">הבנת הנקרא</div>
+            <div class="deckSub">קטעי קריאה אקדמיים, שאלות רעיון מרכזי, מילים בהקשר והסקת מסקנות</div>
+          </div>
+        </div>
+        <div class="deckFooter">
+          <span style="font-weight:700;font-size:.82rem;color:var(--warn)">התחל תרגול ←</span>
+          <span style="font-size:.76rem;color:var(--muted)">מסך מפוצל</span>
+        </div>
       </div>
     </div>
 
+    <!-- Arcade & Flash Games Ribbon -->
+    <div class="arcadeRibbon">
+      <div class="arcadeRibbonTitle">
+        <span style="font-size:1.2rem"></span>
+        <span>ארקייד זיכרון ומהירות:</span>
+      </div>
+      <div class="arcadeBtnGroup">
+        <button class="btn" onclick="E.startMemoryGame()"><span data-ic="grid"></span> Memory Match</button>
+        <button class="btn" onclick="E.startSpeedQuiz()"><span data-ic="activity"></span> Speed Quiz</button>
+        <button class="btn" onclick="E.startSwipeMode()"><span data-ic="layers"></span> Swipe Cards</button>
+      </div>
+    </div>
+
+    <!-- Focus Grid: Classification Ladder & Daily Goals -->
     <div class="twoCol">
+      <!-- Exemption Journey Ladder -->
       <div class="panel">
-        <div class="panelTitle" style="margin-bottom:8px">משחקי מילים</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn" onclick="E.nav('games')">Memory Match</button>
-          <button class="btn" onclick="E.startSpeedQuiz()">Speed Quiz</button>
-          <button class="btn" onclick="E.startSwipeMode()">Swipe Cards</button>
+        <div class="panelHead">
+          <div class="panelTitle">מסלול הסיווג לפטור</div>
+          <span style="font-size:.78rem;font-weight:700;color:var(--muted)">סולם מאל״ו (50–150)</span>
         </div>
+        <div id="homeLadder" class="ladderSpine" style="margin-top:8px"></div>
       </div>
-      <div class="panel">
-        <div class="panelTitle" style="margin-bottom:8px">הגדרות תרגול</div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
-          <span style="font-size:.85rem;color:var(--muted)">תאריך המבחן</span>
-          <input type="date" id="examDateInput" onchange="E.saveExamDate(this.value)" style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-xs);color:var(--text);font:inherit;font-weight:500;font-size:.85rem;padding:7px 10px"/>
-          <span id="examDateDays" style="font-weight:600;font-size:.8rem;color:var(--muted)"></span>
+
+      <!-- Daily Missions & Challenge -->
+      <div>
+        <div class="panel" id="dailyChallengeCard" style="margin-bottom:14px">
+          <div class="panelHead">
+            <div class="panelTitle">אתגר יומי מיוחד</div>
+            <div class="dcBadge" id="dcReward">+0 XP</div>
+          </div>
+          <div class="pageSub" id="dcDesc" style="margin-top:2px">—</div>
+          <div class="track" style="margin-top:10px"><div class="trackFill" id="dcFill" style="width:0%"></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+            <div id="dcProgressText" style="font-weight:700;font-size:.84rem">—</div>
+            <button class="btn primary" id="dcClaimBtn" onclick="E.claimDailyChallenge()" style="display:none;padding:6px 14px">קבל XP</button>
+          </div>
         </div>
-        <div class="goalGrid">
-          <label>חדשות <input type="number" inputmode="numeric" id="goalNew" value="15" min="0" max="80"/></label>
-          <label>חזרות <input type="number" inputmode="numeric" id="goalReview" value="15" min="0" max="120"/></label>
-          <label>SC <input type="number" inputmode="numeric" id="goalSC" value="5" min="0" max="50"/></label>
-          <label>RS <input type="number" inputmode="numeric" id="goalRS" value="5" min="0" max="50"/></label>
-          <label>RC <input type="number" inputmode="numeric" id="goalRC" value="5" min="0" max="50"/></label>
+
+        <div class="panel">
+          <div class="panelHead">
+            <div class="panelTitle">משימה יומית</div>
+            <div class="panelPct"><span id="missionPct">0</span>%</div>
+          </div>
+          <div class="track"><div class="trackFill" id="missionFill" style="width:0%"></div></div>
+          <div id="missionList" style="margin-top:12px"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <button class="btn primary" onclick="E.startDailyMission()">התחל משימה</button>
+            <button class="btn" onclick="E.openQuickSettings()" style="font-size:.78rem">⚙️ ערוך יעדים</button>
+          </div>
         </div>
-        <button class="btn" style="margin-top:8px" onclick="E.saveGoalsFromUI()">שמור</button>
+
+        <!-- Hidden container for JS backwards compatibility with homeRings, bentoAcc, bentoStreak -->
+        <div style="display:none">
+          <div id="homeRings"></div>
+          <div id="bentoAcc"></div>
+          <div id="bentoStreak"></div>
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- ===== EXAM CENTER ===== --> <div id="examCard" class="card" style="display:none"> <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px"> <div style="font-weight:800;font-size:1.05rem" class="shimmerText">מרכז מבחנים</div> <div style="font-weight:700;font-size:.8rem;color:var(--muted)">מרכז מבחנים מדומים • לחץ גבוה • תובנות אמיתיות</div> </div> <div id="examBody"></div> </div> <!-- ===== PRACTICE ===== --> <div id="practiceCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem" id="practiceTitle">תרגול</div> <div style="font-size:.78rem;color:var(--muted);margin-top:2px" id="practiceMeta"></div> <div id="practiceProgressBar" class="practiceProgress" style="display:none"><span class="ppLabel" id="ppLabel"></span><div class="ppBar"><div class="ppFill" id="ppFill"></div></div></div> <div id="mockProgress" class="mockProgress" style="display:none"></div> <div id="passageProgress" style="display:none"></div> <div id="practiceBody" style="margin-top:14px"></div> </div> <!-- V6 PRACTICE HUB --> <div id="practiceHubCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.15rem;margin-bottom:14px">Practice Hub</div> <div id="niteInstructionsArea" style="display:none"></div> <div class="phubGrid" style="margin-bottom:14px"> <div class="phubTile" onclick="E.startSession('sentence')"><div class="phIco"></div><div class="phLbl">Sentence Completion</div></div> <div class="phubTile" onclick="E.startSession('restatement')"><div class="phIco"></div><div class="phLbl">Restatement</div></div> <div class="phubTile" onclick="E.startSession('reading')"><div class="phIco"></div><div class="phLbl">Reading Comp.</div></div> <div class="phubTile" onclick="E.startSession('mix')"><div class="phIco"></div><div class="phLbl">Adaptive Mix</div></div> <div class="phubTile" onclick="E.startMistakeLab()"><div class="phIco"></div><div class="phLbl">Mistake Lab</div></div> <div class="phubTile" onclick="E.startMock('amirnet')"><div class="phIco"></div><div class="phLbl">AMIRNET Mock</div></div> </div> <div class="item" style="margin-bottom:14px"> <div style="font-weight:800;margin-bottom:8px">Practice Stats</div> <div id="practiceHubStats" style="color:var(--muted);font-size:.86rem">Loading...</div> </div> <div class="item"> <div style="font-weight:800;margin-bottom:8px">Learning Games</div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="E.startMemoryMatch()">Memory Match</button> <button class="btn" onclick="E.startSpeedQuiz()">Speed Quiz</button> <button class="btn" onclick="E.startSwipeMode()">Swipe Cards</button> </div> </div> </div> <!-- ===== VOCAB ===== --> <div id="vocabCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Vocab Hub</div> <div id="vocabBody"></div> </div> <!-- ===== GAMES ===== --> <div id="gamesCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Arcade Zone</div> <div id="gamesBody"></div> </div> <!-- ===== MISTAKES ===== --> <div id="mistakeCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">Mistake Lab</div> <div id="mistakeBody"></div> </div> <!-- ===== STRATEGY ===== --> <div id="strategyCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">מחברים לוגיים</div> <div id="connectorList"></div> </div> <!-- ===== STATS ===== --> <div id="statsCard" class="card" style="display:none"> <div style="font-weight:800;font-size:1.05rem;margin-bottom:10px">דוח ביצועים</div> <div id="statsBody"></div> </div>
@@ -852,25 +214,65 @@ body.stageActive #floatingDict{display:flex}
 <div id="errOverlay"></div>
 <div id="importModal" class="modalOverlay"></div>
 <div id="aiMnemonicModal" class="modalOverlay" onclick="if(event.target===this)E.closeAiMnemonic()">
-  <div class="modalBox" style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px;max-width:540px;width:92%;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow)">
+  <div class="modalBox" style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;max-width:540px;width:92%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:10px">
-      <div style="font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:8px"><span data-ic="star" style="color:var(--accent);display:inline-flex"></span> אסוציאציית זיכרון</div>
-      <button class="btn" onclick="E.closeAiMnemonic()" style="padding:6px 12px">&times;</button>
-    </div>
-    <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper2);padding:12px 16px;border-radius:var(--radius-sm)">
-      <div style="min-width:0">
-        <div id="aiMnemonicEn" style="font-size:1.3rem;font-weight:700;font-family:var(--font-mono)" dir="ltr">Word</div>
-        <div id="aiMnemonicHe" style="font-size:.95rem;color:var(--accent);font-weight:600;margin-top:2px">תרגום</div>
+      <div style="font-weight:800;font-size:1.15rem;display:flex;align-items:center;gap:8px">
+        <span style="color:var(--accent)">✨</span> מנמוניקה ואסוציאציה AI
       </div>
-      <button class="btn" id="aiMnemonicSpeakBtn" onclick="speak(this.dataset.word)">השמע</button>
+      <button class="btn" onclick="E.closeAiMnemonic()" style="padding:4px 10px;font-size:1.1rem">&times;</button>
     </div>
-    <div id="aiMnemonicLoading" style="display:none;padding:26px 16px;text-align:center;color:var(--muted)">
-      <div class="aiTutorLoading" style="justify-content:center"><div class="aiSpinner"></div><div>יוצר אסוציאציות זיכרון…</div></div>
+    <div id="aiMnemonicWordHeader" style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;background:var(--paper2);padding:12px 16px;border-radius:var(--radius-sm)">
+      <div>
+        <div id="aiMnemonicEn" style="font-size:1.4rem;font-weight:800;color:var(--text);font-family:var(--font-mono)" dir="ltr">Word</div>
+        <div id="aiMnemonicHe" style="font-size:1rem;color:var(--accent);font-weight:700;margin-top:2px">תרגום</div>
+      </div>
+      <button class="btn" id="aiMnemonicSpeakBtn" onclick="speak(this.dataset.word)" style="padding:8px 14px">השמע</button>
     </div>
-    <div id="aiMnemonicContent" style="margin-bottom:16px;line-height:1.75;font-size:.92rem;color:var(--text)"></div>
+    
+    <div id="aiMnemonicLoading" style="display:none;padding:30px 16px;text-align:center;color:var(--muted)">
+      <div style="font-size:1.8rem;margin-bottom:8px"></div>
+      <div style="font-weight:700">יוצר אסוציאציות זיכרון מבריקות...</div>
+    </div>
+    
+    <div id="aiMnemonicContent" style="margin-bottom:16px;line-height:1.7;font-size:.92rem;color:var(--text)"></div>
+    
     <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;border-top:1px solid var(--line);padding-top:14px">
-      <button class="btn" onclick="E.regenerateAiMnemonic()">נסה שוב</button>
-      <button class="btn primary" onclick="E.saveAiMnemonicToWord()">שמור בכרטיסייה</button>
+      <button class="btn" onclick="E.regenerateAiMnemonic()">אסוציאציה נוספת</button>
+      <button class="btn primary" id="aiMnemonicSaveBtn" onclick="E.saveAiMnemonicToWord()">שמור בכרטיסייה</button>
+    </div>
+  </div>
+</div>
+<div id="quickSettingsModal" class="modalOverlay" onclick="if(event.target===this)E.closeQuickSettings()">
+  <div class="modalBox" style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;max-width:500px;width:92%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:10px">
+      <div style="font-weight:800;font-size:1.15rem;display:flex;align-items:center;gap:8px">
+        <span>⚙️</span> יעדי למידה ותאריך בחינה
+      </div>
+      <button class="btn" onclick="E.closeQuickSettings()" style="padding:4px 10px;font-size:1.1rem">&times;</button>
+    </div>
+    
+    <div style="margin-bottom:18px;background:var(--paper2);padding:14px 16px;border-radius:var(--radius-sm);border:1px solid var(--line)">
+      <label style="font-weight:700;font-size:.88rem;display:block;margin-bottom:6px">תאריך בחינת אמירנ״ט:</label>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <input type="date" id="examDateInput" onchange="E.saveExamDate(this.value)" style="flex:1;min-width:180px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-xs);color:var(--text);font:inherit;font-weight:600;font-size:.88rem;padding:9px 12px"/>
+        <span id="examDateDays" style="font-weight:700;font-size:.84rem;color:var(--accent)"></span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:8px">יעדים יומיים מומלצים:</div>
+      <div class="goalGrid">
+        <label>חדשות <input type="number" inputmode="numeric" id="goalNew" value="15" min="0" max="80"/></label>
+        <label>חזרות <input type="number" inputmode="numeric" id="goalReview" value="15" min="0" max="120"/></label>
+        <label>SC <input type="number" inputmode="numeric" id="goalSC" value="5" min="0" max="50"/></label>
+        <label>RS <input type="number" inputmode="numeric" id="goalRS" value="5" min="0" max="50"/></label>
+        <label>RC <input type="number" inputmode="numeric" id="goalRC" value="5" min="0" max="50"/></label>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--line);padding-top:14px">
+      <button class="btn" onclick="E.closeQuickSettings()">סגור</button>
+      <button class="btn primary" onclick="E.saveGoalsFromUI();E.closeQuickSettings()">שמור יעדים</button>
     </div>
   </div>
 </div>
@@ -6906,6 +6308,40 @@ function makeReactive(state){
 }
 let S=makeReactive(loadState());
 
+// ===== WORD OF THE DAY =====
+function getWordOfDay(){
+  const today=todayISO();
+  if(S&&S.wordOfDay&&S.wordOfDay.date===today&&S.wordOfDay.word){
+    return DICT_MAP.get(S.wordOfDay.word.toLowerCase())||{word:S.wordOfDay.word,hebrew:S.wordOfDay.hebrew||''};
+  }
+  // Pick deterministic word based on date
+  const seed=today.split('-').reduce((a,b)=>a+parseInt(b),0);
+  const idx=seed%FULL_DICTIONARY.length;
+  const w=FULL_DICTIONARY[idx]||FULL_DICTIONARY[0];
+  if(S){
+    S.wordOfDay={date:today,word:w.word,hebrew:w.hebrew||w.hebrewTranslation||''};
+    saveStateDebounced();
+  }
+  return w;
+}
+
+function renderWordOfDay(){
+  try{
+    const w=getWordOfDay();
+    const en=$('wotdEn'),he=$('wotdHe');
+    if(en)en.textContent=w.word||'';
+    if(he)he.textContent=w.hebrew||w.hebrewTranslation||'';
+  }catch(_){}
+}
+
+function openWordOfDay(){
+  const w=getWordOfDay();
+  if(!w)return;
+  S.xp+=2;saveStateDebounced();
+  toast(` ${w.word}: ${w.hebrew||w.hebrewTranslation||''} (+2 XP)`);
+  speak(w.word);
+}
+
 // ===== QUESTION NORMALIZATION =====
 function getCorrectKey(q){return q?.correctAnswer??q?.correct??q?.correctOption??q?.correctKey??q?.answer??null;}
 function normType(t){
@@ -6945,52 +6381,62 @@ let _lastAction=0;
 function guardAction(){const now=Date.now();if(now-_lastAction<300)return false;_lastAction=now;return true;}
 
 // ===== SPEECH =====
-// Read a question aloud the way a person would: "____" becomes "blank",
-// markup and stray punctuation are stripped, spacing normalised.
-let _cachedVoice=null;
-function cleanTextForSpeech(raw){
-  if(!raw)return '';
-  return String(raw)
-    .replace(/<[^>]*>/g,'')
-    .replace(/_{1,}/g,' blank ')
-    .replace(/[—–-]{2,}/g,' blank ')
-    .replace(/\[\s*\.\.\.\s*\]|\(\s*\.\.\.\s*\)|\.{3,}/g,' blank ')
-    .replace(/[‐-―⁃−]/g,'-')
-    .replace(/[“”„‟″‶]/g,'"')
-    .replace(/[‘’‚‛′‵]/g,"'")
-    .replace(/[•\t\r\n]+/g,' ')
-    .replace(/\s+/g,' ')
-    .trim();
-}
-function getVoice(){
-  if(_cachedVoice)return _cachedVoice;
-  if(!('speechSynthesis' in window))return null;
-  const voices=window.speechSynthesis.getVoices()||[];
-  _cachedVoice=voices.find(v=>v.lang==='en-US'&&v.name.includes('Natural'))||
-               voices.find(v=>v.lang==='en-US'||v.lang.startsWith('en'))||
-               voices[0]||null;
+let _cachedVoice = null;
+function getVoice() {
+  if (_cachedVoice) return _cachedVoice;
+  if (!('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices() || [];
+  _cachedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Natural')) ||
+                 voices.find(v => v.lang === 'en-US' || v.lang.startsWith('en')) ||
+                 voices[0] || null;
   return _cachedVoice;
 }
-try{if('speechSynthesis' in window)window.speechSynthesis.addEventListener('voiceschanged',()=>{_cachedVoice=null;});}catch(_){}
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => { _cachedVoice = null; getVoice(); };
+}
+
+function cleanTextForSpeech(raw) {
+  if (!raw) return '';
+  return String(raw)
+    .replace(/<[^>]*>/g, '') // strip HTML tags
+    .replace(/_{1,}/g, ' blank ') // replace ANY underscore sequence with 'blank'
+    .replace(/[—–-]{2,}/g, ' blank ') // replace multiple dashes / em-dashes
+    .replace(/\[\s*\.\.\.\s*\]|\(\s*\.\.\.\s*\)|\.{3,}/g, ' blank ') // dots / ellipses
+    .replace(/[\u2010-\u2015\u2043\u2212]/g, '-') // normalize unicode dashes
+    .replace(/[\u201C\u201D\u201E\u201F\u2033\u2036]/g, '"') // normalize quotes
+    .replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]/g, "'")
+    .replace(/[•\t\r\n]+/g, ' ') // bullets & newlines
+    .replace(/\s+/g, ' ') // normalize spaces
+    .trim();
+}
+
 function speak(text){
-  if(!('speechSynthesis' in window))return;
+  if(!('speechSynthesis' in window)) return;
   try{
     window.speechSynthesis.cancel();
-    var clean=cleanTextForSpeech(text);
-    if(!clean)return;
-    var u=new SpeechSynthesisUtterance(clean);
-    u.lang='en-US';u.rate=0.96;u.pitch=1.0;
-    var v=getVoice();if(v)u.voice=v;
-    // iOS fix: speechSynthesis sometimes pauses silently — resume it
-    if(window.speechSynthesis.paused)window.speechSynthesis.resume();
+    const cleanText = cleanTextForSpeech(text);
+    if (!cleanText) return;
+    
+    var u = new SpeechSynthesisUtterance(cleanText);
+    u.lang = 'en-US';
+    u.rate = 0.96; // clear natural pace
+    u.pitch = 1.0;
+    
+    const v = getVoice();
+    if (v) u.voice = v;
+    
+    if(window.speechSynthesis.paused) window.speechSynthesis.resume();
     window.speechSynthesis.speak(u);
-    // iOS Safari bug: speech can freeze after ~15s. Workaround: periodic resume
-    var iosResume=setInterval(function(){if(!window.speechSynthesis.speaking)clearInterval(iosResume);else window.speechSynthesis.resume();},5000);
-    u.onend=function(){clearInterval(iosResume);};
-    u.onerror=function(){clearInterval(iosResume);};
+    
+    var iosResume = setInterval(function(){
+      if(!window.speechSynthesis.speaking) clearInterval(iosResume);
+      else window.speechSynthesis.resume();
+    }, 2500);
+    u.onend = function(){ clearInterval(iosResume); };
+    u.onerror = function(){ clearInterval(iosResume); };
   }catch(_){}
 }
-try{if('speechSynthesis' in window)window.speechSynthesis.getVoices();}catch(_){}
+try{ if('speechSynthesis' in window) window.speechSynthesis.getVoices(); }catch(_){}
 
 // ===== COCKPIT =====
 function renderCockpit(){
@@ -7233,15 +6679,44 @@ function nextQuestion(first){
 }
 
 function tokenizeToSpans(text){
-  return String(text||'').split(/(\b[A-Za-z][A-Za-z'-]*\b)/g).map(p=>/^[A-Za-z][A-Za-z'-]*$/.test(p)?`<span class="wTok" data-w="${escapeHtml(p)}" style="cursor:pointer;border-bottom:1px dotted var(--muted2)">${escapeHtml(p)}</span>`:escapeHtml(p)
+  return String(text||'').split(/(\b[A-Za-z][A-Za-z'-]*\b)/g).map(p=>/^[A-Za-z][A-Za-z'-]*$/.test(p)?`<span class="wTok" data-w="${escapeHtml(p)}" title="לחץ לתרגום">${escapeHtml(p)}</span>`:escapeHtml(p)
   ).join('');
 }
-function numberParagraphs(text){
-  // V6: Split passage into numbered paragraphs for NITE-style reference
-  const raw=String(text||'');
-  const paras=raw.split(/\n\n+|\r?\n\r?\n+/).filter(p=>p.trim());
-  if(paras.length<=1)return '<p data-p="1" dir="ltr">'+tokenizeToSpans(raw)+'</p>';
-  return paras.map((p,i)=>'<p data-p="'+(i+1)+'" dir="ltr">'+tokenizeToSpans(p.trim())+'</p>').join('');
+function numberParagraphs(text, q){
+  // NITE / Academic styled structured paragraphs with learning highlighter
+  const raw=String(text||'').trim();
+  let paras = [];
+  if(q&&Array.isArray(q.paragraphs)&&q.paragraphs.length>0){
+    paras = q.paragraphs.map(p=>String(p).trim()).filter(Boolean);
+  } else {
+    paras = raw.split(/\n\n+|\r?\n\r?\n+/).map(p=>p.trim()).filter(Boolean);
+  }
+  if(!paras.length) paras = [raw];
+
+  // Detect if current question targets a specific paragraph (e.g. "paragraph 3", "In paragraph 2")
+  let targetParaNum = -1;
+  if(q&&q.questionText){
+    const m = q.questionText.match(/\bparagraph\s+(\d+)\b/i);
+    if(m&&m[1]){
+      targetParaNum = parseInt(m[1], 10);
+    }
+  }
+
+  const helpBar = `<div class="passageHelpBar">
+    <span><b>טיפ למידה:</b> לחץ/י על כל מילה בטקסט לקבלת תרגום מיידי, דוגמה והשמעה</span>
+    <span>פסקאות ממוספרות לפי תקן מאל"ו</span>
+  </div>`;
+
+  const renderedParas = paras.map((p,i)=>{
+    const pNum = i + 1;
+    const isTarget = targetParaNum === pNum;
+    return `<div class="passagePara ${isTarget?'targetPara':''}" data-p="${pNum}">
+      <span class="paraNum" title="פסקה ${pNum}">[${pNum}]</span>
+      <div class="paraContent" dir="ltr">${tokenizeToSpans(p)}</div>
+    </div>`;
+  }).join('');
+
+  return helpBar + renderedParas;
 }
 
 // ===== V6: NITE OFFICIAL INSTRUCTIONS =====
@@ -7263,9 +6738,41 @@ function renderQuestion(q){
   const top=`<div class="qTop"> <div style="font-weight:700;font-size:.88rem">${q.type.toUpperCase()} • Difficulty ${q.difficulty||3}</div> <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"> <div class="timer" id="timerEl">—</div> <div class="streakFire ${(S.correctStreak||0)>=3?'heat':''}" id="streakChip">${ic('flame')} <b>${S.correctStreak||0}</b></div> <button class="btn" onclick="E.speakCurrent()">השמע</button>${q.type==='reading'?'<button class="btn" onclick="E.toggleHighlight()">סמן</button>':''}
       <button class="btn" onclick="E.useHint()" id="hintBtn">רמז<span class="kbHint">H</span></button>${q.type==='restatement'?'<button class="btn" onclick="E.analyzeQuestion()" id="analyzeBtn">נתח<span class="kbHint">A</span></button>':''}
       <button class="btn" onclick="E.exitStage()">יציאה</button> </div></div>`;
-  const explain=`<div class="explain" id="explainBox"> <div style="font-weight:700" id="explainTitle">הסבר</div> <div id="explainText" style="margin-top:8px;color:var(--text)"></div> <div id="whyWrongBox" class="item" style="display:none;margin-top:10px"><div style="font-weight:700;margin-bottom:5px">למה המסיח שבחרת לא נכון?</div><div id="whyWrongText" style="color:var(--text);line-height:1.75"></div></div> <div class="kv" id="explainKV"></div> <div id="hebrewBoost" style="display:none;margin-top:10px"></div> <div id="aiTutorBox" class="aiTutorCard" style="display:none"></div> <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="E.advanceAfterFeedback()">הבא ⟶ <span class="kbHint">↵</span></button> <button class="btn" id="similarBtn" onclick="E.trySimilarQuestion()">שאלה דומה</button> <button class="btn aiBtn" id="aiTutorBtn" onclick="E.askAiTutor()">ניתוח חונך AI</button> <button class="btn" onclick="E.nav('stats')">דוח</button> </div></div>`;
+  const explain=`<div class="explain" id="explainBox">
+    <div class="explainHeader">
+      <div id="explainTitle" class="explainBadge">הסבר</div>
+      <div id="explainMeta" class="explainMeta"></div>
+    </div>
+    <div id="explainText" class="explainContent"></div>
+    
+    <div id="whyWrongBox" class="whyWrongCard" style="display:none">
+      <div class="whyWrongHead">
+        <div class="whyWrongTag"><span class="whyWrongIco">⚠️</span> מלכודת מאל"ו במסיח שבחרת</div>
+        <span class="whyWrongBadge" id="whyWrongBadge">מסיח שגוי</span>
+      </div>
+      <div id="whyWrongText" class="whyWrongBody"></div>
+      <div class="whyWrongAction">
+        <button class="btn retrySimilarBtn" onclick="E.trySimilarQuestion()">נסה שאלה דומה מאותו סוג</button>
+      </div>
+    </div>
+
+    <div class="explainDivider" id="kvDivider" style="display:none"></div>
+    <div class="explainSectionTitle" id="kvSectionTitle" style="display:none">אוצר מילים ומפתח תשובה:</div>
+    <div class="kv explainKV" id="explainKV"></div>
+    <div id="hebrewBoost" class="hebrewBoostCard" style="display:none"></div>
+    <div id="aiTutorBox" class="aiTutorCard" style="display:none"></div>
+    
+    <div class="explainDivider"></div>
+
+    <div class="explainActions">
+      <button class="btn primary explainNextBtn" onclick="E.advanceAfterFeedback()">הבא ⟶ <span class="kbHint">↵</span></button>
+      <button class="btn retrySimilarBtn" id="globalSimilarBtn" style="display:none" onclick="E.trySimilarQuestion()">שאלה דומה</button>
+      <button class="btn aiBtn" id="aiTutorBtn" onclick="E.askAiTutor()"> ניתוח חונך AI</button>
+      <button class="btn" onclick="E.nav('stats')">דוח ביצועים</button>
+    </div>
+  </div>`;
   if(q.type==='reading'){
-    $('practiceBody').innerHTML=`<div class="split"><div class="passage"><div style="font-weight:700;margin-bottom:6px">${escapeHtml(q.passageTitle||'')}</div><div id="passageText">${numberParagraphs(q.passageText||'')}</div></div><div>${top}<div class="qText" dir="ltr">${escapeHtml(q.questionText)}</div><div style="display:flex;flex-direction:column;gap:8px">${options}</div>${explain}</div></div>`;
+    $('practiceBody').innerHTML=`<div class="split"><div class="passage"><div class="passageTitle">${escapeHtml(q.passageTitle||'Reading Passage')}</div><div id="passageText">${numberParagraphs(q.passageText||'', q)}</div></div><div>${top}<div class="qText" dir="ltr">${escapeHtml(q.questionText)}</div><div style="display:flex;flex-direction:column;gap:8px">${options}</div>${explain}</div></div>`;
   }else{
     $('practiceBody').innerHTML=`<div>${top}<div class="qText" dir="ltr">${escapeHtml(q.questionText)}</div><div style="display:flex;flex-direction:column;gap:8px">${options}</div>${explain}</div>`;
   }
@@ -7337,34 +6844,93 @@ function handleAnswer(choice,isTimeout){
   S.diff=ok?clamp((S.diff||3)+((S.correctStreak>=3)?1:0.5),1,5):clamp((S.diff||3)-1,1,5);
   updateStreak();
   // UI feedback
+  sess._lastChoice = choice;
   document.querySelectorAll('.opt').forEach(el=>{
     const k=el.getAttribute('data-opt');
     if(k===correct)el.classList.add('correct');
     if(choice&&k===choice&&k!==correct)el.classList.add('wrong');
   });
   const box=$('explainBox');if(box)box.classList.add('show');
-  const et=$('explainTitle');if(et)et.textContent=ok?' נכון!':(isTimeout?' הזמן נגמר!':' לא נכון');
-  const ex=$('explainText');if(ex)ex.textContent=q.explanationHebrew||sess.current?.explanationHebrew||'אין הסבר.';
-  // Why Wrong
-  const wwB=$('whyWrongBox'),wwT=$('whyWrongText');
+  const et=$('explainTitle');
+  if(et){
+    et.className = ok ? 'explainBadge correct' : (isTimeout ? 'explainBadge timeout' : 'explainBadge wrong');
+    et.innerHTML = ok ? '<span>✓</span> תשובה נכונה! (+' + xp + ' XP)' : (isTimeout ? '<span>⏰</span> הזמן נגמר!' : '<span>✕</span> תשובה שגויה');
+  }
+  const em=$('explainMeta');
+  if(em){
+    em.textContent = `${Math.round(spent)}/${allowed} שניות • רצף: ${S.correctStreak||0}`;
+  }
+  const ex=$('explainText');if(ex)ex.textContent=q.explanationHebrew||sess.current?.explanationHebrew||'אין הסבר זמין לשאלה זו.';
+  
+  // Resolve option meanings upfront so they are available for all feedback sections
+  const allMeanings=resolveOptionMeanings(q,sess);
+
+  // Reset AI Tutor Box
+  const aiBox = $('aiTutorBox');
+  if(aiBox){aiBox.style.display='none';aiBox.innerHTML='';}
+  const aiBtn = $('aiTutorBtn');
+  if(aiBtn){aiBtn.disabled=false;}
+
+  // Why Wrong & Similar Question
+  const wwB=$('whyWrongBox'),wwT=$('whyWrongText'),wwBadge=$('whyWrongBadge');
+  const globalSimBtn=$('globalSimilarBtn');
+  if(globalSimBtn)globalSimBtn.style.display=ok?'none':'inline-flex';
+
   if(wwB){
     const origQ=sess.current;
-    if(!ok&&origQ?.type==='restatement'&&choice&&origQ?.whyWrong){
+    if(!ok){
       // Map shuffled choice back to original key
       const invMap={};if(sess.shuffledMap){for(const[oldK,newK]of Object.entries(sess.shuffledMap))invMap[newK]=oldK;}
-      const origChoice=invMap[choice]||choice;
-      if(origQ.whyWrong[origChoice]){wwB.style.display='block';if(wwT)wwT.textContent=origQ.whyWrong[origChoice];}else{wwB.style.display='none';}
-    }else{wwB.style.display='none';}
+      const origChoice=choice?(invMap[choice]||choice):null;
+
+      if(wwBadge){
+        wwBadge.textContent=choice?`מסיח ${choice} שגוי`:(isTimeout?'זמן אזל':'שגיאה');
+      }
+
+      if(choice&&origQ?.whyWrong&&origQ.whyWrong[origChoice]){
+        wwB.style.display='block';
+        if(wwT)wwT.textContent=origQ.whyWrong[origChoice];
+      }else if(choice){
+        wwB.style.display='block';
+        const chText=q.options[choice];
+        const chHe=allMeanings[choice]||optionMeaning(chText);
+        const corrText=q.options[correct];
+        const corrHe=allMeanings[correct]||optionMeaning(corrText);
+        if(q.type==='sentence'&&chHe&&corrHe){
+          if(wwT)wwT.textContent=`המסיח "${chText}" (${chHe}) אינו מתאים לוגית או תחבירית להקשר הנדרש במשפט, לעומת התשובה הנכונה "${corrText}" (${corrHe}).`;
+        }else if(q.type==='restatement'){
+          if(wwT)wwT.textContent=`האפשרות שנבחרה (${choice}) משנה את היחס הלוגי או מחסירה תנאי מרכזי מהמשפט המקורי.`;
+        }else{
+          if(wwT)wwT.textContent=`האפשרות שנבחרה (${choice}) אינה נתמכת ישירות על ידי הטקסט או מובילה למסקנה בלתי מבוססת.`;
+        }
+      }else if(isTimeout){
+        wwB.style.display='block';
+        if(wwT)wwT.textContent='הזמן לשאלה זו אזל לפני בחירת תשובה. מומלץ לבצע אלימינציה מהירה בתוך 15-20 שניות כדי לא להשאיר שאלה ריקה.';
+      }else{
+        wwB.style.display='none';
+      }
+    }else{
+      wwB.style.display='none';
+    }
   }
+
   // V6.2: KV chips + Learning Boost with smart translation resolution
-  const allMeanings=resolveOptionMeanings(q,sess);
   const kv=[];
   const corrText=q.options[correct],corrHe=allMeanings[correct]||optionMeaning(corrText);
-  if(corrHe)kv.push(`<div class="chip"> <span dir="ltr">${escapeHtml(corrText)}</span>= ${escapeHtml(corrHe)}</div>`);
-  if(choice&&choice!==correct){const chText=q.options[choice],chHe=allMeanings[choice]||optionMeaning(chText);if(chHe)kv.push(`<div class="chip"> <span dir="ltr">${escapeHtml(chText)}</span>= ${escapeHtml(chHe)}</div>`);}
-  if((q.tags||[]).length)kv.push(`<div class="chip">${(q.tags||[]).join(' • ')}</div>`);
-  kv.push(`<div class="chip">${Math.round(spent)}/${allowed} שנ׳</div>`);
-  const kvEl=$('explainKV');if(kvEl)kvEl.innerHTML=kv.join('');
+  if(corrHe)kv.push(`<div class="chip kvChip correctChip"><span class="chipKey" dir="ltr">${escapeHtml(corrText)}</span><span class="chipSep">=</span><span class="chipVal">${escapeHtml(corrHe)}</span></div>`);
+  if(choice&&choice!==correct){
+    const chText=q.options[choice],chHe=allMeanings[choice]||optionMeaning(chText);
+    if(chHe)kv.push(`<div class="chip kvChip wrongChip"><span class="chipKey" dir="ltr">${escapeHtml(chText)}</span><span class="chipSep">=</span><span class="chipVal">${escapeHtml(chHe)}</span></div>`);
+  }
+  if((q.tags||[]).length)kv.push(`<div class="chip tagChip">${(q.tags||[]).join(' • ')}</div>`);
+  const kvEl=$('explainKV');
+  const kvTitle=$('kvSectionTitle');
+  const kvDivider=$('kvDivider');
+  if(kvEl){
+    kvEl.innerHTML=kv.join('');
+    if(kvTitle)kvTitle.style.display=kv.length?'block':'none';
+    if(kvDivider)kvDivider.style.display=kv.length?'block':'none';
+  }
   // Learning Boost: Show Hebrew for ALL 4 options (SC only — skip RS/RC since options are full sentences)
   const hb=$('hebrewBoost');
   const qType=q.type||sess.current?.type||'';
@@ -7372,13 +6938,19 @@ function handleAnswer(choice,isTimeout){
     const hasAny=Object.values(allMeanings).some(v=>v&&v.length>0);
     if(hasAny){
       const chips=Object.entries(q.options).map(([k,v])=>{
-        const he=allMeanings[k];
+        const he=allMeanings[k]||optionMeaning(v);
         if(!he)return '';
         const isC=k===correct;const isW=choice&&k===choice&&k!==correct;
-        return `<div class="chip hebrewChip" style="${isC?'border-color:var(--good-border);background:var(--good-bg)':isW?'border-color:var(--bad-border);background:var(--bad-bg)':''}">${k}: <span dir="ltr">${escapeHtml(v)}</span>= ${escapeHtml(he)}</div>`;
+        return `<div class="hebrewBoostItem ${isC?'correct':(isW?'wrong':'')}">
+          <span class="hbLetter">${k}</span>
+          <span class="hbEng" dir="ltr">${escapeHtml(v)}</span>
+          <span class="hbHeb">${escapeHtml(he)}</span>
+        </div>`;
       }).filter(Boolean).join('');
-      if(chips){hb.style.display='block';hb.innerHTML='<div style="font-weight:700;font-size:.82rem;margin-bottom:6px">תרגום כל האפשרויות:</div>'+chips;}
-      else{hb.style.display='none';}
+      if(chips){
+        hb.style.display='block';
+        hb.innerHTML='<div class="hebrewBoostTitle">תרגום כל האפשרויות:</div><div class="hebrewBoostGrid">'+chips+'</div>';
+      }else{hb.style.display='none';}
     }else{hb.style.display='none';}
   }else if(hb){hb.style.display='none';}
   renderCockpit();saveStateDebounced();
@@ -7432,7 +7004,21 @@ document.addEventListener('mouseup',()=>{
   try{const mark=document.createElement('mark');mark.className='hl';range.surroundContents(mark);sel.removeAllRanges();}catch(_){}
 });
 
-function speakCurrent(){const q=S.session?.current;if(!q)return;const parts=[];if(q.type==='reading'&&q.passageText)parts.push(q.passageText);parts.push(q.questionText);speak(parts.join(' '));}
+function speakCurrent(){
+  const sess = S.session;
+  if (!sess) return;
+  const q = sess._shuffledMockQ || sess._shuffledQ || sess.current;
+  if (!q) return;
+  
+  const parts = [];
+  if (q.type === 'reading' && q.passageText) {
+    parts.push(q.passageText);
+  }
+  if (q.questionText) {
+    parts.push(q.questionText);
+  }
+  speak(parts.join('. '));
+}
 
 // ===== HINT SYSTEM =====
 let _hintLevel=0;
@@ -7449,7 +7035,7 @@ function useHint(){
     shuffle(opts);opts.slice(0,2).forEach(k=>{const el=document.querySelector('.opt[data-opt="'+k+'"]');if(el)el.classList.add('disabled');});
     toast(' 2 מסיחים הוסרו (50/50)');
   }else if(_hintLevel>=3){
-    const correct=q.correctAnswer;const origQ2=sq||q;const builtIn2=origQ2?.allOptionMeanings||{};const origKey2=correct;const he=builtIn2[origKey2]?(builtIn2[origKey2].indexOf('–')>=0?builtIn2[origKey2].substring(builtIn2[origKey2].indexOf('–')+1).trim():builtIn2[origKey2]):optionMeaning(q.options[correct]);
+    const correct=q.correctAnswer;const origQ2=S.session?.current||q;const builtIn2=origQ2?.allOptionMeanings||{};const origKey2=correct;const he=builtIn2[origKey2]?(builtIn2[origKey2].indexOf('–')>=0?builtIn2[origKey2].substring(builtIn2[origKey2].indexOf('–')+1).trim():builtIn2[origKey2]):optionMeaning(q.options[correct]);
     toast(he?`רמז: ${he}`:' בדוק את המשמעות ברמת ההקשר');
   }
 }
@@ -7463,6 +7049,141 @@ function analyzeQuestion(){
   const box=document.createElement('div');box.className='analyzeBox';box.id='hintBox';
   box.innerHTML=`<div style="font-weight:700;margin-bottom:6px;direction:rtl">ניתוח מבני</div><p>${analyzed}</p><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;direction:rtl"><span class="chip" style="color:${colors.verb}">פעלים</span><span class="chip" style="color:${colors.modifier}">שלילה/מגביל</span></div>`;
   const parent=document.querySelector('#practiceBody >div');if(parent)parent.appendChild(box);
+}
+
+function formatAiTutorText(txt){
+  if(!txt)return '';
+  const lines=txt.split('\n');
+  const out=[];
+  for(let rawLine of lines){
+    let line=rawLine.trim();
+    if(!line)continue;
+    line=line.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');
+    if(line.startsWith('•')||line.startsWith('-')||line.startsWith('*')){
+      const content=line.replace(/^[•\-\*]\s*/,'');
+      out.push(`<div class="aiBullet"><span class="aiBulletDot">•</span><div class="aiBulletText">${content}</div></div>`);
+    }else if(line.match(/^(\d+[\.\)]|\#+)\s*/)){
+      const content=line.replace(/^(\d+[\.\)]|\#+)\s*/,'');
+      out.push(`<div class="aiHeading">${content}</div>`);
+    }else{
+      out.push(`<p class="aiParagraph">${line}</p>`);
+    }
+  }
+  return out.join('');
+}
+
+async function askAiTutor(customPrompt){
+  const sess=S.session;if(!sess)return;
+  const q=sess._shuffledQ||sess.current;if(!q)return;
+  const box=$('aiTutorBox');const btn=$('aiTutorBtn');
+  if(!box)return;
+  box.style.display='block';
+  box.innerHTML=`
+    <div class="aiTutorHeader">
+      <div class="aiTutorBadge"> חונך AI אישי</div>
+      <div class="aiTutorModel">Gemini 3.7 Pro</div>
+    </div>
+    <div class="aiTutorLoading">
+      <div class="aiSpinner"></div>
+      <div>מנתח את השאלה, התחביר, הדקויות ומלכודות המסיחים של מאל"ו...</div>
+    </div>`;
+  if(btn)btn.disabled=true;
+  try{
+    const payload={
+      question: q.questionText,
+      passage: q.passageText||'',
+      options: q.options,
+      correctAnswer: q.options[q.correctAnswer]||q.correctAnswer,
+      userAnswer: sess._lastChoice?(q.options[sess._lastChoice]||sess._lastChoice):'',
+      type: q.type,
+      customPrompt: customPrompt||'ניתוח פסיכומטרי מעמיק, פירוק תחבירי, מלכודות מסיחים של מאל"ו והסבר ממוקד בעברית',
+      useHighThinking: true
+    };
+    const res=await fetch('/api/ai-tutor',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const data=await res.json();
+    const explanation=data.explanation||'לא התקבל הסבר מחונך ה-AI.';
+    const formatted=formatAiTutorText(explanation);
+    box.innerHTML=`
+      <div class="aiTutorHeader">
+        <div class="aiTutorBadge"> ניתוח חונך AI</div>
+        <div class="aiTutorModel">Gemini 3.7</div>
+      </div>
+      <div class="aiTutorContent">${formatted}</div>`;
+  }catch(err){
+    console.error('AI Tutor error:',err);
+    box.innerHTML=`
+      <div class="aiTutorHeader">
+        <div class="aiTutorBadge"><span class="ico">⚠️</span> חונך AI</div>
+      </div>
+      <div class="aiTutorContent" style="color:var(--bad)">לא ניתן היה להשלים את ניתוח ה-AI כרגע. אנא נסה שוב.
+      </div>`;
+  }finally{
+    if(btn)btn.disabled=false;
+  }
+}
+
+function trySimilarQuestion(){
+  if(!guardAction())return;
+  _hintLevel=0;
+  const hb=document.getElementById('hintBox');if(hb)hb.remove();
+  const sess=S.session;if(!sess)return;
+  const currentQ=sess._shuffledQ||sess.current;
+  if(!currentQ)return advanceAfterFeedback();
+
+  const type=currentQ.type||'sentence';
+  const targetDiff=currentQ.difficulty||3;
+  const used=new Set((sess.items||[]).map(x=>x.id));
+  used.add(currentQ.id);
+
+  let pool=(Q_BY_TYPE.get(type)||[]).filter(q=>!used.has(q.id));
+  if(!pool.length){
+    pool=(Q_BY_TYPE.get(type)||[]).filter(q=>q.id!==currentQ.id);
+  }
+  if(!pool.length){
+    pool=(CHALLENGE_BANK||[]).filter(q=>q.type===type&&q.id!==currentQ.id);
+  }
+
+  if(!pool.length){
+    toast('לא נמצאו שאלות נוספות מאותו סוג, ממשיך לשאלה הבאה');
+    return advanceAfterFeedback();
+  }
+
+  // Rank by difficulty closeness and topic similarity
+  pool.sort((a,b)=>{
+    const dDiffA=Math.abs((a.difficulty||3)-targetDiff);
+    const dDiffB=Math.abs((b.difficulty||3)-targetDiff);
+    const topicA=(a.topic&&currentQ.topic&&a.topic===currentQ.topic)?-1:0;
+    const topicB=(b.topic&&currentQ.topic&&b.topic===currentQ.topic)?-1:0;
+    return (dDiffA+topicA)-(dDiffB+topicB);
+  });
+
+  const nextQ=pool[0];
+  toast('טוען שאלה דומה מאותו סוג לתרגול מיידי...');
+
+  if(sess.mode==='reading'||sess.mode==='mistake'||sess.mode==='mission'){
+    sess.items.splice(sess.idx+1,0,nextQ);
+    sess.idx++;
+  }else{
+    sess.items.push(nextQ);
+  }
+
+  TimerController.stop();
+  updatePracticeProgress();
+  tickReinsertion();
+
+  sess.current=nextQ;
+  _hintLevel=0;
+  const{options:shuffled,keyMap}=shuffleOptions(nextQ.options);
+  const newCorrect=keyMap[nextQ.correctAnswer];
+  const shuffledQ={...nextQ,options:shuffled,correctAnswer:newCorrect,_originalOptions:nextQ.options,_keyMap:keyMap};
+  sess.shuffledMap=keyMap;
+  sess._shuffledQ=shuffledQ;
+  renderQuestion(shuffledQ);
+  startTimer(effectiveTime(nextQ.type));
 }
 
 // ===== MISTAKE LAB =====
@@ -7750,7 +7471,12 @@ function finishMock(){
   TimerController.stopAll();document.body.classList.remove('stageActive','focus-mode-active');
   const sess=S.session;if(!sess){nav('home');return;}
   const total=sess.totalQuestions||sess.answers.length||1,correct=sess.correct||0,accuracy=correct/total;
+  const answeredCount=sess.answers.length;
+  const completionRatio=Math.min(1, answeredCount / Math.max(1, sess.totalQuestions||answeredCount));
   
+  // Valid exam check: An exam must have at least 8 questions answered or >= 50% completion to count as a verified mock attempt
+  const isMeaningfulMock = answeredCount >= 8 && completionRatio >= 0.40;
+
   // ===== PRECISE SCORING (Current Exam) =====
   // IRT-inspired: each question contributes based on difficulty and correctness
   let rawScore=0,maxScore=0;
@@ -7761,10 +7487,14 @@ function finishMock(){
     if(a.ok)rawScore+=weight;
   }
   const examAccuracy=maxScore>0?(rawScore/maxScore):0;
-  // Map to 50-150 scale
-  let currentExamScore=clamp(Math.round(50+examAccuracy*100),50,150);
-  // Predicted general score from ALL app history
-  let predictedGeneralScore=computePredictedScore();
+  // If exam was abandoned prematurely (e.g. after 1-2 questions), score is penalized proportionally to completion
+  let currentExamScore=50;
+  if(isMeaningfulMock){
+    currentExamScore=clamp(Math.round(50+examAccuracy*100),50,150);
+  } else {
+    // Incomplete attempt: scale by answered ratio so one lucky answer doesn't produce an artificial high score
+    currentExamScore=clamp(Math.round(50 + (examAccuracy * 100 * completionRatio)), 50, 150);
+  }
   
   const byType={};
   for(const a of sess.answers){byType[a.type]=byType[a.type]||{total:0,correct:0};byType[a.type].total+=1;if(a.ok)byType[a.type].correct+=1;}
@@ -7772,20 +7502,35 @@ function finishMock(){
   
   const placement=getPlacement(currentExamScore);
   
+  // Only register into mockHistory if it meets minimum reliability threshold
+  if(isMeaningfulMock){
+    S.mockHistory=S.mockHistory||[];
+    S.mockHistory.push({
+      date:todayISO(),ts:Date.now(),endedAt:Date.now(),
+      minutes:sess.minutes,
+      mode:sess.sections?.length===6&&sess.sections[3]?.type==='restatement'?'AMIRNET Mock':`Mock ${sess.minutes<=30?'Quick':'Extended'}`,
+      score:currentExamScore,
+      accuracy:Math.round(accuracy*100),
+      total,answeredCount,
+      byType,sectionBreakdown
+    });
+    if(S.mockHistory.length>50)S.mockHistory=S.mockHistory.slice(-50);
+  }
+
+  // Predicted general score recomputed
+  let predictedGeneralScore=computePredictedScore();
+
   S.lastMockReport={
     mode:sess.sections?.length===6&&sess.sections[3]?.type==='restatement'?'AMIRNET Mock':`Mock ${sess.minutes<=30?'Quick':'Extended'}`,
     endedAt:Date.now(),total,correct,accuracy:Math.round(accuracy*100),
     currentExamScore,predictedGeneralScore,placement,
+    isMeaningfulMock,answeredCount,
     byType,sectionBreakdown,
     radar:estimateRadar(byType),weak:[]
   };
   S.lastSessionReport=S.lastMockReport;
-  // Save to mock history
-  S.mockHistory=S.mockHistory||[];
-  S.mockHistory.push({date:todayISO(),ts:Date.now(),endedAt:Date.now(),minutes:sess.minutes,mode:S.lastMockReport.mode,score:currentExamScore,predicted:predictedGeneralScore,accuracy:Math.round(accuracy*100),total,byType,sectionBreakdown});
-  if(S.mockHistory.length>50)S.mockHistory=S.mockHistory.slice(-50);
   
-  if(currentExamScore>=135)try{startConfetti(2800);}catch(_){}
+  if(currentExamScore>=135&&isMeaningfulMock)try{startConfetti(2800);}catch(_){}
   updatePassageProgress(null,null);S.session=null;updateMockProgress();saveState();nav('stats');
 }
 function estimateRadar(byType){
@@ -7846,11 +7591,9 @@ function isDarkNow(){
 }
 function chartInk(a){return (isDarkNow()?'rgba(255,255,255,':'rgba(29,33,48,')+a+')';}
 
-// ===== MODULE: AI (optional backend) ====================================
-// The AI features need server.js running (Express + Gemini). On a static host
-// like GitHub Pages there is no backend, so we probe once and hide the buttons
-// instead of letting them fail with a 404.
-let AI_AVAILABLE=false;let _currentAiWordObj=null,_currentAiMnemonicText='';
+// The AI features need server.js running. On static hosting (GitHub Pages) there is
+// no backend, so probe once and hide the AI affordances instead of failing with 404s.
+let AI_AVAILABLE=false;
 async function detectAiBackend(){
   try{
     const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),2500);
@@ -7859,131 +7602,6 @@ async function detectAiBackend(){
     AI_AVAILABLE=res.ok;
   }catch(_){AI_AVAILABLE=false;}
   document.body.classList.toggle('noAi',!AI_AVAILABLE);
-}
-function formatAiOutput(text){
-  if(!text)return '';
-  return escapeHtml(text).replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\*(.*?)\*/g,'<i>$1</i>').replace(/\n/g,'<br/>');
-}
-function formatAiTutorText(txt){
-  if(!txt)return '';
-  const out=[];
-  for(const raw of String(txt).split('\n')){
-    let line=raw.trim();if(!line)continue;
-    line=escapeHtml(line).replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');
-    if(/^[•\-*]\s*/.test(line))out.push(`<div class="aiBullet"><span class="aiBulletDot">•</span><div class="aiBulletText">${line.replace(/^[•\-*]\s*/,'')}</div></div>`);
-    else if(/^(\d+[.)]|#+)\s*/.test(line))out.push(`<div class="aiHeading">${line.replace(/^(\d+[.)]|#+)\s*/,'')}</div>`);
-    else out.push(`<p class="aiParagraph">${line}</p>`);
-  }
-  return out.join('');
-}
-function aiHeader(title,model){
-  return `<div class="aiTutorHeader"><div class="aiTutorBadge">${ic('star')} ${escapeHtml(title)}</div>`+
-    (model?`<div class="aiTutorModel">${escapeHtml(model)}</div>`:'')+`</div>`;
-}
-async function askAiTutor(customPrompt){
-  const sess=S.session;if(!sess)return;
-  const q=sess._shuffledQ||sess.current;if(!q)return;
-  const box=$('aiTutorBox'),btn=$('aiTutorBtn');if(!box)return;
-  box.style.display='block';
-  box.innerHTML=aiHeader('חונך AI','Gemini')+`<div class="aiTutorLoading"><div class="aiSpinner"></div><div>מנתח את השאלה והמסיחים…</div></div>`;
-  if(btn)btn.disabled=true;
-  try{
-    const res=await fetch('/api/ai-tutor',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({question:q.questionText,passage:q.passageText||'',options:q.options,
-        correctAnswer:(q.options&&q.options[q.correctAnswer])||q.correctAnswer,
-        userAnswer:sess._lastChoice?((q.options&&q.options[sess._lastChoice])||sess._lastChoice):'',
-        type:q.type,customPrompt:customPrompt||'ניתוח מעמיק, פירוק תחבירי ומלכודות מסיחים בעברית',useHighThinking:true})});
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    const data=await res.json();
-    box.innerHTML=aiHeader('ניתוח חונך AI','Gemini')+`<div class="aiTutorContent">${formatAiTutorText(data.explanation||'לא התקבל הסבר.')}</div>`;
-  }catch(err){
-    console.warn('AI tutor unavailable',err);
-    box.innerHTML=aiHeader('חונך AI')+`<div class="aiTutorContent" style="color:var(--muted)">ניתוח ה-AI אינו זמין כרגע (נדרש שרת פעיל).</div>`;
-  }finally{ if(btn)btn.disabled=false; }
-}
-function openAiMnemonicModal(w){
-  const modal=$('aiMnemonicModal');if(!modal)return;
-  _currentAiWordObj=w;
-  $('aiMnemonicEn').textContent=w.word||'';
-  $('aiMnemonicHe').textContent=w.hebrewTranslation||'';
-  const spk=$('aiMnemonicSpeakBtn');if(spk)spk.dataset.word=w.word||'';
-  $('aiMnemonicContent').innerHTML='';
-  modal.classList.add('show');
-  fetchAiMnemonic(w);
-}
-function closeAiMnemonic(){const m=$('aiMnemonicModal');if(m)m.classList.remove('show');}
-async function fetchAiMnemonic(w){
-  const load=$('aiMnemonicLoading'),body=$('aiMnemonicContent');
-  if(load)load.style.display='block';if(body)body.style.display='none';
-  try{
-    const res=await fetch('/api/ai-mnemonic',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({word:w.word,hebrewTranslation:w.hebrewTranslation,definition:w.englishDefinition,example:w.exampleSentence})});
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    const data=await res.json();
-    if(data.error)throw new Error(data.error);
-    _currentAiMnemonicText=data.mnemonic||'';
-    if(body)body.innerHTML=formatAiOutput(_currentAiMnemonicText);
-  }catch(e){
-    if(body)body.innerHTML=`<div style="color:var(--muted)">לא ניתן ליצור אסוציאציה כרגע (נדרש שרת פעיל).</div>`;
-  }finally{
-    if(load)load.style.display='none';if(body)body.style.display='block';
-  }
-}
-function regenerateAiMnemonic(){if(_currentAiWordObj)fetchAiMnemonic(_currentAiWordObj);}
-function saveAiMnemonicToWord(){
-  if(!_currentAiWordObj)return;
-  const txt=(_currentAiMnemonicText||'').trim();
-  if(!txt){toast('אין מה לשמור עדיין');return;}
-  S.vocabNotes=S.vocabNotes||{};
-  const n=S.vocabNotes[_currentAiWordObj.id]||{};n.mnemonicHe=txt;S.vocabNotes[_currentAiWordObj.id]=n;
-  saveState();toast('האסוציאציה נשמרה בכרטיסייה');closeAiMnemonic();
-  try{renderSrsCard();}catch(_){}
-}
-function generateAiMnemonic(id){
-  const w=(typeof VOCAB_DB!=='undefined'?VOCAB_DB.find(x=>x.id===id):null)||_mergedDictCache.find(x=>x.id===id);
-  if(w)openAiMnemonicModal(w);
-}
-function generateAiMnemonicByWord(wordText){
-  const clean=String(wordText||'').trim().toLowerCase();
-  const w=_mergedDictCache.find(x=>x.word.toLowerCase()===clean)||
-    {id:'custom_'+clean,word:wordText,hebrewTranslation:'',englishDefinition:'',exampleSentence:''};
-  openAiMnemonicModal(w);
-}
-
-// Practise one more question of the same type/difficulty instead of moving on —
-// useful right after getting one wrong.
-function trySimilarQuestion(){
-  if(!guardAction())return;
-  _hintLevel=0;
-  const hb=document.getElementById('hintBox');if(hb)hb.remove();
-  const sess=S.session;if(!sess)return;
-  const currentQ=sess._shuffledQ||sess.current;
-  if(!currentQ)return advanceAfterFeedback();
-  const type=currentQ.type||'sentence';
-  const targetDiff=currentQ.difficulty||3;
-  const used=new Set((sess.items||[]).map(x=>x&&x.id));used.add(currentQ.id);
-  let pool=(Q_BY_TYPE.get(type)||[]).filter(q=>!used.has(q.id));
-  if(!pool.length)pool=(Q_BY_TYPE.get(type)||[]).filter(q=>q.id!==currentQ.id);
-  if(!pool.length)pool=(CHALLENGE_BANK||[]).filter(q=>q.type===type&&q.id!==currentQ.id);
-  if(!pool.length){toast('אין שאלות נוספות מהסוג הזה');return advanceAfterFeedback();}
-  pool.sort((a,b)=>{
-    const da=Math.abs((a.difficulty||3)-targetDiff)+((a.topic&&currentQ.topic&&a.topic===currentQ.topic)?-1:0);
-    const db=Math.abs((b.difficulty||3)-targetDiff)+((b.topic&&currentQ.topic&&b.topic===currentQ.topic)?-1:0);
-    return da-db;
-  });
-  const nextQ=pool[0];
-  toast('טוען שאלה דומה');
-  if(sess.mode==='reading'||sess.mode==='mistake'||sess.mode==='mission'){
-    sess.items.splice(sess.idx+1,0,nextQ);sess.idx++;
-  }else{ sess.items.push(nextQ); }
-  TimerController.stop();
-  updatePracticeProgress();tickReinsertion();
-  sess.current=nextQ;_hintLevel=0;
-  const{options:shuffled,keyMap}=shuffleOptions(nextQ.options);
-  const shuffledQ={...nextQ,options:shuffled,correctAnswer:keyMap[nextQ.correctAnswer],_originalOptions:nextQ.options,_keyMap:keyMap};
-  sess.shuffledMap=keyMap;sess._shuffledQ=shuffledQ;
-  renderQuestion(shuffledQ);
-  startTimer(effectiveTime(nextQ.type));
 }
 function drawRadar(canvas,values){
   const ctx=canvas.getContext('2d');const labels=Object.keys(values);const vals=labels.map(k=>values[k]/100);
@@ -8138,7 +7756,7 @@ function renderSrsCard(){
   const colText=col.length?col.map(x=>`<span class="pill" dir="ltr">${escapeHtml(x)}</span>`).join(' '):'<span style="color:var(--muted)">—</span>';
   const mn=(n.mnemonicHe||w.mnemonicHe||'').trim();
   const stage=$('srsStage');if(!stage)return;
-  stage.innerHTML=`<div class="vWord"><div class="vWordTop"><div><div class="vEn" dir="ltr">${escapeHtml(w.word)}</div><div class="vHe">${srsRevealed?''+ht:'(הסתרה) — לחץ Reveal'}</div><div class="vMeta"><b>Example:</b> <span dir="ltr">${ex}</span></div><div class="vMeta"><b>Collocations:</b>${colText}</div>${mn?`<div class="lightbulb"><b>מנמוניקה:</b>${escapeHtml(mn)}</div>`:''}</div><div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><button class="btn" onclick="E.toggleKnown('${id}')">${n.known==='known'?' Known':' Mark known'}</button><button class="btn" onclick="E.openWordNote('${id}')">מנמוניקה</button><button class="btn aiBtn aiVocabBtn" onclick="E.generateAiMnemonic('${id}')">אסוציאציית AI</button><button class="btn" onclick="speak('${escapeJs(w.word)}')">השמע</button></div></div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="E.revealSrs()">Reveal <span class="kbHint">Space</span></button><button class="btn" onclick="E.skipSrs()">דלג</button><div class="chip" style="margin-right:auto">${srsIdx+1}/${srsQueue.length}</div></div><div id="srsGrades" style="margin-top:12px;display:${srsRevealed?'flex':'none'};gap:8px;flex-wrap:wrap"><button class="btn" style="border-color:var(--bad-border)" onclick="E.gradeSrs('again')">שכחתי</button><button class="btn" style="border-color:var(--warn-border)" onclick="E.gradeSrs('hard')">קשה</button><button class="btn" style="border-color:var(--good-border)" onclick="E.gradeSrs('good')">בסדר</button><button class="btn primary" onclick="E.gradeSrs('easy')">קל!</button></div></div>`;
+  stage.innerHTML=`<div class="vWord"><div class="vWordTop"><div><div class="vEn" dir="ltr">${escapeHtml(w.word)}</div><div class="vHe">${srsRevealed?''+ht:'(הסתרה) — לחץ Reveal'}</div><div class="vMeta"><b>Example:</b> <span dir="ltr">${ex}</span></div><div class="vMeta"><b>Collocations:</b>${colText}</div>${mn?`<div class="lightbulb"><b>מנמוניקה:</b>${escapeHtml(mn)}</div>`:''}</div><div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><button class="btn" onclick="E.toggleKnown('${id}')">${n.known==='known'?' Known':' Mark known'}</button><button class="btn" style="border-color:var(--accent);color:var(--accent);font-weight:700" onclick="E.generateAiMnemonic('${id}')">✨ אסוציאציה AI</button><button class="btn" onclick="E.openWordNote('${id}')">ערוך פתק</button><button class="btn" onclick="speak('${escapeJs(w.word)}')">השמע</button></div></div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="E.revealSrs()">Reveal <span class="kbHint">Space</span></button><button class="btn" onclick="E.skipSrs()">דלג</button><div class="chip" style="margin-right:auto">${srsIdx+1}/${srsQueue.length}</div></div><div id="srsGrades" style="margin-top:12px;display:${srsRevealed?'flex':'none'};gap:8px;flex-wrap:wrap"><button class="btn" style="border-color:var(--bad-border)" onclick="E.gradeSrs('again')">שכחתי</button><button class="btn" style="border-color:var(--warn-border)" onclick="E.gradeSrs('hard')">קשה</button><button class="btn" style="border-color:var(--good-border)" onclick="E.gradeSrs('good')">בסדר</button><button class="btn primary" onclick="E.gradeSrs('easy')">קל!</button></div></div>`;
 }
 function revealSrs(){srsRevealed=true;renderSrsCard();}
 function skipSrs(){srsIdx++;srsRevealed=false;if(srsIdx>=srsQueue.length){$('srsStage').innerHTML='<div class="item">סיימת </div>';return;}renderSrsCard();}
@@ -8161,6 +7779,104 @@ function gradeSrs(grade){
 }
 function toggleKnown(id){S.vocabNotes=S.vocabNotes||{};const n=S.vocabNotes[id]||{};n.known=n.known==='known'?'learning':'known';S.vocabNotes[id]=n;saveState();renderSrsCard();}
 function openWordNote(id){const n=(S.vocabNotes||{})[id]||{};const text=prompt('מנמוניקה/טיפ בעברית:',n.mnemonicHe||'');if(text===null)return;S.vocabNotes=S.vocabNotes||{};const nn=S.vocabNotes[id]||{};nn.mnemonicHe=text.trim();S.vocabNotes[id]=nn;saveState();renderSrsCard();}
+
+// ===== AI MNEMONIC ENGINE =====
+let _currentAiWordObj=null;
+let _currentAiMnemonicText='';
+
+function generateAiMnemonic(id){
+  const w=VOCAB_DB.find(x=>x.id===id)||FULL_DICTIONARY.find(x=>x.id===id);
+  if(!w)return;
+  _currentAiWordObj=w;
+  openAiMnemonicModal(w);
+}
+
+function generateAiMnemonicByWord(wordText){
+  const clean=String(wordText||'').trim().toLowerCase();
+  let w=_mergedDictCache.find(x=>x.word.toLowerCase()===clean);
+  if(!w){
+    w={id:'custom_'+clean,word:wordText,hebrewTranslation:'',englishDefinition:'',exampleSentence:''};
+  }
+  _currentAiWordObj=w;
+  openAiMnemonicModal(w);
+}
+
+function openAiMnemonicModal(w){
+  const modal=$('aiMnemonicModal');
+  if(!modal)return;
+  $('aiMnemonicEn').textContent=w.word;
+  $('aiMnemonicHe').textContent=w.hebrewTranslation||'תרגום כללי';
+  const spk=$('aiMnemonicSpeakBtn');
+  if(spk)spk.dataset.word=w.word;
+  
+  $('aiMnemonicLoading').style.display='block';
+  $('aiMnemonicContent').innerHTML='';
+  $('aiMnemonicContent').style.display='none';
+  modal.classList.add('show');
+  
+  fetchAiMnemonic(w);
+}
+
+function closeAiMnemonic(){
+  const modal=$('aiMnemonicModal');
+  if(modal)modal.classList.remove('show');
+}
+
+async function fetchAiMnemonic(w){
+  $('aiMnemonicLoading').style.display='block';
+  $('aiMnemonicContent').style.display='none';
+  try{
+    const res=await fetch('/api/ai-mnemonic',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        word:w.word,
+        hebrewTranslation:w.hebrewTranslation,
+        definition:w.englishDefinition,
+        example:w.exampleSentence
+      })
+    });
+    const data=await res.json();
+    if(data.error){
+      throw new Error(data.error);
+    }
+    _currentAiMnemonicText=data.mnemonic||'';
+    // Format text nicely with line breaks
+    $('aiMnemonicContent').innerHTML=formatAiOutput(data.mnemonic);
+    $('aiMnemonicLoading').style.display='none';
+    $('aiMnemonicContent').style.display='block';
+  }catch(e){
+    $('aiMnemonicLoading').style.display='none';
+    $('aiMnemonicContent').style.display='block';
+    $('aiMnemonicContent').innerHTML=`<div class="callout bad" style="margin-bottom:12px"><b>הודעה:</b> ${escapeHtml(e.message||'עומס זמני בשרתי AI')}</div><div style="text-align:center"><button class="btn primary" onclick="E.regenerateAiMnemonic()">נסה שוב</button></div>`;
+  }
+}
+
+function formatAiOutput(text){
+  if(!text)return '';
+  return escapeHtml(text)
+    .replace(/\*\*(.*?)\*\*/g,'<b>$1</b>')
+    .replace(/\*(.*?)\*/g,'<i>$1</i>')
+    .replace(/\n/g,'<br/>');
+}
+
+function regenerateAiMnemonic(){
+  if(!_currentAiWordObj)return;
+  fetchAiMnemonic(_currentAiWordObj);
+}
+
+function saveAiMnemonicToWord(){
+  if(!_currentAiWordObj)return;
+  const id=_currentAiWordObj.id;
+  S.vocabNotes=S.vocabNotes||{};
+  const nn=S.vocabNotes[id]||{};
+  nn.mnemonicHe=(_currentAiMnemonicText||'').trim();
+  S.vocabNotes[id]=nn;
+  saveState();
+  toast(' אסוציאציה נשמרה בהצלחה בכרטיסייה!');
+  closeAiMnemonic();
+  try{renderSrsCard();}catch(_){}
+}
 function startSrsCustomQueue(wordIds,onDone){srsQueue=[...wordIds];srsIdx=0;missionAfterSrs=typeof onDone==='function'?onDone:null;nav('vocab');setTimeout(renderSrsCard,100);}
 function buildMissionQuestions(){
   const pick=(type,n)=>{const pool=(Q_BY_TYPE.get(type)||[]).slice();shuffle(pool);return pool.slice(0,n);};
@@ -8197,7 +7913,7 @@ function loadMoreVocab(){
   const chunk=vListCache.slice(vListCursor,vListCursor+30);vListCursor+=chunk.length;
   const notes=S.vocabNotes||{},srs=getSrs();
   const html=chunk.map(w=>{const n=notes[w.id]||{};const ht=w.hebrewTranslation?escapeHtml(w.hebrewTranslation):'—';const syn=(w.synonyms||[]).slice(0,2).join(', ')||'—';const ant=(w.antonyms||[]).slice(0,2).join(', ')||'—';const status=n.known==='known'?' Known':' Learning';const due=srs[w.id]?.nextReviewISO<=todayISO()?' Due':'';
-    return`<div class="vWord"><div class="vWordTop"><div><div class="vEn" dir="ltr">${escapeHtml(w.word)}</div><div class="vHe">${ht}</div><div class="vMeta">Syn: <span dir="ltr">${escapeHtml(syn)}</span>• Ant: <span dir="ltr">${escapeHtml(ant)}</span></div><div class="vMeta">${status} ${due}</div></div><div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><button class="btn" onclick="speak('${escapeJs(w.word)}')">השמע</button><button class="btn" onclick="E.addToSrsNow('${w.id}')">הוסף</button></div></div></div>`;}).join('');
+    return`<div class="vWord"><div class="vWordTop"><div><div class="vEn" dir="ltr">${escapeHtml(w.word)}</div><div class="vHe">${ht}</div><div class="vMeta">Syn: <span dir="ltr">${escapeHtml(syn)}</span>• Ant: <span dir="ltr">${escapeHtml(ant)}</span></div><div class="vMeta">${status} ${due}</div></div><div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><button class="btn" onclick="speak('${escapeJs(w.word)}')">השמע</button><button class="btn" style="border-color:var(--accent);color:var(--accent)" onclick="E.generateAiMnemonic('${w.id}')">✨ אסוציאציה</button><button class="btn" onclick="E.addToSrsNow('${w.id}')">הוסף</button></div></div></div>`;}).join('');
   const vl=$('vList');if(vl)vl.insertAdjacentHTML('beforeend',html||'<div class="item">אין תוצאות.</div>');
 }
 function addToSrsNow(id){initSrsIfMissing(id);getSrs()[id].nextReviewISO=todayISO();saveState();toast(' הוספתי לתור');}
@@ -8221,7 +7937,7 @@ function showWordPop(word,rect){
   const ex=w?.exampleSentence?escapeHtml(w.exampleSentence):'';
   const mn=(w?.mnemonicHe||'').trim();
   const syn=(w?.synonyms||[]).slice(0,2).join(', '),ant=(w?.antonyms||[]).slice(0,2).join(', ');
-  pop.innerHTML=`<div class="wT" dir="ltr">${escapeHtml(word)}</div><div class="wH">${he}</div>${def?`<div class="wS" dir="ltr"><b>Def:</b>${def}</div>`:''}${ex?`<div class="wS" dir="ltr" style="opacity:.85"><b>Ex:</b>${ex}</div>`:''}${(syn||ant)?`<div class="wS" dir="ltr">${syn?`<b>Syn:</b>${escapeHtml(syn)}`:''}${syn&&ant?' • ':''}${ant?`<b>Ant:</b>${escapeHtml(ant)}`:''}</div>`:''}${mn?`<div class="wS" style="color:#C4B5FD">${escapeHtml(mn)}</div>`:''}<div class="wA"><button class="btn" onclick="speak('${escapeJs(word)}')">השמע</button><button class="btn" onclick="E.quickAddWord('${escapeJs(word)}')">הוסף</button><button class="btn aiBtn aiVocabBtn" onclick="E.generateAiMnemonicByWord('${escapeJs(word)}')">AI</button></div>`;
+  pop.innerHTML=`<div class="wT" dir="ltr">${escapeHtml(word)}</div><div class="wH">${he}</div>${def?`<div class="wS" dir="ltr"><b>Def:</b>${def}</div>`:''}${ex?`<div class="wS" dir="ltr" style="opacity:.85"><b>Ex:</b>${ex}</div>`:''}${(syn||ant)?`<div class="wS" dir="ltr">${syn?`<b>Syn:</b>${escapeHtml(syn)}`:''}${syn&&ant?' • ':''}${ant?`<b>Ant:</b>${escapeHtml(ant)}`:''}</div>`:''}${mn?`<div class="wS" style="color:#C4B5FD">${escapeHtml(mn)}</div>`:''}<div class="wA"><button class="btn" onclick="speak('${escapeJs(word)}')">השמע</button><button class="btn" style="border-color:var(--accent);color:var(--accent)" onclick="E.generateAiMnemonicByWord('${escapeJs(word)}')">✨ אסוציאציה</button><button class="btn" onclick="E.quickAddWord('${escapeJs(word)}')">הוסף</button></div>`;
   pop.style.left=Math.min(window.innerWidth-340,Math.max(12,rect.left))+'px';
   pop.style.top=Math.min(window.innerHeight-220,Math.max(12,rect.bottom+8))+'px';
   pop.style.display='block';
@@ -8274,6 +7990,9 @@ function startMemoryMatch(){
   memoryState={cards,flipped:[],matched:new Set(),moves:0,startTime:Date.now()};
   enterStage(' Memory Match');
   renderMemoryGame();
+}
+function startMemoryGame(){
+  return startMemoryMatch();
 }
 function renderMemoryGame(){
   const ms=memoryState;if(!ms)return;
@@ -8617,8 +8336,8 @@ document.addEventListener('keydown',e=>{
 const E=window.E={
   nav,renderExamCenter,selectMockHistory,startSession,startMock,startMockExam,startMistakeLab,startDailyMission,
   openWordOfDay,startDailyChallenge,claimDailyChallenge,
-  handleAnswer,handleMockAnswer,advanceAfterFeedback,
-  speakCurrent,toggleHighlight,useHint,analyzeQuestion,
+  handleAnswer,handleMockAnswer,advanceAfterFeedback,trySimilarQuestion,
+  speakCurrent,toggleHighlight,useHint,analyzeQuestion,askAiTutor,
   exitStage,toggleSidebar,toggleSpeed:()=>{S.speedMode=!S.speedMode;renderCockpit();saveStateDebounced();},
   saveExamDate:(v)=>{
     const val=String(v||'').trim();
@@ -8628,59 +8347,130 @@ const E=window.E={
     if(edd){const du=daysUntilExam();edd.textContent=(du===null)?'לא הוגדר תאריך':'נותרו '+du+' ימים';}
     toast(val?' תאריך המבחן נשמר':'תאריך המבחן נוקה');
   },
+  openQuickSettings:()=>{
+    const m=$('quickSettingsModal');
+    if(m){
+      m.style.display='flex';
+      const edi=$('examDateInput');if(edi){edi.value=S.examDate||'';}
+      const edd=$('examDateDays');if(edd){const du=daysUntilExam();edd.textContent=(du===null)?'לא הוגדר תאריך':'נותרו '+du+' ימים';}
+      const g=S.goals||{};
+      if($('goalNew'))$('goalNew').value=g.vocabNew||15;
+      if($('goalReview'))$('goalReview').value=g.vocabReview||15;
+      if($('goalSC'))$('goalSC').value=g.sc||5;
+      if($('goalRS'))$('goalRS').value=g.rs||5;
+      if($('goalRC'))$('goalRC').value=g.rc||5;
+    }
+  },
+  closeQuickSettings:()=>{
+    const m=$('quickSettingsModal');
+    if(m){m.style.display='none';}
+  },
   openExamDate:()=>{
-    nav('home');
-    setTimeout(()=>{const edi=$('examDateInput');if(edi){edi.scrollIntoView({behavior:'smooth',block:'center'});try{edi.focus();edi.showPicker&&edi.showPicker();}catch(_){}}},350);
+    E.openQuickSettings();
   },
   toggleDebug,saveGoalsFromUI:()=>{ensureDaily();const g=S.goals;g.vocabNew=clampInt($('goalNew').value,0,80,g.vocabNew);g.vocabReview=clampInt($('goalReview').value,0,120,g.vocabReview);g.sc=clampInt($('goalSC').value,0,50,g.sc);g.rs=clampInt($('goalRS').value,0,50,g.rs);g.rc=clampInt($('goalRC').value,0,50,g.rc);saveState();renderDashboard();toast(' יעדים נשמרו');},
   openImportExport,exportData,importData,exportQuestionBank,exportDictionary,importDictPack,importQPack,resetAll,
   setVTab,startSrsQueue,revealSrs,skipSrs,gradeSrs,toggleKnown,openWordNote,addToSrsNow,quickAddWord,
+  generateAiMnemonic,generateAiMnemonicByWord,closeAiMnemonic,regenerateAiMnemonic,saveAiMnemonicToWord,
+  generateAiMnemonicForWotd:()=>{try{const w=getWordOfDay();if(w&&w.word)generateAiMnemonicByWord(w.word);}catch(e){console.error(e);}},
+  speakWotd:()=>{try{const w=getWordOfDay();if(w&&w.word)speak(w.word);}catch(e){console.error(e);}},
+  getWordOfDay,
   renderMistakeLab,clearMastered,applyVocabFilter,loadMoreVocab,finishMock,practiceWeakSpot,
-  askAiTutor,generateAiMnemonic,generateAiMnemonicByWord,openAiMnemonicModal,closeAiMnemonic,regenerateAiMnemonic,saveAiMnemonicToWord,
-  trySimilarQuestion,
   openDictSearch,closeDictSearch,renderPracticeHub,togglePilotSection,showMockReview,continueMockSection,resetProgress,confirmReset,toggleTheme,showSectionTransition,
   // Games
-  startMemoryMatch,flipCard,startSpeedQuiz,speedAnswer,startSwipeMode,swipeAction,
+  startMemoryMatch,startMemoryGame,flipCard,startSpeedQuiz,speedAnswer,startSwipeMode,swipeAction,
   renderGamesHub,
   // Legacy
   startAdaptive:()=>startSession('mix'),startPractice:()=>nav('practice'),startSRS:()=>nav('vocab'),
   getFlatQuestionBank
 };
 window.nav=nav;window.startMock=startMock;window.startMockExam=startMockExam;window.startSession=startSession;window.speak=speak;
-window.getFlatQuestionBank=getFlatQuestionBank;
+window.startMemoryGame=startMemoryGame;window.startMemoryMatch=startMemoryMatch;
+window.getFlatQuestionBank=getFlatQuestionBank;window.getWordOfDay=getWordOfDay;
 
 
 
 // ===== V5: MISSING CORE FUNCTIONS (Bug Fix) =====
 
 function computePredictedAmirnetScore(){
-  // V6 IRT-Inspired Predicted Score (50-150)
-  // Recency-weighted mock average + blended practice accuracy + adaptive theta
+  // V7 IRT & Bayesian-Regularized Predicted Score (50-150)
+  // Prevents sudden wild predictions from short 1-minute abandoned tests or 1-2 lucky answers.
+  // Combines:
+  // 1. Empirical Bayesian shrinkage toward population prior (90) based on sample size.
+  // 2. High-confidence completed mock weighted average (minimum 8 questions per mock).
+  // 3. Balanced domain practice (Sentence Completion 30%, Restatement 40%, Reading 30%).
+  // 4. Adaptive difficulty tracking (Theta).
   try{
-    const acc=S.totalAnswered>0?(S.totalCorrect/S.totalAnswered):0;
-    const pbt=S.practiceByType||{sentence:{correct:0,total:0},restatement:{correct:0,total:0},reading:{correct:0,total:0}};
-    const typeAcc=k=>{const t=pbt[k];return(t&&t.total>3)?(t.correct/t.total):acc;};
-    const scAcc=typeAcc('sentence'),rsAcc=typeAcc('restatement'),rcAcc=typeAcc('reading');
-    const blendedAcc=(scAcc*0.30+rsAcc*0.40+rcAcc*0.30);
-    const mm=S.mistakeMastery||{};
-    const masteredCount=Object.values(mm).filter(m=>m&&m.mastered).length;
-    const diffBonus=Math.min(10,masteredCount*0.25);
-    // Recency-weighted mock average (newest=5x, oldest=1x)
-    const mocks=(S.mockHistory||[]).slice(-5);
-    let mockWAvg=0,mockWTotal=0;
-    for(let i=0;i<mocks.length;i++){const w=i+1;mockWAvg+=(mocks[i].score||80)*w;mockWTotal+=w;}
-    if(mockWTotal>0)mockWAvg/=mockWTotal;
-    const mockConf=Math.min(0.70,mocks.length*0.14);
-    const practiceWeight=1-mockConf;
-    const speedBonus=S.speedMode?3:0;
-    const thetaBonus=clamp(S.theta||0,-2.5,2.5)*4;
-    const volBonus=Math.min(5,Math.sqrt(S.totalAnswered||0)/5);
-    const practiceScore=50+blendedAcc*100+diffBonus+thetaBonus+volBonus;
-    let score;
-    if(mocks.length>=1){score=mockWAvg*mockConf+practiceScore*practiceWeight+speedBonus;}
-    else{score=practiceScore+speedBonus;}
-    return clamp(Math.round(score),50,150);
-  }catch(e){console.warn('computePredictedAmirnetScore',e);return 80;}
+    const totalAns = S.totalAnswered || 0;
+    const totalCorr = S.totalCorrect || 0;
+    
+    // Population prior for AMIR / AMIRNET test takers (~90 out of 150)
+    const PRIOR_SCORE = 90;
+    const PRIOR_ACCURACY = 0.40; // ~90/150 baseline on 50-150 scale
+    
+    // Extract valid mocks (ignore abandoned attempts with < 8 questions)
+    const validMocks = (S.mockHistory || []).filter(m => (m.answeredCount == null || m.answeredCount >= 8) && (m.score != null));
+    const recentMocks = validMocks.slice(-5);
+    
+    let mockWAvg = 0, mockWTotal = 0;
+    for(let i = 0; i < recentMocks.length; i++){
+      const w = i + 1; // recency weighting
+      mockWAvg += (recentMocks[i].score || PRIOR_SCORE) * w;
+      mockWTotal += w;
+    }
+    if(mockWTotal > 0) mockWAvg /= mockWTotal;
+    
+    // Per-domain accuracy with shrinkage towards global/prior accuracy
+    const pbt = S.practiceByType || {sentence:{correct:0,total:0},restatement:{correct:0,total:0},reading:{correct:0,total:0}};
+    const typeAcc = k => {
+      const t = pbt[k];
+      if(!t || t.total < 3) return totalAns >= 5 ? (totalCorr / totalAns) : PRIOR_ACCURACY;
+      // Bayesian domain regularizer
+      return (t.correct + 2 * PRIOR_ACCURACY) / (t.total + 2);
+    };
+    
+    const scAcc = typeAcc('sentence');
+    const rsAcc = typeAcc('restatement');
+    const rcAcc = typeAcc('reading');
+    const blendedAcc = (scAcc * 0.30 + rsAcc * 0.40 + rcAcc * 0.30);
+    
+    // Mistake mastery bonus
+    const mm = S.mistakeMastery || {};
+    const masteredCount = Object.values(mm).filter(m => m && m.mastered).length;
+    const diffBonus = Math.min(8, masteredCount * 0.2);
+    
+    // Adaptive theta bonus (-2.5 to +2.5 scaled)
+    const thetaBonus = clamp(S.theta || 0, -2.5, 2.5) * 3.5;
+    
+    // Volume bonus with ceiling (requires consistent work)
+    const volBonus = Math.min(4, Math.sqrt(totalAns) / 6);
+    
+    // Raw calculated skill score
+    const rawSkillScore = 50 + (blendedAcc * 100) + diffBonus + thetaBonus + volBonus;
+    
+    // Sample confidence weight:
+    // With 0 questions, weight is 0. With 10 questions ~0.33, with 30 questions ~0.60, with 75+ questions ~0.80+
+    const sampleConfidence = totalAns > 0 ? (totalAns / (totalAns + 20)) : 0;
+    
+    // Practice score shrunk towards baseline prior
+    const practiceScore = (rawSkillScore * sampleConfidence) + (PRIOR_SCORE * (1 - sampleConfidence));
+    
+    // Mock confidence (each valid mock adds confidence up to 70%)
+    const mockConf = Math.min(0.70, recentMocks.length * 0.18);
+    const speedBonus = S.speedMode ? 2 : 0;
+    
+    let finalScore;
+    if(recentMocks.length >= 1){
+      finalScore = (mockWAvg * mockConf) + (practiceScore * (1 - mockConf)) + speedBonus;
+    } else {
+      finalScore = practiceScore + speedBonus;
+    }
+    
+    return clamp(Math.round(finalScore), 50, 150);
+  }catch(e){
+    console.warn('computePredictedAmirnetScore', e);
+    return 90;
+  }
 }
 
 function renderLadder(pred,cur){
@@ -8720,9 +8510,9 @@ function renderMasteryRings(){
   const el=$('homeRings');if(!el)return;
   const pbt=S.practiceByType||{sentence:{correct:0,total:0},restatement:{correct:0,total:0},reading:{correct:0,total:0}};
   const types=[
-    {key:'sentence',label:'SC',color:'#5B5BD6',glow:'rgba(91,91,214,0.35)',icon:''},
-    {key:'restatement',label:'RS',color:'#2FBF8F',glow:'rgba(34,197,94,0.35)',icon:''},
-    {key:'reading',label:'RC',color:'#3B82F6',glow:'rgba(59,130,246,0.35)',icon:''}
+    {key:'sentence',label:'SC',color:'#0284C7',glow:'rgba(2,132,199,0.35)',icon:''},
+    {key:'restatement',label:'RS',color:'#0D9488',glow:'rgba(13,148,136,0.35)',icon:''},
+    {key:'reading',label:'RC',color:'#059669',glow:'rgba(5,150,105,0.35)',icon:''}
   ];
   el.innerHTML=types.map(t=>{
     const d=pbt[t.key]||{correct:0,total:0};
@@ -8733,37 +8523,6 @@ function renderMasteryRings(){
           stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"
           transform="rotate(-90 32 32)" filter="url(#glow_${t.key})" class="ringProgress"/> <text x="32" y="36" text-anchor="middle" fill="${t.color}" font-size="13" font-weight="900">${pct}%</text> </svg> <div> <div class="rTitle">${t.icon} ${t.label} ${grade}</div> <div class="rSub">${d.correct}/${d.total} נכונות</div> </div> </div>`;
   }).join('');
-}
-
-function getWordOfDay(){
-  const today=todayISO();
-  if(S.wordOfDay&&S.wordOfDay.date===today&&S.wordOfDay.word){
-    return DICT_MAP.get(S.wordOfDay.word.toLowerCase())||{word:S.wordOfDay.word,hebrew:S.wordOfDay.hebrew||''};
-  }
-  // Pick deterministic word based on date
-  const seed=today.split('-').reduce((a,b)=>a+parseInt(b),0);
-  const idx=seed%FULL_DICTIONARY.length;
-  const w=FULL_DICTIONARY[idx]||FULL_DICTIONARY[0];
-  S.wordOfDay={date:today,word:w.word,hebrew:w.hebrew||w.hebrewTranslation||''};
-  saveStateDebounced();
-  return w;
-}
-
-function renderWordOfDay(){
-  try{
-    const w=getWordOfDay();
-    const en=$('wotdEn'),he=$('wotdHe');
-    if(en)en.textContent=w.word||'';
-    if(he)he.textContent=w.hebrew||w.hebrewTranslation||'';
-  }catch(_){}
-}
-
-function openWordOfDay(){
-  const w=getWordOfDay();
-  if(!w)return;
-  S.xp+=2;saveStateDebounced();
-  toast(` ${w.word}: ${w.hebrew||w.hebrewTranslation||''} (+2 XP)`);
-  speak(w.word);
 }
 
 function updateDailyChallengeFromAnswer(qType,isCorrect,sessionMode){
@@ -9045,6 +8804,48 @@ function slimSidebarInit(){
   }catch(_){}
 }
 
+// ===== GLOBAL EVENT HANDLER PROXY (E) =====
+Object.assign(window.E||(window.E={}), {
+  nav,
+  enterStage,
+  exitStage,
+  toggleSidebar,
+  startSession,
+  startMock,
+  startMockExam,
+  startSpeedQuiz,
+  startMemoryMatch,
+  startMemoryGame: startMemoryMatch,
+  startSwipeMode,
+  flipCard,
+  speedAnswer,
+  swipeAction,
+  startDailyMission:()=>startSession('mix'),
+  startDailyChallenge,
+  claimDailyChallenge,
+  startMistakeLab:()=>startSession('mistake'),
+  openWordOfDay,
+  handleAnswer,
+  handleMockAnswer,
+  advanceAfterFeedback,
+  trySimilarQuestion,
+  speakCurrent,
+  useHint,
+  analyzeQuestion,
+  askAiTutor,
+  toggleHighlight,
+  toggleSpeed:()=>{S.speedMode=!S.speedMode;saveStateDebounced();renderCockpit();toast(S.speedMode?'מצב מהירות הופעל':'מצב מהירות כובה');},
+  toggleSpeedMode:()=>{S.speedMode=!S.speedMode;saveStateDebounced();renderCockpit();toast(S.speedMode?'מצב מהירות הופעל':'מצב מהירות כובה');},
+  toggleTheme,
+  practiceWeakSpot,
+  selectMockHistory,
+  togglePilotSection,
+  openDictSearch,
+  closeDictSearch,
+  showVocabCategory:(cat)=>typeof showVocabCategory==='function'?showVocabCategory(cat):null,
+  srsRate:(id,grade)=>typeof gradeSrs==='function'?gradeSrs(grade):null
+});
+
 // ===== MODULE MAP: State / Engine / UI_Renderer / Navigation =====
 window.App={
   State:{get:()=>S,save:saveState,load:loadState,reset:resetAll,makeReactive},
@@ -9056,7 +8857,9 @@ window.App={
 // ===== INIT =====
 (function init(){
   try{
-    try{if(localStorage.getItem('amir_sb_collapsed')==='1')document.body.classList.add('sbCollapsed');}catch(_){}
+    try{
+      if(window.innerWidth<900||localStorage.getItem('amir_sb_collapsed')==='1')document.body.classList.add('sbCollapsed');
+    }catch(_){}
     hydrateIcons();applyThemeButton();detectAiBackend();
     renderCockpit();nav('home');
     if(S.debugMode)setTimeout(()=>{const dp=$('debugPanel');if(dp)dp.classList.add('show');runDiagnostics();},500);

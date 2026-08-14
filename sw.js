@@ -1,6 +1,6 @@
 /* AMIRNET ELITE service worker — cache-first with background refresh */
-const CACHE = 'amirnet-v7';
-const PRECACHE = ['./', './index.html', './manifest.webmanifest'];
+const CACHE = 'amirnet-v8';
+const PRECACHE = ['./', './index.html', './app.css', './manifest.webmanifest'];
 
 self.addEventListener('install', e => {
   e.waitUntil(

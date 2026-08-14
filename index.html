@@ -6914,30 +6914,12 @@ function handleAnswer(choice,isTimeout){
     }
   }
 
-  // V6.2: KV chips + Learning Boost with smart translation resolution
-  const kv=[];
-  const corrText=q.options[correct],corrHe=allMeanings[correct]||optionMeaning(corrText);
-  if(corrHe)kv.push(`<div class="chip kvChip correctChip"><span class="chipKey" dir="ltr">${escapeHtml(corrText)}</span><span class="chipSep">=</span><span class="chipVal">${escapeHtml(corrHe)}</span></div>`);
-  if(choice&&choice!==correct){
-    const chText=q.options[choice],chHe=allMeanings[choice]||optionMeaning(chText);
-    if(chHe)kv.push(`<div class="chip kvChip wrongChip"><span class="chipKey" dir="ltr">${escapeHtml(chText)}</span><span class="chipSep">=</span><span class="chipVal">${escapeHtml(chHe)}</span></div>`);
-  }
-  if((q.tags||[]).length)kv.push(`<div class="chip tagChip">${(q.tags||[]).join(' • ')}</div>`);
-  const kvEl=$('explainKV');
-  const kvTitle=$('kvSectionTitle');
-  const kvDivider=$('kvDivider');
-  if(kvEl){
-    kvEl.innerHTML=kv.join('');
-    if(kvTitle)kvTitle.style.display=kv.length?'block':'none';
-    if(kvDivider)kvDivider.style.display=kv.length?'block':'none';
-  }
-  // Learning Boost: Show Hebrew for ALL 4 options (SC only — skip RS/RC since options are full sentences)
-  const hb=$('hebrewBoost');
+  // Translations: the per-option panel below is the fuller view (all four, colour-coded),
+  // so build it first and only fall back to the correct/chosen chips when it will not show
+  // — otherwise the same two translations appear twice in a row.
   const qType=q.type||sess.current?.type||'';
-  if(hb&&qType==='sentence'){
-    const hasAny=Object.values(allMeanings).some(v=>v&&v.length>0);
-    if(hasAny){
-      const chips=Object.entries(q.options).map(([k,v])=>{
+  const boostChips=(qType==='sentence'&&Object.values(allMeanings).some(v=>v&&v.length>0))
+    ? Object.entries(q.options).map(([k,v])=>{
         const he=allMeanings[k]||optionMeaning(v);
         if(!he)return '';
         const isC=k===correct;const isW=choice&&k===choice&&k!==correct;
@@ -6946,13 +6928,36 @@ function handleAnswer(choice,isTimeout){
           <span class="hbEng" dir="ltr">${escapeHtml(v)}</span>
           <span class="hbHeb">${escapeHtml(he)}</span>
         </div>`;
-      }).filter(Boolean).join('');
-      if(chips){
-        hb.style.display='block';
-        hb.innerHTML='<div class="hebrewBoostTitle">תרגום כל האפשרויות:</div><div class="hebrewBoostGrid">'+chips+'</div>';
-      }else{hb.style.display='none';}
+      }).filter(Boolean).join('')
+    : '';
+
+  const kv=[];
+  if(!boostChips){
+    const corrText=q.options[correct],corrHe=allMeanings[correct]||optionMeaning(corrText);
+    if(corrHe)kv.push(`<div class="chip kvChip correctChip"><span class="chipKey" dir="ltr">${escapeHtml(corrText)}</span><span class="chipSep">=</span><span class="chipVal">${escapeHtml(corrHe)}</span></div>`);
+    if(choice&&choice!==correct){
+      const chText=q.options[choice],chHe=allMeanings[choice]||optionMeaning(chText);
+      if(chHe)kv.push(`<div class="chip kvChip wrongChip"><span class="chipKey" dir="ltr">${escapeHtml(chText)}</span><span class="chipSep">=</span><span class="chipVal">${escapeHtml(chHe)}</span></div>`);
+    }
+  }
+  if((q.tags||[]).length)kv.push(`<div class="chip tagChip">${(q.tags||[]).join(' • ')}</div>`);
+  const kvEl=$('explainKV');
+  const kvTitle=$('kvSectionTitle');
+  const kvDivider=$('kvDivider');
+  if(kvEl){
+    kvEl.innerHTML=kv.join('');
+    // The heading names vocabulary, so only show it when a translation chip is present.
+    const hasTranslationChip=kv.some(c=>c.indexOf('kvChip')>-1);
+    if(kvTitle)kvTitle.style.display=hasTranslationChip?'block':'none';
+    if(kvDivider)kvDivider.style.display=kv.length?'block':'none';
+  }
+  const hb=$('hebrewBoost');
+  if(hb){
+    if(boostChips){
+      hb.style.display='block';
+      hb.innerHTML='<div class="hebrewBoostTitle">תרגום כל האפשרויות:</div><div class="hebrewBoostGrid">'+boostChips+'</div>';
     }else{hb.style.display='none';}
-  }else if(hb){hb.style.display='none';}
+  }
   renderCockpit();saveStateDebounced();
   if(ok&&S.correctStreak>=5)startConfetti(1200);
 }

@@ -6945,12 +6945,42 @@ let _lastAction=0;
 function guardAction(){const now=Date.now();if(now-_lastAction<300)return false;_lastAction=now;return true;}
 
 // ===== SPEECH =====
+// Read a question aloud the way a person would: "____" becomes "blank",
+// markup and stray punctuation are stripped, spacing normalised.
+let _cachedVoice=null;
+function cleanTextForSpeech(raw){
+  if(!raw)return '';
+  return String(raw)
+    .replace(/<[^>]*>/g,'')
+    .replace(/_{1,}/g,' blank ')
+    .replace(/[—–-]{2,}/g,' blank ')
+    .replace(/\[\s*\.\.\.\s*\]|\(\s*\.\.\.\s*\)|\.{3,}/g,' blank ')
+    .replace(/[‐-―⁃−]/g,'-')
+    .replace(/[“”„‟″‶]/g,'"')
+    .replace(/[‘’‚‛′‵]/g,"'")
+    .replace(/[•\t\r\n]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+function getVoice(){
+  if(_cachedVoice)return _cachedVoice;
+  if(!('speechSynthesis' in window))return null;
+  const voices=window.speechSynthesis.getVoices()||[];
+  _cachedVoice=voices.find(v=>v.lang==='en-US'&&v.name.includes('Natural'))||
+               voices.find(v=>v.lang==='en-US'||v.lang.startsWith('en'))||
+               voices[0]||null;
+  return _cachedVoice;
+}
+try{if('speechSynthesis' in window)window.speechSynthesis.addEventListener('voiceschanged',()=>{_cachedVoice=null;});}catch(_){}
 function speak(text){
   if(!('speechSynthesis' in window))return;
   try{
     window.speechSynthesis.cancel();
-    var u=new SpeechSynthesisUtterance(String(text||''));
-    u.lang='en-US';u.rate=0.95;u.pitch=1.0;
+    var clean=cleanTextForSpeech(text);
+    if(!clean)return;
+    var u=new SpeechSynthesisUtterance(clean);
+    u.lang='en-US';u.rate=0.96;u.pitch=1.0;
+    var v=getVoice();if(v)u.voice=v;
     // iOS fix: speechSynthesis sometimes pauses silently — resume it
     if(window.speechSynthesis.paused)window.speechSynthesis.resume();
     window.speechSynthesis.speak(u);
@@ -7233,7 +7263,7 @@ function renderQuestion(q){
   const top=`<div class="qTop"> <div style="font-weight:700;font-size:.88rem">${q.type.toUpperCase()} • Difficulty ${q.difficulty||3}</div> <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"> <div class="timer" id="timerEl">—</div> <div class="streakFire ${(S.correctStreak||0)>=3?'heat':''}" id="streakChip">${ic('flame')} <b>${S.correctStreak||0}</b></div> <button class="btn" onclick="E.speakCurrent()">השמע</button>${q.type==='reading'?'<button class="btn" onclick="E.toggleHighlight()">סמן</button>':''}
       <button class="btn" onclick="E.useHint()" id="hintBtn">רמז<span class="kbHint">H</span></button>${q.type==='restatement'?'<button class="btn" onclick="E.analyzeQuestion()" id="analyzeBtn">נתח<span class="kbHint">A</span></button>':''}
       <button class="btn" onclick="E.exitStage()">יציאה</button> </div></div>`;
-  const explain=`<div class="explain" id="explainBox"> <div style="font-weight:700" id="explainTitle">הסבר</div> <div id="explainText" style="margin-top:8px;color:var(--text)"></div> <div id="whyWrongBox" class="item" style="display:none;margin-top:10px"><div style="font-weight:700;margin-bottom:5px">למה המסיח שבחרת לא נכון?</div><div id="whyWrongText" style="color:var(--text);line-height:1.75"></div></div> <div class="kv" id="explainKV"></div> <div id="hebrewBoost" style="display:none;margin-top:10px"></div> <div id="aiTutorBox" class="aiTutorCard" style="display:none"></div> <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="E.advanceAfterFeedback()">הבא ⟶ <span class="kbHint">↵</span></button> <button class="btn aiBtn" id="aiTutorBtn" onclick="E.askAiTutor()">ניתוח חונך AI</button> <button class="btn" onclick="E.nav('stats')">דוח</button> </div></div>`;
+  const explain=`<div class="explain" id="explainBox"> <div style="font-weight:700" id="explainTitle">הסבר</div> <div id="explainText" style="margin-top:8px;color:var(--text)"></div> <div id="whyWrongBox" class="item" style="display:none;margin-top:10px"><div style="font-weight:700;margin-bottom:5px">למה המסיח שבחרת לא נכון?</div><div id="whyWrongText" style="color:var(--text);line-height:1.75"></div></div> <div class="kv" id="explainKV"></div> <div id="hebrewBoost" style="display:none;margin-top:10px"></div> <div id="aiTutorBox" class="aiTutorCard" style="display:none"></div> <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="E.advanceAfterFeedback()">הבא ⟶ <span class="kbHint">↵</span></button> <button class="btn" id="similarBtn" onclick="E.trySimilarQuestion()">שאלה דומה</button> <button class="btn aiBtn" id="aiTutorBtn" onclick="E.askAiTutor()">ניתוח חונך AI</button> <button class="btn" onclick="E.nav('stats')">דוח</button> </div></div>`;
   if(q.type==='reading'){
     $('practiceBody').innerHTML=`<div class="split"><div class="passage"><div style="font-weight:700;margin-bottom:6px">${escapeHtml(q.passageTitle||'')}</div><div id="passageText">${numberParagraphs(q.passageText||'')}</div></div><div>${top}<div class="qText" dir="ltr">${escapeHtml(q.questionText)}</div><div style="display:flex;flex-direction:column;gap:8px">${options}</div>${explain}</div></div>`;
   }else{
@@ -7913,6 +7943,48 @@ function generateAiMnemonic(id){
   const w=(typeof VOCAB_DB!=='undefined'?VOCAB_DB.find(x=>x.id===id):null)||_mergedDictCache.find(x=>x.id===id);
   if(w)openAiMnemonicModal(w);
 }
+function generateAiMnemonicByWord(wordText){
+  const clean=String(wordText||'').trim().toLowerCase();
+  const w=_mergedDictCache.find(x=>x.word.toLowerCase()===clean)||
+    {id:'custom_'+clean,word:wordText,hebrewTranslation:'',englishDefinition:'',exampleSentence:''};
+  openAiMnemonicModal(w);
+}
+
+// Practise one more question of the same type/difficulty instead of moving on —
+// useful right after getting one wrong.
+function trySimilarQuestion(){
+  if(!guardAction())return;
+  _hintLevel=0;
+  const hb=document.getElementById('hintBox');if(hb)hb.remove();
+  const sess=S.session;if(!sess)return;
+  const currentQ=sess._shuffledQ||sess.current;
+  if(!currentQ)return advanceAfterFeedback();
+  const type=currentQ.type||'sentence';
+  const targetDiff=currentQ.difficulty||3;
+  const used=new Set((sess.items||[]).map(x=>x&&x.id));used.add(currentQ.id);
+  let pool=(Q_BY_TYPE.get(type)||[]).filter(q=>!used.has(q.id));
+  if(!pool.length)pool=(Q_BY_TYPE.get(type)||[]).filter(q=>q.id!==currentQ.id);
+  if(!pool.length)pool=(CHALLENGE_BANK||[]).filter(q=>q.type===type&&q.id!==currentQ.id);
+  if(!pool.length){toast('אין שאלות נוספות מהסוג הזה');return advanceAfterFeedback();}
+  pool.sort((a,b)=>{
+    const da=Math.abs((a.difficulty||3)-targetDiff)+((a.topic&&currentQ.topic&&a.topic===currentQ.topic)?-1:0);
+    const db=Math.abs((b.difficulty||3)-targetDiff)+((b.topic&&currentQ.topic&&b.topic===currentQ.topic)?-1:0);
+    return da-db;
+  });
+  const nextQ=pool[0];
+  toast('טוען שאלה דומה');
+  if(sess.mode==='reading'||sess.mode==='mistake'||sess.mode==='mission'){
+    sess.items.splice(sess.idx+1,0,nextQ);sess.idx++;
+  }else{ sess.items.push(nextQ); }
+  TimerController.stop();
+  updatePracticeProgress();tickReinsertion();
+  sess.current=nextQ;_hintLevel=0;
+  const{options:shuffled,keyMap}=shuffleOptions(nextQ.options);
+  const shuffledQ={...nextQ,options:shuffled,correctAnswer:keyMap[nextQ.correctAnswer],_originalOptions:nextQ.options,_keyMap:keyMap};
+  sess.shuffledMap=keyMap;sess._shuffledQ=shuffledQ;
+  renderQuestion(shuffledQ);
+  startTimer(effectiveTime(nextQ.type));
+}
 function drawRadar(canvas,values){
   const ctx=canvas.getContext('2d');const labels=Object.keys(values);const vals=labels.map(k=>values[k]/100);
   const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2,R=Math.min(W,H)*0.34,steps=4;
@@ -8149,7 +8221,7 @@ function showWordPop(word,rect){
   const ex=w?.exampleSentence?escapeHtml(w.exampleSentence):'';
   const mn=(w?.mnemonicHe||'').trim();
   const syn=(w?.synonyms||[]).slice(0,2).join(', '),ant=(w?.antonyms||[]).slice(0,2).join(', ');
-  pop.innerHTML=`<div class="wT" dir="ltr">${escapeHtml(word)}</div><div class="wH">${he}</div>${def?`<div class="wS" dir="ltr"><b>Def:</b>${def}</div>`:''}${ex?`<div class="wS" dir="ltr" style="opacity:.85"><b>Ex:</b>${ex}</div>`:''}${(syn||ant)?`<div class="wS" dir="ltr">${syn?`<b>Syn:</b>${escapeHtml(syn)}`:''}${syn&&ant?' • ':''}${ant?`<b>Ant:</b>${escapeHtml(ant)}`:''}</div>`:''}${mn?`<div class="wS" style="color:#C4B5FD">${escapeHtml(mn)}</div>`:''}<div class="wA"><button class="btn" onclick="speak('${escapeJs(word)}')">השמע</button><button class="btn" onclick="E.quickAddWord('${escapeJs(word)}')">הוסף</button></div>`;
+  pop.innerHTML=`<div class="wT" dir="ltr">${escapeHtml(word)}</div><div class="wH">${he}</div>${def?`<div class="wS" dir="ltr"><b>Def:</b>${def}</div>`:''}${ex?`<div class="wS" dir="ltr" style="opacity:.85"><b>Ex:</b>${ex}</div>`:''}${(syn||ant)?`<div class="wS" dir="ltr">${syn?`<b>Syn:</b>${escapeHtml(syn)}`:''}${syn&&ant?' • ':''}${ant?`<b>Ant:</b>${escapeHtml(ant)}`:''}</div>`:''}${mn?`<div class="wS" style="color:#C4B5FD">${escapeHtml(mn)}</div>`:''}<div class="wA"><button class="btn" onclick="speak('${escapeJs(word)}')">השמע</button><button class="btn" onclick="E.quickAddWord('${escapeJs(word)}')">הוסף</button><button class="btn aiBtn aiVocabBtn" onclick="E.generateAiMnemonicByWord('${escapeJs(word)}')">AI</button></div>`;
   pop.style.left=Math.min(window.innerWidth-340,Math.max(12,rect.left))+'px';
   pop.style.top=Math.min(window.innerHeight-220,Math.max(12,rect.bottom+8))+'px';
   pop.style.display='block';
@@ -8564,7 +8636,8 @@ const E=window.E={
   openImportExport,exportData,importData,exportQuestionBank,exportDictionary,importDictPack,importQPack,resetAll,
   setVTab,startSrsQueue,revealSrs,skipSrs,gradeSrs,toggleKnown,openWordNote,addToSrsNow,quickAddWord,
   renderMistakeLab,clearMastered,applyVocabFilter,loadMoreVocab,finishMock,practiceWeakSpot,
-  askAiTutor,generateAiMnemonic,openAiMnemonicModal,closeAiMnemonic,regenerateAiMnemonic,saveAiMnemonicToWord,
+  askAiTutor,generateAiMnemonic,generateAiMnemonicByWord,openAiMnemonicModal,closeAiMnemonic,regenerateAiMnemonic,saveAiMnemonicToWord,
+  trySimilarQuestion,
   openDictSearch,closeDictSearch,renderPracticeHub,togglePilotSection,showMockReview,continueMockSection,resetProgress,confirmReset,toggleTheme,showSectionTransition,
   // Games
   startMemoryMatch,flipCard,startSpeedQuiz,speedAnswer,startSwipeMode,swipeAction,

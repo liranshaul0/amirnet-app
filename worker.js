@@ -122,7 +122,9 @@ async function handleTutor(request, env) {
       'הסבר מדוע התשובה הנכונה נכונה, ומה המלכודת בכל מסיח שגוי. הוסף פירוק תחבירי קצר.');
 
   try {
-    const r = await generate(env, system, task, 800, 0.7);
+    // Generous ceiling: on current Gemini models the thinking tokens count against
+    // maxOutputTokens, so a tight budget returns a truncated answer — or none at all.
+    const r = await generate(env, system, task, 4096, 0.7);
     return json({ explanation: r.text, model: r.model, provider: r.provider });
   } catch (err) {
     return json({ error: 'ניתוח ה-AI אינו זמין כרגע' });
@@ -149,7 +151,7 @@ async function handleMnemonic(request, env) {
     '• טיפ: איך המילה עשויה להופיע בהשלמת משפטים או בניסוח מחדש';
 
   try {
-    const r = await generate(env, system, task, 600, 0.8);
+    const r = await generate(env, system, task, 3072, 0.8);
     return json({ word: body.word, mnemonic: r.text, model: r.model, provider: r.provider });
   } catch (err) {
     return json({ error: 'יצירת האסוציאציה אינה זמינה כרגע' });

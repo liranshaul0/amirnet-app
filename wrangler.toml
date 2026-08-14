@@ -1,0 +1,17 @@
+name = "amirnet-app"
+main = "worker.js"
+compatibility_date = "2026-08-14"
+
+# Static app files. `.assetsignore` keeps node_modules and source-only files out —
+# without it the deploy tries to upload the 144 MiB workerd binary and fails.
+[assets]
+directory = "."
+binding = "ASSETS"
+
+# Built-in models, used when no GEMINI_API_KEY secret is set.
+# Bindings must live here: deploying with wrangler overwrites dashboard config.
+[ai]
+binding = "AI"
+
+[observability]
+enabled = true

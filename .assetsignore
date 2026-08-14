@@ -1,0 +1,29 @@
+# Files that must never be uploaded as static assets.
+# node_modules is the important one: it contains a 144 MiB workerd binary,
+# well over the 25 MiB per-asset limit, and the deploy fails on it.
+node_modules
+.git
+.github
+.claude
+.wrangler
+
+# Server-side code and config — served by the Worker, not as files
+worker.js
+wrangler.toml
+wrangler.jsonc
+server.js
+functions
+package.json
+package-lock.json
+bun.lock
+bun.lockb
+.assetsignore
+
+# Secrets and local env
+.env
+.env.*
+
+# Repo documentation
+docs
+README.md
+DEPLOY.md

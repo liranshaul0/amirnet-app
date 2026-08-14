@@ -1,4 +1,4 @@
-# הפעלת ה-AI בחינם (Cloudflare Pages)
+# הפעלת ה-AI בחינם (Cloudflare Worker)
 
 Cloudflare מארח את האתר ואת ה-API על אותו דומיין, בחינם. את המודל עצמו אפשר
 לקבל משני מקורות, והקוד תומך בשניהם:
@@ -8,93 +8,71 @@ Cloudflare מארח את האתר ואת ה-API על אותו דומיין, בח
 | **Gemini** (מומלץ) | כן — חינמי מ-AI Studio | טובה מאוד |
 | Workers AI | לא | בינונית — מודלים קטנים |
 
-**למה Gemini עדיף כאן:** כל הפלט של הפיצ'רים הוא בעברית — הסברים פסיכומטריים
-ומשחקי מילים לאסוציאציות. המודלים החינמיים של Workers AI קטנים (7-8B) והעברית
-שלהם חלשה יחסית. Gemini Flash חזק בהרבה בעברית, וגם הוא חינמי.
+**למה Gemini עדיף כאן:** כל הפלט הוא בעברית — הסברים פסיכומטריים ומשחקי מילים.
+המודלים החינמיים של Workers AI קטנים (7-8B) והעברית שלהם חלשה יחסית. Gemini Flash
+חזק בהרבה, וגם הוא חינמי.
 
-הפונקציות מנסות Gemini קודם אם קיים מפתח, ונופלות ל-Workers AI אם לא — כך
-שהאפליקציה עובדת בשני המצבים.
+ה-Worker מנסה Gemini קודם אם קיים מפתח, ונופל ל-Workers AI אם לא — כך שהאפליקציה
+עובדת בשני המצבים.
 
-## למה לא GitHub Pages
+## איך זה בנוי
 
-GitHub Pages מגיש קבצים סטטיים בלבד ולא מריץ שום קוד צד-שרת. לכן כפתורי ה-AI
-מוסתרים שם אוטומטית. Cloudflare Pages מגיש את אותם קבצים **וגם** מריץ את
-הפונקציות שבתיקיית `functions/`.
-
-## שלבים
-
-### 1. חשבון
-
-היכנס ל-`dash.cloudflare.com` והירשם (חינם).
-
-### 2. חיבור הריפו
-
-בתפריט: **Workers & Pages** → **Create** → **Pages** → **Connect to Git** →
-בחר את `amirnet-app`.
-
-בהגדרות הבנייה:
-
-| שדה | ערך |
+| קובץ | תפקיד |
 |---|---|
-| Framework preset | None |
-| Build command | *(השאר ריק)* |
-| Build output directory | `/` |
+| `worker.js` | מגיש את האתר ועונה על `/api/ai-health`, `/api/ai-tutor`, `/api/ai-mnemonic` |
+| `wrangler.toml` | הגדרות הפריסה והחיבורים (assets + AI) |
+| `.assetsignore` | מונע העלאת `node_modules` וקוד צד-שרת כקבצים סטטיים |
+| `server.js` | חלופה להרצה מקומית עם Gemini (`npm run dev`) |
 
-לחץ **Save and Deploy**. אחרי דקה תקבל כתובת כמו `amirnet-app.pages.dev`.
+**חשוב:** החיבורים מוגדרים ב-`wrangler.toml`. פריסה עם wrangler **דורסת** הגדרות
+שנעשו ידנית בלוח הבקרה, ולכן binding שתוסיף שם בלבד יימחק בפריסה הבאה.
+סודות (`GEMINI_API_KEY`) הם היוצא מן הכלל — הם נשמרים בנפרד ולא נדרסים.
 
-### 3. חיבור המודל (הצעד היחיד שקל לפספס)
+## הוספת מפתח Gemini
 
-בחר לפחות אחד מהשניים. אפשר גם את שניהם — Gemini ישמש כברירת מחדל
-ו-Workers AI כגיבוי.
-
-**א. Gemini (מומלץ — עברית טובה יותר)**
-
-1. היכנס ל-`aistudio.google.com` → **Get API key** → צור מפתח (חינם).
-2. בפרויקט ב-Cloudflare: **Settings** → **Variables and Secrets** → **Add**:
-   - Type: **Secret** (לא Plaintext — כך המפתח לא נחשף)
+1. `aistudio.google.com` → **Get API key** → **Create API key**. תקבל מחרוזת
+   שמתחילה ב-`AIza`. חינם, בלי כרטיס אשראי.
+2. בלוח הבקרה של Cloudflare: **Workers & Pages** → `amirnet-app` →
+   **Settings** → **Variables and Secrets** → **Add**:
+   - Type: **Secret** ← לא Plaintext
    - Name: `GEMINI_API_KEY`
-   - Value: המפתח שיצרת
+   - Value: המפתח
+3. **Deployments** → **Retry build** (או דחיפה חדשה ל-GitHub).
 
-**ב. Workers AI (בלי מפתח בכלל)**
+אם תדלג על השלב הזה — האפליקציה עדיין תעבוד, דרך Workers AI.
 
-**Settings** → **Bindings** → **Add binding**:
-- Type: **Workers AI**
-- Variable name: `AI`  ← חייב להיות בדיוק כך, באותיות גדולות
+## בדיקה
 
-בסיום: **Deployments** → **Retry deployment** כדי שההגדרות ייכנסו לתוקף.
-
-### 4. בדיקה
-
-פתח `https://<השם-שלך>.pages.dev/api/ai-health`. אמור לחזור משהו כזה:
+פתח `https://amirnet.pages.dev/api/ai-health`:
 
 ```json
 { "ok": true, "configured": true, "provider": "gemini",
-  "providers": { "gemini": true, "workersAi": false } }
+  "providers": { "gemini": true, "workersAi": true } }
 ```
 
-`provider` מראה מי בפועל יענה. אם `configured` הוא `false` — ההגדרות מסעיף 3
-לא נשמרו או שלא הרצת פריסה מחדש.
+`provider` מראה מי בפועל יענה. כפתורי ה-AI באפליקציה מופיעים לבד כש-`configured`
+הוא `true`.
 
-עכשיו פתח את האתר עצמו: כפתורי ה-AI יופיעו מעצמם (האפליקציה בודקת את
-`/api/ai-health` בעלייה ומסתירה אותם רק כשאין שרת).
+## תקלות שכבר נתקלנו בהן
 
-## מה רץ איפה
+**`Error 1101 — Worker threw exception` בכל הנתיבים**
+ה-Worker קורס בטעינה, ואז גם האתר הסטטי לא עולה. לכן כל הקוד יושב ב-`worker.js`
+אחד בלי ייבוא בין קבצים ובלי שום פעולה ברמת המודול.
 
-| קובץ | סביבה | מודל |
-|---|---|---|
-| `functions/api/*.js` | Cloudflare Pages | Gemini אם יש מפתח, אחרת Workers AI |
-| `server.js` | הרצה מקומית (`npm run dev`) | Gemini — דורש `GEMINI_API_KEY` |
+**`Asset too large — workerd 144 MiB`**
+הפריסה ניסתה להעלות את `node_modules` כקבצים סטטיים. `.assetsignore` פותר את זה;
+בפועל מועלים ארבעה קבצים בלבד: `index.html`, `app.css`, `sw.js`, `manifest.webmanifest`.
 
-שתי הסביבות חושפות את אותם נתיבים (`/api/ai-tutor`, `/api/ai-mnemonic`,
-`/api/ai-health`), כך שהאפליקציה לא יודעת ולא אכפת לה מי עונה.
+**`We identified a functions directory... Using fallback value: no`**
+תיקיית `functions/` גרמה ל-wrangler לשאול אם זו פריסת Pages, ובריצה אוטומטית הוא
+ענה "לא" והתעלם ממנה. התיקייה הוסרה — ה-Worker מטפל בנתיבים בעצמו.
 
-## החלפת המודל
+## החלפת מודל
 
-`functions/_shared.js` מחזיק שתי רשימות — `GEMINI_MODELS` ו-`CF_MODELS` — שנוסות
-לפי הסדר, כך שאם מזהה מודל אינו זמין בחשבון שלך, הבא בתור ייכנס אוטומטית.
-אפשר לערוך את הרשימות שם.
+`worker.js` מחזיק שתי רשימות — `GEMINI_MODELS` ו-`CF_MODELS` — שנוסות לפי הסדר,
+כך שאם מזהה מודל אינו זמין בחשבון שלך, הבא בתור ייכנס אוטומטית.
 
-## אזהרה אחת
+## אזהרה
 
 אל תקרא ל-API של ספק AI ישירות מהדפדפן עם מפתח בקוד. כל מי שפותח את קוד המקור
-רואה אותו ויכול לשרוף את המכסה שלך. לכן הקריאות עוברות דרך הפונקציות בצד השרת.
+רואה אותו. לכן הקריאות עוברות דרך ה-Worker בצד השרת.

@@ -7102,7 +7102,7 @@ async function askAiTutor(customPrompt){
       customPrompt: customPrompt||'ניתוח פסיכומטרי מעמיק, פירוק תחבירי, מלכודות מסיחים של מאל"ו והסבר ממוקד בעברית',
       useHighThinking: true
     };
-    const res=await fetch('/api/ai-tutor',{
+    const res=await fetch(aiUrl('/api/ai-tutor'),{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(payload)
@@ -7597,13 +7597,27 @@ function chartInk(a){return (isDarkNow()?'rgba(255,255,255,':'rgba(29,33,48,')+a
 // The AI features need server.js running. On static hosting (GitHub Pages) there is
 // no backend, so probe once and hide the AI affordances instead of failing with 404s.
 let AI_AVAILABLE=false;
-async function detectAiBackend(){
+// Where the AI endpoints live. Empty means same origin, which is the case on the
+// Worker. The GitHub Pages copy has no backend of its own, so it falls back to the
+// Worker (whose CORS allowlist includes that origin) instead of losing the feature.
+let AI_BASE='';
+const AI_FALLBACK_BASE='https://amirnet-app.liran-shaul0.workers.dev';
+function aiUrl(path){return AI_BASE+path;}
+async function probeAi(base){
   try{
-    const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),2500);
-    const res=await fetch('/api/ai-health',{signal:ctrl.signal});
+    const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),3000);
+    const res=await fetch(base+'/api/ai-health',{signal:ctrl.signal});
     clearTimeout(t);
-    AI_AVAILABLE=res.ok;
-  }catch(_){AI_AVAILABLE=false;}
+    if(!res.ok)return false;
+    const data=await res.json();
+    return !!(data&&data.configured);
+  }catch(_){return false;}
+}
+async function detectAiBackend(){
+  AI_AVAILABLE=await probeAi('');
+  if(!AI_AVAILABLE&&location.origin!==AI_FALLBACK_BASE){
+    if(await probeAi(AI_FALLBACK_BASE)){AI_BASE=AI_FALLBACK_BASE;AI_AVAILABLE=true;}
+  }
   document.body.classList.toggle('noAi',!AI_AVAILABLE);
 }
 function drawRadar(canvas,values){
@@ -7829,7 +7843,7 @@ async function fetchAiMnemonic(w){
   $('aiMnemonicLoading').style.display='block';
   $('aiMnemonicContent').style.display='none';
   try{
-    const res=await fetch('/api/ai-mnemonic',{
+    const res=await fetch(aiUrl('/api/ai-mnemonic'),{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({

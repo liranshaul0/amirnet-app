@@ -55,10 +55,33 @@ async function discoverGeminiModels(apiKey) {
   }
 }
 
-function json(obj) {
-  return new Response(JSON.stringify(obj), {
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  });
+// The app is also served from GitHub Pages, which has no backend. Those copies
+// call this worker directly, so the AI endpoints accept cross-origin requests —
+// but only from our own front ends, so the Gemini quota cannot be used by others.
+const ALLOWED_ORIGINS = [
+  'https://liranshaul0.github.io',
+  'https://amirnet-app.liran-shaul0.workers.dev',
+  'http://localhost:8787',
+];
+
+function corsHeaders(request) {
+  const origin = request && request.headers ? request.headers.get('Origin') : null;
+  if (!origin || ALLOWED_ORIGINS.indexOf(origin) === -1) return {};
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+    'Vary': 'Origin',
+  };
+}
+
+function json(obj, request) {
+  const headers = Object.assign(
+    { 'Content-Type': 'application/json; charset=utf-8' },
+    corsHeaders(request)
+  );
+  return new Response(JSON.stringify(obj), { headers: headers });
 }
 
 async function callGeminiModel(apiKey, model, prompt, maxTokens, temperature) {
@@ -156,7 +179,7 @@ async function readBody(request) {
   try { return await request.json(); } catch (_) { return {}; }
 }
 
-function handleHealth(env) {
+function handleHealth(env, request) {
   const gemini = Boolean(env.GEMINI_API_KEY);
   const workersAi = Boolean(env.AI);
   return json({
@@ -164,12 +187,12 @@ function handleHealth(env) {
     configured: gemini || workersAi,
     provider: gemini ? 'gemini' : workersAi ? 'workers-ai' : 'none',
     providers: { gemini: gemini, workersAi: workersAi },
-  });
+  }, request);
 }
 
 async function handleTutor(request, env) {
   const body = await readBody(request);
-  if (!body.question) return json({ error: 'חסרה שאלה לניתוח' });
+  if (!body.question) return json({ error: 'חסרה שאלה לניתוח' }, request);
 
   const options = body.options;
   const optionLines = Array.isArray(options)
@@ -194,15 +217,15 @@ async function handleTutor(request, env) {
     // Generous ceiling: on current Gemini models the thinking tokens count against
     // maxOutputTokens, so a tight budget returns a truncated answer — or none at all.
     const r = await generate(env, system, task, 4096, 0.7);
-    return json({ explanation: r.text, model: r.model, provider: r.provider });
+    return json({ explanation: r.text, model: r.model, provider: r.provider }, request);
   } catch (err) {
-    return json({ error: 'ניתוח ה-AI אינו זמין כרגע', detail: (err && err.detail) || String((err && err.message) || err) });
+    return json({ error: 'ניתוח ה-AI אינו זמין כרגע', detail: (err && err.detail) || String((err && err.message) || err) }, request);
   }
 }
 
 async function handleMnemonic(request, env) {
   const body = await readBody(request);
-  if (!body.word) return json({ error: 'חסרה מילה' });
+  if (!body.word) return json({ error: 'חסרה מילה' }, request);
 
   const system =
     'אתה פסיכולוג קוגניטיבי שמכין סטודנטים ישראלים לבחינת אמיר״ם. ' +
@@ -221,9 +244,9 @@ async function handleMnemonic(request, env) {
 
   try {
     const r = await generate(env, system, task, 3072, 0.8);
-    return json({ word: body.word, mnemonic: r.text, model: r.model, provider: r.provider });
+    return json({ word: body.word, mnemonic: r.text, model: r.model, provider: r.provider }, request);
   } catch (err) {
-    return json({ error: 'יצירת האסוציאציה אינה זמינה כרגע', detail: (err && err.detail) || String((err && err.message) || err) });
+    return json({ error: 'יצירת האסוציאציה אינה זמינה כרגע', detail: (err && err.detail) || String((err && err.message) || err) }, request);
   }
 }
 
@@ -232,16 +255,21 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    if (path === '/api/ai-health') return handleHealth(env);
+    // Browsers preflight the cross-origin POSTs from the GitHub Pages copy.
+    if (request.method === 'OPTIONS' && path.startsWith('/api/')) {
+      return new Response(null, { status: 204, headers: corsHeaders(request) });
+    }
+
+    if (path === '/api/ai-health') return handleHealth(env, request);
     if (path === '/api/ai-models') {
       // Diagnostic: which models this key can actually reach. No secret is returned.
-      if (!env.GEMINI_API_KEY) return json({ error: 'no GEMINI_API_KEY' });
+      if (!env.GEMINI_API_KEY) return json({ error: 'no GEMINI_API_KEY' }, request);
       _discovered = null;
-      return json({ tried: GEMINI_MODELS, available: await discoverGeminiModels(env.GEMINI_API_KEY) });
+      return json({ tried: GEMINI_MODELS, available: await discoverGeminiModels(env.GEMINI_API_KEY) }, request);
     }
     if (path === '/api/ai-tutor' && request.method === 'POST') return handleTutor(request, env);
     if (path === '/api/ai-mnemonic' && request.method === 'POST') return handleMnemonic(request, env);
-    if (path.startsWith('/api/')) return json({ error: 'not found' });
+    if (path.startsWith('/api/')) return json({ error: 'not found' }, request);
 
     // Everything else is the static app.
     return env.ASSETS.fetch(request);

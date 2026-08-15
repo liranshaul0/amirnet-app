@@ -6017,7 +6017,8 @@ const PLACEMENT_LEVELS=[
   {min:120,max:133,label:"מתקדמים ב'",labelEn:'Advanced B',color:'var(--cyan)',cls:''},
   {min:100,max:119,label:"מתקדמים א'",labelEn:'Advanced A',color:'var(--blue)',cls:''},
   {min:85,max:99,label:'בסיסי',labelEn:'Basic',color:'var(--warn)',cls:''},
-  {min:50,max:84,label:'טרום בסיסי',labelEn:'Pre-Basic',color:'var(--bad)',cls:''}
+  {min:70,max:84,label:"טרום בסיסי ב'",labelEn:'Pre-Basic B',color:'var(--bad)',cls:''},
+  {min:50,max:69,label:"טרום בסיסי א'",labelEn:'Pre-Basic A',color:'var(--bad)',cls:''}
 ];
 function getPlacement(score){return PLACEMENT_LEVELS.find(p=>score>=p.min&&score<=p.max)||PLACEMENT_LEVELS[PLACEMENT_LEVELS.length-1];}
 

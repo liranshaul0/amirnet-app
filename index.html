@@ -7054,9 +7054,21 @@ function analyzeQuestion(){
   const parent=document.querySelector('#practiceBody >div');if(parent)parent.appendChild(box);
 }
 
+// Models occasionally answer with LaTeX fragments ($\leftarrow$, \times) or stray
+// markdown rules. Those render as noise in Hebrew prose, so translate or drop them.
+function tidyAiText(s){
+  return String(s||'')
+    .replace(/\$+([^$]*)\$+/g,'$1')
+    .replace(/\\(?:leftarrow|larr)\b/g,'←')
+    .replace(/\\(?:rightarrow|rarr|to)\b/g,'→')
+    .replace(/\\(?:times)\b/g,'×')
+    .replace(/\\[a-zA-Z]+\b/g,'')
+    .replace(/^\s*-{3,}\s*$/gm,'')
+    .replace(/[ \t]{2,}/g,' ');
+}
 function formatAiTutorText(txt){
   if(!txt)return '';
-  const lines=txt.split('\n');
+  const lines=tidyAiText(txt).split('\n');
   const out=[];
   for(let rawLine of lines){
     let line=rawLine.trim();
@@ -7871,7 +7883,7 @@ async function fetchAiMnemonic(w){
 
 function formatAiOutput(text){
   if(!text)return '';
-  return escapeHtml(text)
+  return escapeHtml(tidyAiText(text))
     .replace(/\*\*(.*?)\*\*/g,'<b>$1</b>')
     .replace(/\*(.*?)\*/g,'<i>$1</i>')
     .replace(/\n/g,'<br/>');

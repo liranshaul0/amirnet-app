@@ -8874,11 +8874,16 @@ window.App={
 <script>// PWA: register the service worker only when hosted (https or localhost),
 // so opening index.html directly from disk keeps working.
 if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-  // Reload once when a newly installed worker takes control, so a shipped fix
-  // lands on this visit instead of the next one.
+  // Reload when a newer worker takes over, so a shipped fix lands on this visit.
+  // Two guards matter: clients.claim() also fires this on the very first install
+  // (when there was no controller yet) and reloading then is pointless, and a
+  // reload must never interrupt a practice session or a timed mock in progress.
+  var _hadController=!!navigator.serviceWorker.controller;
   var _swReloading=false;
   navigator.serviceWorker.addEventListener('controllerchange',function(){
-    if(_swReloading)return;_swReloading=true;location.reload();
+    if(!_hadController||_swReloading)return;
+    try{if(document.body.classList.contains('stageActive'))return;}catch(_){}
+    _swReloading=true;location.reload();
   });
   window.addEventListener('load',function(){
     navigator.serviceWorker.register('./sw.js').then(function(reg){

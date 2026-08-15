@@ -134,6 +134,17 @@ try{var _t=localStorage.getItem('amirnet_theme');if(_t==='dark')document.documen
       </div>
     </div>
 
+    <!-- Writing task — the exam's experimental section -->
+    <div class="arcadeRibbon aiVocabBtn">
+      <div class="arcadeRibbonTitle">
+        <span data-ic="pencil" style="color:var(--accent)"></span>
+        <span>מטלת כתיבה — 90–120 מילים ב-12 דקות, עם בדיקת AI</span>
+      </div>
+      <div class="arcadeBtnGroup">
+        <button class="btn primary" onclick="E.startWritingTask()">התחל מטלת כתיבה</button>
+      </div>
+    </div>
+
     <!-- Arcade & Flash Games Ribbon -->
     <div class="arcadeRibbon">
       <div class="arcadeRibbonTitle">
@@ -7820,6 +7831,114 @@ function generateAiMnemonic(id){
   openAiMnemonicModal(w);
 }
 
+// Header row shared by the AI result cards.
+function aiHeader(title,model){
+  return '<div class="aiTutorHeader"><div class="aiTutorBadge">'+ic('star')+' '+escapeHtml(title)+'</div>'+
+    (model?'<div class="aiTutorModel">'+escapeHtml(model)+'</div>':'')+'</div>';
+}
+
+// ===== MODULE: WRITING TASK =====
+// The exam's writing section: a 90–120 word response in 12 minutes, graded by AI
+// on task response, organisation, grammar and vocabulary.
+const WRITING_PROMPTS=[
+  'Some people believe university education should be free for everyone. Do you agree? Explain your position.',
+  'Many students now study online rather than on campus. Discuss one advantage and one disadvantage.',
+  'Should social media companies be responsible for the content users post? Explain your view.',
+  'Some argue that learning a second language should be compulsory in every school. What do you think?',
+  'Technology has changed how people work. Describe one change and explain whether it is positive.',
+  'Is it better to specialise early in one field, or to study a wide range of subjects? Explain.',
+  'Some cities are banning private cars from their centres. Do you support this policy? Why?',
+  'Do you think exams are a fair way to measure a student\'s ability? Give reasons for your answer.'
+];
+const WRITING_MIN_WORDS=90, WRITING_MAX_WORDS=120, WRITING_SECONDS=12*60;
+let writingState=null;
+
+function writingWordCount(t){return String(t||'').trim().split(/\s+/).filter(Boolean).length;}
+
+function startWritingTask(){
+  if(!guardAction())return;
+  const prompt=WRITING_PROMPTS[randInt(WRITING_PROMPTS.length)];
+  writingState={prompt,startedAt:Date.now(),submitted:false};
+  enterStage('מטלת כתיבה');
+  try{$('practiceMeta').textContent='90–120 מילים • 12 דקות';}catch(_){}
+  renderWritingTask();
+  S.session={id:'wr_'+Date.now(),mode:'writing',startedAt:Date.now(),timerSec:WRITING_SECONDS,items:[],idx:0,correct:0};
+  TimerController.start(()=>{
+    if(!S.session||S.session.mode!=='writing'){TimerController.stop();return;}
+    S.session.timerSec--;
+    const el=$('wrTimer');
+    if(el){el.textContent=fmtTime(S.session.timerSec);el.classList.toggle('urgent',S.session.timerSec<=60);}
+    if(S.session.timerSec<=0){TimerController.stop();submitWriting(true);}
+  });
+}
+
+function renderWritingTask(){
+  const body=$('practiceBody');if(!body||!writingState)return;
+  body.innerHTML=`
+    <div class="qTop">
+      <div style="font-weight:700">מטלת כתיבה</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div class="timer" id="wrTimer">12:00</div>
+        <button class="btn" onclick="E.exitStage()">יציאה</button>
+      </div>
+    </div>
+    <div class="panel" style="margin-bottom:12px">
+      <div class="panelTitle" style="margin-bottom:6px">Prompt</div>
+      <div class="qText" dir="ltr" style="margin:0">${escapeHtml(writingState.prompt)}</div>
+    </div>
+    <textarea id="wrText" dir="ltr" spellcheck="true" placeholder="Write your response here…"
+      style="width:100%;min-height:230px;resize:vertical;padding:14px;border-radius:var(--radius-sm);
+             border:1px solid var(--line);background:var(--paper);color:var(--text);
+             font:inherit;font-size:16px;line-height:1.7;text-align:left"></textarea>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <div id="wrCount" style="font-family:var(--font-mono);font-size:.85rem;color:var(--muted)">0 / 90–120 מילים</div>
+      <button class="btn primary" id="wrSubmit" onclick="E.submitWriting()">שלח לבדיקה</button>
+    </div>
+    <div id="wrFeedback" class="aiTutorCard" style="display:none;margin-top:14px"></div>`;
+  const ta=$('wrText');
+  if(ta){
+    ta.addEventListener('input',()=>{
+      const n=writingWordCount(ta.value),el=$('wrCount');
+      if(!el)return;
+      el.textContent=n+' / 90–120 מילים';
+      el.style.color=(n>=WRITING_MIN_WORDS&&n<=WRITING_MAX_WORDS)?'var(--good)':
+                     (n>WRITING_MAX_WORDS?'var(--warn)':'var(--muted)');
+    });
+    setTimeout(()=>{try{ta.focus();}catch(_){}} ,120);
+  }
+}
+
+async function submitWriting(auto){
+  if(!writingState||writingState.submitted)return;
+  const ta=$('wrText');const essay=ta?ta.value.trim():'';
+  const n=writingWordCount(essay);
+  if(!essay){toast('לא נכתב טקסט');return;}
+  if(!auto&&n<40&&!confirm('כתבת רק '+n+' מילים. לשלוח לבדיקה בכל זאת?'))return;
+  writingState.submitted=true;
+  TimerController.stop();
+  const btn=$('wrSubmit');if(btn){btn.disabled=true;btn.textContent='נבדק…';}
+  const box=$('wrFeedback');
+  if(box){box.style.display='block';
+    box.innerHTML=aiHeader('בדיקת החיבור','Gemini')+
+      '<div class="aiTutorLoading"><div class="aiSpinner"></div><div>בודק מבנה, דקדוק ואוצר מילים…</div></div>';}
+  try{
+    const res=await fetch(aiUrl('/api/ai-writing'),{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({essay,prompt:writingState.prompt})});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+    if(box)box.innerHTML=aiHeader('בדיקת החיבור','Gemini')+
+      `<div class="aiTutorContent">${formatAiTutorText(data.feedback)}</div>`;
+    S.xp+=25;saveState();renderCockpit();
+  }catch(err){
+    if(box)box.innerHTML=aiHeader('בדיקת החיבור')+
+      '<div class="aiTutorContent" style="color:var(--muted)">בדיקת החיבור אינה זמינה כרגע (נדרש חיבור לרשת).</div>';
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='שלח שוב';}
+    writingState.submitted=false;
+  }
+}
+
 function generateAiMnemonicByWord(wordText){
   const clean=String(wordText||'').trim().toLowerCase();
   let w=_mergedDictCache.find(x=>x.word.toLowerCase()===clean);
@@ -8408,7 +8527,7 @@ const E=window.E={
   openDictSearch,closeDictSearch,renderPracticeHub,togglePilotSection,showMockReview,continueMockSection,resetProgress,confirmReset,toggleTheme,showSectionTransition,
   // Games
   startMemoryMatch,startMemoryGame,flipCard,startSpeedQuiz,speedAnswer,startSwipeMode,swipeAction,
-  renderGamesHub,
+  renderGamesHub,startWritingTask,submitWriting,
   // Legacy
   startAdaptive:()=>startSession('mix'),startPractice:()=>nav('practice'),startSRS:()=>nav('vocab'),
   getFlatQuestionBank

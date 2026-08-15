@@ -223,6 +223,41 @@ async function handleTutor(request, env) {
   }
 }
 
+// Grades the writing task the way the exam does: a short prompt-driven essay of
+// 90–120 words, judged on task response, organisation, grammar and vocabulary.
+async function handleWriting(request, env) {
+  const body = await readBody(request);
+  const essay = String(body.essay || '').trim();
+  if (!essay) return json({ error: 'לא נכתב טקסט' }, request);
+
+  const words = essay.split(/\s+/).filter(Boolean).length;
+
+  const system =
+    'אתה בודק מטלות כתיבה בבחינת אמירנט. אתה מעריך באופן ענייני ומדויק, ' +
+    'ועונה בעברית בלבד. אל תמציא שגיאות שאינן בטקסט.';
+
+  const task =
+    'נושא המטלה: ' + (body.prompt || '(לא צוין)') + '\n' +
+    'מספר מילים שנכתבו: ' + words + ' (הנדרש: 90–120)\n\n' +
+    'החיבור:\n"""\n' + essay + '\n"""\n\n' +
+    'החזר בדיוק במבנה הזה, בלי הקדמה:\n' +
+    'ציון: X/100\n' +
+    'מענה למטלה: ...\n' +
+    'ארגון ומבנה: ...\n' +
+    'דקדוק ותחביר: ...\n' +
+    'אוצר מילים: ...\n' +
+    'תיקונים: עד חמש שגיאות מהטקסט, כל אחת בפורמט "שגוי ← נכון (הסבר קצר)"\n' +
+    'לשיפור הבא: משפט אחד ממוקד';
+
+  try {
+    const r = await generate(env, system, task, 3072, 0.4);
+    return json({ words: words, feedback: r.text, model: r.model, provider: r.provider }, request);
+  } catch (err) {
+    return json({ error: 'בדיקת החיבור אינה זמינה כרגע', words: words,
+      detail: (err && err.detail) || String((err && err.message) || err) }, request);
+  }
+}
+
 async function handleMnemonic(request, env) {
   const body = await readBody(request);
   if (!body.word) return json({ error: 'חסרה מילה' }, request);
@@ -269,6 +304,7 @@ export default {
     }
     if (path === '/api/ai-tutor' && request.method === 'POST') return handleTutor(request, env);
     if (path === '/api/ai-mnemonic' && request.method === 'POST') return handleMnemonic(request, env);
+    if (path === '/api/ai-writing' && request.method === 'POST') return handleWriting(request, env);
     if (path.startsWith('/api/')) return json({ error: 'not found' }, request);
 
     // Everything else is the static app.
